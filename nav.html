@@ -1,0 +1,175 @@
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+
+
+
+
+.sidenav {
+
+    height: 100%;
+
+    width: 0;
+
+    position: fixed;
+
+    z-index: 1;
+
+    top: 0;
+
+    left: 0;
+
+    background-color: #111;
+
+    overflow-x: hidden;
+
+    transition: 0.5s;
+
+    padding-top: 60px;
+
+}
+
+
+
+.sidenav a {
+
+    padding: 8px 8px 8px 32px;
+
+    text-decoration: none;
+
+    
+
+    color: #818181;
+
+    display: block;
+
+    transition: 0.3s;
+
+}
+
+
+
+.sidenav a:hover {
+
+    color: #f1f1f1;
+
+}
+
+
+
+.sidenav .closebtn {
+
+    position: absolute;
+
+    top: 0;
+
+    right: 25px;
+
+    font-size: 36px;
+
+    margin-left: 50px;
+
+}
+
+
+
+@media screen and (max-height: 450px) {
+
+  .sidenav {padding-top: 15px;}
+
+  .sidenav a {font-size: 18px;}
+
+}
+
+</style>
+
+
+
+<body>
+
+
+
+<div id="mySidenav" class="sidenav">
+
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+  <a href="index.php">Home</a>
+  
+  <a href="002.php">Asset Management</a>
+
+  <a href="003.php">Cyber Security Program</a>
+
+  <a href="004.php">Personnel Management</a>
+
+  <a href="005.php">Networks & ESPs</a>
+  
+  <a href="006.php">Physical Security</a>
+  
+  <a href="007.php">System Security Management</a>
+  
+  <a href="008.php">Incident Response</a>
+  
+  <a href="009.php">System Recovery</a>
+  
+  <a href="010.php">Configuration, Change, Vulnerability Management</a>
+  
+  <a href="011.php">Information Protection</a>
+  
+  <a href="013.php">Supply Chain Management</a>
+  
+  <a href="014.php">Substation Physical Security</a>
+
+</div>
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand" href="#" onclick="openNav()"><b><u>CIP SUITE</u></b></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="reg.php">Compliance</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="dash.php">Dashboard</a>
+      </li>
+	<li class="nav-item active">
+        <a class="nav-link" href="https://www.nerc.com/pa/Stand/Pages/CIPStandards.aspx" target="_blank">CIP Standards</a>
+      </li>
+	<li class="nav-item active">
+        <a class="nav-link" href="https://www.nerc.com/files/glossary_of_terms.pdf" target="_blank">NERC Glossary</a>
+      </li>	  
+    <li class="nav-item active">
+      <a class="nav-link" href="#"><b>Log Out</b></a>
+    </li>
+  </ul>
+  </div>
+  
+  
+</nav>
+
+
+
+
+<script>
+function openNav() {
+
+    document.getElementById("mySidenav").style.width = "250px";
+
+}
+
+
+
+function closeNav() {
+
+    document.getElementById("mySidenav").style.width = "0";
+
+}
+
+</script>
+
+ 
