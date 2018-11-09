@@ -14,7 +14,7 @@
 <h2>Supply Chain Risk Management</h2>
 <div class="jumbotron">
   <h3>Currently Under Construction</h3> 
-  <h4 class="card-text text-white">Next Update Expected: </br> <h4 class="text-white" id="timeLeft"></h4></h4>
+  <h4 class="card-text text-white">Next Update Expected: </br> <h4 id="timeLeft"></h4></h4>
 </div>
 <script>
 
@@ -56,9 +56,9 @@ var x = setInterval(function() {
 
     // Output the result in an element with id="timeLeft"
 
-    document.getElementById("timeLeft").innerHTML = days + "days " + hours + "hours "
+    document.getElementById("timeLeft").innerHTML = days + " days " + hours + " hours "
 
-    + minutes + "minutes " + seconds + "seconds ";
+    + minutes + " minutes " + seconds + " seconds ";
 
     
 
