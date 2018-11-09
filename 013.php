@@ -11,10 +11,10 @@
 </head>
 <body>
 <?php include 'nav.html'?>
-<h2>Supply Chain Risk Management</h2>
+<h2 class="text-center">Supply Chain Risk Management</h2>
 <div class="jumbotron">
   <h3>Currently Under Construction</h3> 
-  <h4 class="card-text text-white">Next Update Expected: </br> <h4 class="text-white" id="timeLeft"></h4></h4>
+  <h4 class="card-text text-center">Next Update Expected: </br> <h4 class="text-center" id="timeLeft"></h4></h4>
 </div>
 <script>
 
