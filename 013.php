@@ -56,9 +56,9 @@ var x = setInterval(function() {
 
     // Output the result in an element with id="timeLeft"
 
-    document.getElementById("timeLeft").innerHTML = days + "days " + hours + "hours "
+    document.getElementById("timeLeft").innerHTML = days + " days " + hours + " hours "
 
-    + minutes + "minutes " + seconds + "seconds ";
+    + minutes + " minutes " + seconds + " seconds ";
 
     
 
