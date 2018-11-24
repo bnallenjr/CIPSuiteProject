@@ -20,7 +20,7 @@
 
 // Set the date we're counting down to
 
-var countDownDate = new Date("Nov 23, 2018 09:00:00").getTime();
+var countDownDate = new Date("Dec 31, 2018 09:00:00").getTime();
 
 
 
@@ -68,7 +68,7 @@ var x = setInterval(function() {
 
         clearInterval(x);
 
-        document.getElementById("timeLeft").innerHTML = "Audit Time";
+        document.getElementById("timeLeft").innerHTML;
 
     }
 
