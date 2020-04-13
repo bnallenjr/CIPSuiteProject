@@ -172,10 +172,10 @@
 			</div>
       </div>
     </div>
-	<div class="card">
+    <div class="card">
       <div class="card-header">
         <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse11">Supply Chain Management - (CIP-013)</a>
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse11">Control Center Communications - (CIP-012)</a>
         </h4>
       </div>
       <div id="collapse10" class="collapse" data-parent="#accordion">
@@ -191,7 +191,7 @@
 	<div class="card">
       <div class="card-header">
         <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse12">Substation Physical Security - (CIP-014)</a>
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse12">Supply Chain Mitigation Management - (CIP-013)</a>
         </h4>
       </div>
       <div id="collapse10" class="collapse" data-parent="#accordion">
@@ -204,6 +204,29 @@
 			</div>
       </div>
     </div>
-	</div>
+	<div class="card">
+      <div class="card-header">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse13">Substation Physical Security - (CIP-014)</a>
+        </h4>
+      </div>
+      <div id="collapse10" class="collapse" data-parent="#accordion">
+			<div class="panel-body">
+				<ul class="list-group">
+					<button type="button" class="list-group-item list-group-item-action">Documentation</button>
+					<button type="button" class="list-group-item list-group-item-action">Evidence</button>
+					<button type="button" class="list-group-item list-group-item-action">Standard Owner</button>
+				</ul>
+			</div>
+      </div>
+    </div>
+  </div>
+  <div>
+  © <?php
+    $copyYear = 2018; // Set your website start date
+    $curYear = date('Y'); // Keeps the second year updated
+      echo $copyYear . (($copyYear != $curYear) ? '-' . $curYear : '');
+  ?> Copyright. Allen Enterprises Inc. All Rights Reserved.
+  </div>
 </body>
 </html>
