@@ -58,7 +58,13 @@
 				<?php include "uptasks.php" ?>
 	</div>
 </div>
-
+<div>
+  © <?php
+    $copyYear = 2018; // Set your website start date
+    $curYear = date('Y'); // Keeps the second year updated
+      echo $copyYear . (($copyYear != $curYear) ? '-' . $curYear : '');
+  ?> Copyright. Allen Enterprises Inc. All Rights Reserved.
+  </div>
 	
 </div>	
 </body>

@@ -127,6 +127,17 @@
 <br>
 <div class ="row">	
 	<div class="col-sm-2">
+		<a href="#"><h3>CIP-012</h3></a>
+	</div>
+	<div class="col-sm-10">
+		<div class="progress" style="height:40px">
+			<div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 0%;height:40px">0%</div>
+		</div>
+	</div>
+</div>
+<br>
+<div class ="row">	
+	<div class="col-sm-2">
 		<a href="#"><h3>CIP-013</h3></a>
 	</div>
 	<div class="col-sm-10">
@@ -166,6 +177,13 @@
 </div>
 
 </div>
+<div>
+  © <?php
+    $copyYear = 2018; // Set your website start date
+    $curYear = date('Y'); // Keeps the second year updated
+      echo $copyYear . (($copyYear != $curYear) ? '-' . $curYear : '');
+  ?> Copyright. Allen Enterprises Inc. All Rights Reserved.
+  </div>
 </body>
 </html>
 			
