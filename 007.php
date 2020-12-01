@@ -19,7 +19,7 @@
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-				<h5 align="center" >Port Management</h5>
+				<h5 align="center" >Port & Services Management</h5>
 			</div>
 	</div>
 	</div>

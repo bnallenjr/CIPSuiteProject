@@ -4,7 +4,7 @@
 			"path": "."
 		},
 		{
-			"path": "\\\\192.168.1.14\\share\\NeeTools"
+			"path": "https://github.com/bnallenjr/CIPSuiteProject.git"
 		}
 	],
 	"settings": {}
