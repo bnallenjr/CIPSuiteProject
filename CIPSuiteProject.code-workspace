@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "https://github.com/bnallenjr/CIPSuiteProject.git"
+		},
+		{
+			"path": "Y:/"
+		},
+		{
+			"path": "X:/"
 		}
 	],
 	"settings": {}

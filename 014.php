@@ -75,12 +75,12 @@ var x = setInterval(function() {
 }, 1000);
 
 </script>
-<div>
+<<div>
   © <?php
     $copyYear = 2018; // Set your website start date
     $curYear = date('Y'); // Keeps the second year updated
       echo $copyYear . (($copyYear != $curYear) ? '-' . $curYear : '');
-  ?> Copyright. Allen Enterprises Inc. All Rights Reserved.
+  ?> Copyright. Allen Solustions Group LLC. All Rights Reserved.
   </div>
 </body>
 </html>
