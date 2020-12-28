@@ -37,9 +37,9 @@
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
 			<a href ="PMT/pages/index.php" target="_blank">	
-			<h5 align="center" >Patch Management - PMT</h5>
+			<h5 align="center" >Patch Management - PMT</h5></a>
 			</div>
-	</div></a>
+	</div>
 	</div>
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
