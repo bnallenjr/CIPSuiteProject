@@ -70,6 +70,13 @@
 				<?php include "uptasks.php" ?>
 	</div>
 </div>
+<div>
+  © <?php
+    $copyYear = 2018; // Set your website start date
+    $curYear = date('Y'); // Keeps the second year updated
+      echo $copyYear . (($copyYear != $curYear) ? '-' . $curYear : '');
+  ?> Copyright. Allen Solutions Group LLC. All Rights Reserved.
+  </div>
 <!--Existing Asset-->
 <div id="tblAsset" class="modal fade">
 <div class="modal-dialog modal-lg">
@@ -180,11 +187,5 @@
 </div>
 
 </body>
-<div>
-  © <?php
-    $copyYear = 2018; // Set your website start date
-    $curYear = date('Y'); // Keeps the second year updated
-      echo $copyYear . (($copyYear != $curYear) ? '-' . $curYear : '');
-  ?> Copyright. Allen Solutions Group LLC. All Rights Reserved.
-  </div>
+
 </html>
