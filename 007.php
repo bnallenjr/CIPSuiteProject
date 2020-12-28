@@ -36,7 +36,7 @@
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-			<a href ="PMT/pages/index.php" data-toggle="modal"><div class="card-body">	
+			<a href ="PMT/pages/index.php" target="_blank"><div class="card-body">	
 			<h5 align="center" >Patch Management - PMT</h5>
 			</div>
 	</div></a>
