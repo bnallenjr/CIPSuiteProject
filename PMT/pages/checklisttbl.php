@@ -1032,6 +1032,9 @@ function allpacsACU()
 	</div>
 </td></tr>
 </table>
+
+</body>
+<button type =submit class="btn btn-success" >Complete</button>     <button type =reset class="btn btn-warning">Reset Form</button>
 <div>
   © <?php
     $copyYear = 2018; // Set your website start date
@@ -1039,8 +1042,6 @@ function allpacsACU()
       echo $copyYear . (($copyYear != $curYear) ? '-' . $curYear : '');
   ?> Copyright. Allen Solutions Group LLC. All Rights Reserved.
   </div>
-</body>
-<button type =submit class="btn btn-success" >Complete</button>     <button type =reset class="btn btn-warning">Reset Form</button>
 <?php
 	//}
 ?>
