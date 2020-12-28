@@ -177,6 +177,8 @@
 </div>
 
 </div>
+
+</body>
 <div>
   © <?php
     $copyYear = 2018; // Set your website start date
@@ -184,6 +186,5 @@
       echo $copyYear . (($copyYear != $curYear) ? '-' . $curYear : '');
   ?> Copyright. Allen Solutions Group LLC. All Rights Reserved.
   </div>
-</body>
 </html>
 			

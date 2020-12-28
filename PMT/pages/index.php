@@ -255,12 +255,12 @@ $(window).load(function()
                          $OldDateE = strtotime("2020-11-20");
                          $NewDateE = date('M j, Y', $OldDateE);
                          $diffE = date_diff(date_create($NewDateE),date_create(date("M j, Y")));
-                         echo $diffE->format('%r%a days');
+                        // echo $diffE->format('%r%a days');
 
                          $OldDateI = strtotime("2020-11-15");
                          $NewDateI = date('M j, Y', $OldDateI);
                          $diffI = date_diff(date_create($NewDateI),date_create(date("M j, Y")));
-                         echo $diffI->format('%r%a days');
+                         //echo $diffI->format('%r%a days');
                          ?>   
 		<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
 					<tr>
