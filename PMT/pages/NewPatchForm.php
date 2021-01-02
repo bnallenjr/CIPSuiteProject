@@ -779,13 +779,13 @@ function allpacsACU()
 
 <div class="col-lg-1">
 						<div class="button-group">
-						<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">ID Nodes&nbsp;<span class="caret"></span></button>
+						<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">SIEM Nodes&nbsp;<span class="caret"></span></button>
 						<ul class="dropdown-menu">
 						<li><a class="small" data-value="option1" tabIndex="-1"><input type="checkbox" name="cyberAssetClass[]" value="Primary01"/>&nbsp;Primary01</a></li>
 						<li><a class="small" data-value="option2" tabIndex="-1"><input type="checkbox" name="cyberAssetClass[]" value="Primarynd01"/>&nbsp;Primarynd01</a></li>
 						<li><a class="small" data-value="option3" tabIndex="-1"><input type="checkbox" name="cyberAssetClass[]" value="Backupnd01"/>&nbsp;Backupnd01</a></li>
-						<li><a class="small" data-value="option4" tabIndex="-1"><input type="checkbox" name="cyberAssetClass[]" value="pcs9as01"/>&nbsp;pcs9as01</a></li>
-						<li><a class="small" data-value="option4" tabIndex="-1"><input type="checkbox" name="cyberAssetClass[]" value="pcs9as02"/>&nbsp;pcs9as02</a></li>
+						<li><a class="small" data-value="option4" tabIndex="-1"><input type="checkbox" name="cyberAssetClass[]" value="Primaryas01"/>&nbsp;Primaryas01</a></li>
+						<li><a class="small" data-value="option4" tabIndex="-1"><input type="checkbox" name="cyberAssetClass[]" value="Primaryas02"/>&nbsp;Primaryas02</a></li>
 						<li><a class="small" data-value="option5" tabIndex="-1"><input type="checkbox" name="cyberAssetClass[]" value="Backup0as01"/>&nbsp;Backup0as01</a></li>
 						<li><a class="small" data-value="option5" tabIndex="-1"><input type="checkbox" name="cyberAssetClass[]" value="Backup0as02"/>&nbsp;Backup0as02</a></li>
 						</ul>
