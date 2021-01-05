@@ -19,7 +19,7 @@
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-				<h5 align="center" >Port Management</h5>
+				<h5 align="center" >Port & Services Management</h5>
 			</div>
 	</div>
 	</div>
@@ -36,7 +36,8 @@
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-				<h5 align="center" >Patch Management - PMT</h5>
+			<a href ="PMT/pages/index.php" target="_blank">	
+			<h5 align="center" >Patch Management - PMT</h5></a>
 			</div>
 	</div>
 	</div>
@@ -75,7 +76,7 @@
     $copyYear = 2018; // Set your website start date
     $curYear = date('Y'); // Keeps the second year updated
       echo $copyYear . (($copyYear != $curYear) ? '-' . $curYear : '');
-  ?> Copyright. Allen Enterprises Inc. All Rights Reserved.
+  ?> Copyright. Allen Solutions Group LLC. All Rights Reserved.
   </div>
 	
 </div>	

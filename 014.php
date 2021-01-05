@@ -20,7 +20,7 @@
 
 // Set the date we're counting down to
 
-var countDownDate = new Date("Dec 31, 2018 09:00:00").getTime();
+var countDownDate = new Date("Dec 31, 2021 09:00:00").getTime();
 
 
 
@@ -75,12 +75,12 @@ var x = setInterval(function() {
 }, 1000);
 
 </script>
-<div>
+<<div>
   © <?php
     $copyYear = 2018; // Set your website start date
     $curYear = date('Y'); // Keeps the second year updated
       echo $copyYear . (($copyYear != $curYear) ? '-' . $curYear : '');
-  ?> Copyright. Allen Enterprises Inc. All Rights Reserved.
+  ?> Copyright. Allen Solutions Group LLC. All Rights Reserved.
   </div>
 </body>
 </html>
