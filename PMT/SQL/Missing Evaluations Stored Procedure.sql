@@ -9,8 +9,8 @@ ALTER PROC [dbo].[MissingAssessTable]
 AS
 BEGIN
 SET NOCOUNT ON
-SELECT DATEDIFF(day, pPublicationDate, getdate()) 
-FROM dbo.tbl_Patch_Info 
+SELECT DATEDIFF(day, pPublicationDate, getdate())
+FROM dbo.tbl_Patch_Info
 LEFT JOIN dbo.tbl_Patch_Assessment ON dbo.tbl_Patch_Info.pID=dbo.tbl_Patch_Assessment.pID
 WHERE DATEDIFF(day, pPublicationDate, getdate()) >= 25 AND (dbo.tbl_Patch_Assessment.aFinalAssessDate IS NULL OR dbo.tbl_Patch_Assessment.aFinalAssessDate='' OR datalength(dbo.tbl_Patch_Assessment.aFinalAssessDate)=0)
 AND (pClassification = 'Security' OR pClassification is Null Or pClassification ='');
@@ -42,10 +42,10 @@ SET @tableHTML=
 		) AS NVARCHAR(MAX))+
 		N'</table>' +
 		N'<h3>Please copy the link and open in Chrome or Firefox to complete the Evaluations <a href="http://192.168.207.94/Patching3/pages/index.php">Patch Management Tool</a></h3>' +
-		N'<h4>If you have any issues, please contact Brian Allen at x7506 or Security Operations for resolution</h4>'  
+		N'<h4>If you have any issues, please contact Brian Allen at x7506 or Security Operations for resolution</h4>'
 EXEC msdb.dbo.sp_send_dbmail
 			@profile_name = 'Compliance',
-			@recipients = 'brianv.allen@gasoc.com; naresh.latchman@gasoc.com; mark.bowman@gasoc.com; leroy.hawkins@gasoc.com; margaret.wilson@gasoc.com; vijay.naik@gasoc.com; estella.wingfield@gasoc.com; sc00041c@gasoc.com; kenyo.reeves@gasoc.com; stephen.brown@gasoc.com; cristian.veres@gasoc.com; te00015c@gasoc.com',
+			@recipients = '',
 			@body = @tableHTML,
 			@Subject = 'Missing Evaluations 25 Days Old',
 			@body_format = 'HTML';
