@@ -72,7 +72,7 @@
 	<button type="button" class="close" data-dismiss="modal">&times;</button>
 	</div>
 	<div class="modal-body">
-		<?php include 'tblPort.php'?>
+		<?php include 'tblPorts.php'?>
 	</div>
 	<div class ="modal-footer">
 	
@@ -117,7 +117,7 @@
 </div>
 </div>
 <!--New Asset-->
-<div id="newAsset" class="modal fade">
+<div id="newPort" class="modal fade">
 <div class="modal-dialog modal-lg">
 <div class="modal-content">
 
