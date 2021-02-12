@@ -19,7 +19,7 @@
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-				<h5 align="center" >Ports & Services Management</h5>
+				<a href ="portmgt.php" target="_blank"><h5 align="center" >Ports & Services Management</h5></a>
 			</div>
 	</div>
 	</div>
