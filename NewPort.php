@@ -13,7 +13,8 @@
 <body>
 	<div class ="container">
 			<form id="form" method="post" action="#">
-            <div class="form-check-inline">
+			<p>Select Individual Port or Port Range:</p>
+			<div class="form-check-inline">
   <label class="form-check-label">
     <input type="radio" class="form-check-input" name="optradio">Individual Port
   </label>
@@ -23,6 +24,7 @@
     <input type="radio" class="form-check-input" name="optradio">Port Range
   </label>
 </div>
+</br>
     <div class = "form-group">
 		<label for="text">Port #:</label>
 		<input type="text" class="form-control" name="port" placeholder="Enter Port #(s)...">

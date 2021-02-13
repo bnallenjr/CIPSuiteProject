@@ -30,6 +30,7 @@
         <td>EMS Operations</td>
         <td>01/17/2017</td>
 		<td>TCP</td>
+    <td>EMS System</td>
 		<td><a href="#">Edit</a></td>
       </tr>
       <tr>
@@ -38,6 +39,7 @@
         <td>Support Operations</td>
         <td>03/01/2012</td>
 		<td>TCP</td>
+    <td>EMS System</td>
 		<td><a href="#">Edit</a></td>
       </tr>
 	  <tr>
@@ -46,6 +48,7 @@
         <td>Web Portal to PACS</td>
         <td>08/05/2013</td>
 		<td>TCP</td>
+    <td>PACS System</td>
 		<td><a href="#">Edit</a></td>
       </tr>
 	  <tr>
@@ -54,6 +57,7 @@
         <td>BCS Server Sync</td>
         <td>04/17/2015</td>
 		<td>UDP</td>
+    <td>EMS System</td>
 		<td><a href="#">Edit</a></td>
       </tr>
       <tr>
@@ -62,6 +66,7 @@
         <td>BCS & EACMS Mgmt</td>
         <td>6/25/2016</td>
 		<td>TCP</td>
+    <td>EMS System, EACMS System</td>
 		<td><a href="#">Edit</a></td>
       </tr>
 	  <tr>
@@ -70,6 +75,7 @@
         <td>Web Portal to EACMS</td>
         <td>09/15/2020</td>
 		<td>TCP</td>
+    <td>EACMS System</td>
 		<td><a href="#">Edit</a></td>
       </tr>
 	  <tr>
@@ -78,6 +84,7 @@
         <td>Database Operation Mgmt</td>
         <td>01/17/2021</td>
 		<td>TCP</td>
+    <td>EMS System</td>
 		<td><a href="#">Edit</a></td>
       </tr>
 	  <tr>
@@ -86,6 +93,7 @@
         <td>Database Cluster</td>
         <td>01/17/2021</td>
 		<td>TCP</td>
+    <td>EMS System</td>
 		<td><a href="#">Edit</a></td>
       </tr>
     </tbody>
