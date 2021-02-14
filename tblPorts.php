@@ -20,7 +20,7 @@
         <th>Date of Justification</th>
         <th>Protocol</th>
 		<th>CA/CS</th>
-    <th>Source</th>
+    <th>Doc</th>
 		<th></th>
       </tr>
     </thead>
