@@ -63,7 +63,7 @@
 	</div>
 	<div class = "form-group">
 		<label for="text">Associated Change Management Reference:</label>
-		<input type="text" class="form-control" name="address" placeholder="Enter Change Reference...">
+		<input type="text" class="form-control" name="vendor" placeholder="Enter Change Reference...">
 	</div>
 	
 	</br>

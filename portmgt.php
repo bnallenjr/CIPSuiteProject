@@ -36,20 +36,36 @@
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<a href ="#vendorDoc" data-toggle="modal"><div class="card-body">
-				<h5 align="center" class="text-white">Vendor Documentation</h5>
+				<h5 align="center" class="text-white">Export Ports & Services</h5>
 			</div>
 	</div></a>
 	</div>
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<a href ="#PhysicalPort" data-toggle="modal"><div class="card-body">
-				<h5 align="center" class="text-white">Physical Port Management</h5>
+				<h5 align="center" class="text-white">Import Ports & Service</h5>
 			</div>
 	</div></a>
 	</div>
 </div>
 &nbsp
-
+<div class ="row">
+	<div class="col-sm-6">
+		<div class="card bg-secondary text-white">
+			<a href ="#vendorDoc" data-toggle="modal"><div class="card-body">
+				<h5 align="center" class="text-white">Comparison</h5>
+			</div>
+	</div></a>
+	</div>
+	<div class="col-sm-6">
+		<div class="card bg-secondary text-white">
+			<a href ="#PhysicalPort" data-toggle="modal"><div class="card-body">
+				<h5 align="center" class="text-white">Reports</h5>
+			</div>
+	</div></a>
+	</div>
+</div>
+&nbsp
 </div>
 <div class="col-sm-6">
 				<?php include "uptasks.php" ?>

@@ -20,6 +20,7 @@
         <th>Date of Justification</th>
         <th>Protocol</th>
 		<th>CA/CS</th>
+    <th>Source</th>
 		<th></th>
       </tr>
     </thead>
@@ -31,6 +32,7 @@
         <td>01/17/2017</td>
 		<td>TCP</td>
     <td>EMS System</td>
+    <td><a href="#">Vendor Documentation</a></td>
 		<td><a href="#">Edit</a></td>
       </tr>
       <tr>
@@ -40,6 +42,7 @@
         <td>03/01/2012</td>
 		<td>TCP</td>
     <td>EMS System</td>
+    <td><a href="#">Vendor Documentation</a></td>
 		<td><a href="#">Edit</a></td>
       </tr>
 	  <tr>
@@ -49,6 +52,7 @@
         <td>08/05/2013</td>
 		<td>TCP</td>
     <td>PACS System</td>
+    <td><a href="#">Vendor Documentation</a></td>
 		<td><a href="#">Edit</a></td>
       </tr>
 	  <tr>
@@ -58,6 +62,7 @@
         <td>04/17/2015</td>
 		<td>UDP</td>
     <td>EMS System</td>
+    <td><a href="#">Vendor Documentation</a></td>
 		<td><a href="#">Edit</a></td>
       </tr>
       <tr>
@@ -67,6 +72,7 @@
         <td>6/25/2016</td>
 		<td>TCP</td>
     <td>EMS System, EACMS System</td>
+    <td><a href="#">Vendor Documentation</a></td>
 		<td><a href="#">Edit</a></td>
       </tr>
 	  <tr>
@@ -76,6 +82,7 @@
         <td>09/15/2020</td>
 		<td>TCP</td>
     <td>EACMS System</td>
+    <td><a href="#">Vendor Documentation</a></td>
 		<td><a href="#">Edit</a></td>
       </tr>
 	  <tr>
@@ -85,6 +92,7 @@
         <td>01/17/2021</td>
 		<td>TCP</td>
     <td>EMS System</td>
+    <td><a href="#">Vendor Documentation</a></td>
 		<td><a href="#">Edit</a></td>
       </tr>
 	  <tr>
@@ -94,6 +102,7 @@
         <td>01/17/2021</td>
 		<td>TCP</td>
     <td>EMS System</td>
+    <td><a href="#">Vendor Documentation</a></td>
 		<td><a href="#">Edit</a></td>
       </tr>
     </tbody>
