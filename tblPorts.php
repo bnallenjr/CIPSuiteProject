@@ -15,7 +15,7 @@
     <thead class="thead-dark">
       <tr>
         <th>Port/Range</th>
-        <th>Service</th>
+        <th>Ser.</th>
         <th>Justification</th>
         <th>Date of Justification</th>
         <th>Protocol</th>
