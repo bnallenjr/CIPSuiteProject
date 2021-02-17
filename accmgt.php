@@ -18,14 +18,14 @@
 <div class ="row">
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
-			<a href ="#newAcc" data-toggle="modal"><div class="card-body">
+			<a href ="#newAcct" data-toggle="modal"><div class="card-body">
 				<h5 align="center" class="text-white">Add Account</h5>
 			</div>
 	</div></a>
 	</div>
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
-			<a href ="#tblAcc" data-toggle="modal"><div class="card-body">
+			<a href ="#tblAcct" data-toggle="modal"><div class="card-body">
 				<h5 align="center" class="text-white">System Account Listing</h5>
 			</div>
 	</div></a>
@@ -116,7 +116,7 @@
 </div>
 </div>
 <!--New Asset-->
-<div id="newPort" class="modal fade">
+<div id="newAcct" class="modal fade">
 <div class="modal-dialog modal-lg">
 <div class="modal-content">
 
