@@ -18,6 +18,7 @@
         <th>Associate CS/CA</th>
         <th>Create Date</th>
         <th>Role/Ind. Access</th>
+        <th>Status</th>
 		<th></th>
       </tr>
     </thead>
@@ -27,6 +28,7 @@
         <td>Intermediate System</td>
         <td>10/20/2015</td>
         <td>net_group, cs_group</td>
+        <td>Active</td>
 		<td><a href="#">Edit</a></td>
       </tr>
       <tr>
@@ -34,6 +36,7 @@
         <td>Database cluster system</td>
         <td>01/17/2012</td>
         <td>db-group, cs_group</td>
+        <td>Active</td>
 		<td><a href="#">Edit</a></td>
       </tr>
 	  <tr>
@@ -41,6 +44,7 @@
         <td>PACS, SIEM, MalProxy</td>
         <td>03/01/2012</td>
         <td>secops_group, phys_group</td>
+        <td>Active</td>
 		<td><a href="#">Edit</a></td>
       </tr>
 	  <tr>
@@ -48,6 +52,7 @@
         <td>Switches, Firewalls</td>
         <td>04/17/2015</td>
 		<td>network_group, tele_eng</td>
+    <td>Active</td>
 		<td><a href="#">Edit</a></td>
       </tr>
       <tr>
@@ -55,9 +60,25 @@
         <td>Control/Backup Control System</td>
         <td>6/25/2016</td>
 		<td>cs_group</td>
+    <td>Active</td>
 		<td><a href="#">Edit</a></td>
       </tr>
-	  
+      <tr>
+        <td>Sys_Admin</td>
+        <td>PACS</td>
+        <td>10/25/2019</td>
+		<td>cs_group</td>
+    <td>Disabled</td>
+		<td><a href="#">Edit</a></td>
+      </tr>
+      <tr>
+        <td>root</td>
+        <td>Control/Backup Control System</td>
+        <td>07/29/2018</td>
+		<td>cs_group, db-group</td>
+    <td>Disabled</td>
+		<td><a href="#">Edit</a></td>
+      </tr>
     </tbody>
   </table>
   </div>

@@ -13,23 +13,18 @@
 <body>
 	<div class ="container">
 			<form id="form" method="post" action="#">
-			<p>Select Account Type:</p>
-			<div class="form-check-inline">
-  <label class="form-check-label">
-    <input type="radio" class="form-check-input" name="optradio">Default
-  </label>
-</div>
-<div class="form-check-inline">
-  <label class="form-check-label">
-    <input type="radio" class="form-check-input" name="optradio">Generic
-  </label>
-</div>
-<div class="form-check-inline">
-  <label class="form-check-label">
-    <input type="radio" class="form-check-input" name="optradio">Shared
-  </label>
-</div>
+			<p>Select Account Type(s):</p>
+			<label class="checkbox-inline">
+      <input type="checkbox" value="">Default
+    </label>
+    <label class="checkbox-inline">
+      <input type="checkbox" value="">Generic
+    </label>
+    <label class="checkbox-inline">
+      <input type="checkbox" value="">Shared
+    </label>
 </br>
+<div></div>
 	<div class="form-group">
   <label for="comment">Account Justification:</label>
   <textarea class="form-control" rows="5" id="justification" placeholder="Enter detailed justification..."></textarea>
@@ -47,7 +42,7 @@
 			<option value="EACMS System">EACMS System</option>
 			<option value="SEIM System">SEIM System</option>
 			<option value="Linux Workstation Group">Linux Workstation Group</option>
-			<option value="Windows Workstatoin Group">Windows Workstatoin Group</option>
+			<option value="Windows Workstatoin Group">Windows Workstation Group</option>
 			<option value="Linux Server Group">Linux Server Group</option>
 			<option value="Windows Server Group">Windows Server Group</option>
 			<option value="Network Switch Group">Network Switch Group</option>
@@ -58,16 +53,23 @@
 		<label for="sel2">Associated Roles:</label>
 		<select name="cybSysAsset" id="sel2" multiple class="form-control">
 			<option value="" disabled selected>Please select all that apply...</option>
-			<option value="EMS System">EMS_admins</option>
-			<option value="PACS System">EMS_users</option>
-			<option value="EACMS System">EACMS_admins</option>
-			<option value="SEIM System">EACMS_users</option>
-			<option value="Linux Workstation Group">PACS_admins</option>
-			<option value="Windows Workstatoin Group">PACS_users</option>
-			<option value="Linux Server Group">Compliance_admins</option>
-			<option value="Windows Server Group">Compliance_users</option>
-			<option value="Network Switch Group">BCSI_admins</option>
-			<option value="Network Firewall Group">BCSI_uers</option>
+			<option value="EMS_admins">EMS_admins</option>
+			<option value="EMS_users">EMS_users</option>
+			<option value="EACMS_admins">EACMS_admins</option>
+			<option value="EACMS_users">EACMS_users</option>
+			<option value="PACS_admins">PACS_admins</option>
+			<option value="PACS_users">PACS_users</option>
+			<option value="Compliance_admins">Compliance_admins</option>
+			<option value="Compliance_users">Compliance_users</option>
+			<option value="BCSI_admins">BCSI_admins</option>
+			<option value="BCSI_users">BCSI_users</option>
+			<option value="cs_group">cs_group</option>
+			<option value="net_group">net_group</option>
+			<option value="db-group">db-group</option>
+			<option value="secops_group">secops_group</option>
+			<option value="phy_group">phy_group</option>
+			<option value="tele_eng">tele_eng</option>
+			<option value="network_group">network_group</option>
 		</select>
 	</div>
 	<div class="form-group">
@@ -78,7 +80,16 @@
 		<label for="text">Associated Change Management Reference:</label>
 		<input type="text" class="form-control" name="vendor" placeholder="Enter Change Reference...">
 	</div>
-	
+	<div class = "form-group">
+		<label for="sel2">Account Status:</label>
+		<select name="cybSysAsset" id="sel2" multiple class="form-control">
+			<option value="" disabled selected>Please select one...</option>
+			<option value="Active">Active</option>
+			<option value="Disabled">Disabled</option>
+			<option value="Renamed">Renamed</option>
+			<option value="Deleted">Deleted</option>
+		</select>
+	</div>
 	</br>
 	</div>
 	<button type="submit" class="btn btn-success">Submit</button> <button type="reset" class="btn btn-warning" value="Reset">Reset Form</button>
