@@ -30,9 +30,9 @@
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
 			<a href ="#cipSenAssign" data-toggle="modal">
-				<h5 align="center" >CIP Senior Manager (Assignment & Delegation)</h5></a>
+				<h5 align="center" >CIP Senior Manager (Assignment & Delegation)</h5>
 			</div>
-	</div>
+	</div></a>
 	</div>
 </div>
 
