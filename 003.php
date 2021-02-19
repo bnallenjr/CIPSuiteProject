@@ -29,17 +29,19 @@
 	<div class="col-sm-12">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-				<h5 align="center" >CIP Senior Manager (Assignment, Delegations, etc.)</h5>
+			<a href ="#cipSenAssign" data-toggle="modal">
+				<h5 align="center" >CIP Senior Manager (Assignment & Delegation)</h5></a>
 			</div>
 	</div>
 	</div>
 </div>
+
 &nbsp
 <div class ="row">
 	<div class="col-sm-12">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-				<h5 align="center" >System Design Diagrams - LEAP / LERC</h5>
+				<h5 align="center" >Low Impact Program</h5>
 			</div>
 	</div>
 	</div>
@@ -59,5 +61,23 @@
   </div>
 	
 </div>	
+
+<div id="cipSenAssign" class="modal fade">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+
+	<div class="modal-header">
+	<h3>CIP Senior Manager Assignment</h3>
+	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	</div>
+	<div class="modal-body">
+		<?php include 'cipsnrassign.php'?>
+	</div>
+	<div class ="modal-footer">
+	
+	</div>
+</div>
+</div>
+</div>
 </body>
 </html>

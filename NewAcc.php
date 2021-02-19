@@ -15,13 +15,13 @@
 			<form id="form" method="post" action="#">
 			<p>Select Account Type(s):</p>
 			<label class="checkbox-inline">
-      <input type="checkbox" value="">Default
+      <input type="checkbox" value=""> Default
     </label>
     <label class="checkbox-inline">
-      <input type="checkbox" value="">Generic
+      <input type="checkbox" value=""> Generic
     </label>
     <label class="checkbox-inline">
-      <input type="checkbox" value="">Shared
+      <input type="checkbox" value=""> Shared
     </label>
 </br>
 <div></div>
@@ -42,7 +42,7 @@
 			<option value="EACMS System">EACMS System</option>
 			<option value="SEIM System">SEIM System</option>
 			<option value="Linux Workstation Group">Linux Workstation Group</option>
-			<option value="Windows Workstatoin Group">Windows Workstation Group</option>
+			<option value="Windows Workstation Group">Windows Workstation Group</option>
 			<option value="Linux Server Group">Linux Server Group</option>
 			<option value="Windows Server Group">Windows Server Group</option>
 			<option value="Network Switch Group">Network Switch Group</option>
@@ -82,7 +82,7 @@
 	</div>
 	<div class = "form-group">
 		<label for="sel2">Account Status:</label>
-		<select name="cybSysAsset" id="sel2" multiple class="form-control">
+		<select name="cybSysAsset" id="sel2" select class="form-control">
 			<option value="" disabled selected>Please select one...</option>
 			<option value="Active">Active</option>
 			<option value="Disabled">Disabled</option>

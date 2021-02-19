@@ -50,7 +50,7 @@
 			<option value="EACMS System">EACMS System</option>
 			<option value="SEIM System">SEIM System</option>
 			<option value="Linux Workstation Group">Linux Workstation Group</option>
-			<option value="Windows Workstatoin Group">Windows Workstatoin Group</option>
+			<option value="Windows Workstation Group">Windows Workstation Group</option>
 			<option value="Linux Server Group">Linux Server Group</option>
 			<option value="Windows Server Group">Windows Server Group</option>
 			<option value="Network Switch Group">Network Switch Group</option>
