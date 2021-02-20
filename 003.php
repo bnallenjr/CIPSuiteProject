@@ -19,9 +19,10 @@
 	<div class="col-sm-12">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
+			<a href ="#tbldocs" data-toggle="modal">
 				<h5 align="center" >CIP Documentation (Policies, Plans, Processes, Procedures, etc.)</h5>
 			</div>
-	</div>
+	</div></a>
 	</div>
 </div>
 &nbsp
@@ -72,6 +73,24 @@
 	</div>
 	<div class="modal-body">
 		<?php include 'cipsnrassign.php'?>
+	</div>
+	<div class ="modal-footer">
+	
+	</div>
+</div>
+</div>
+</div>
+
+<div id="tbldocs" class="modal fade">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+
+	<div class="modal-header">
+	<h3>CIP Documentation</h3>
+	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	</div>
+	<div class="modal-body">
+		<?php include 'tblDocs.php'?>
 	</div>
 	<div class ="modal-footer">
 	
