@@ -42,7 +42,7 @@
 	<div class="col-sm-12">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-				<h5 align="center" >Low Impact Program</h5>
+				<h5 align="center" >Low Impact CIP Program</h5>
 			</div>
 	</div>
 	</div>
@@ -86,7 +86,7 @@
 <div class="modal-content">
 
 	<div class="modal-header">
-	<h3>CIP Documentation</h3>
+	<h3>CIP Documentation Program</h3>
 	<button type="button" class="close" data-dismiss="modal">&times;</button>
 	</div>
 	<div class="modal-body">
