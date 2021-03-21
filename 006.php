@@ -26,7 +26,8 @@
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-				<h5 align="center" >Security Operations Log</h5>
+			<a href ="SecLog/dashboard.php" target="_blank">
+				<h5 align="center" >Security Operations Log</h5></a>
 			</div>
 	</div>
 	</div>
@@ -43,7 +44,8 @@
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-				<h5 align="center" >Visitor Management</h5>
+			<a href ="VisitorLogs/VisitorLog.php" target="_blank">
+				<h5 align="center" >Visitor Management</h5></a>
 			</div>
 	</div>
 	</div>
@@ -60,7 +62,8 @@
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-				<h5 align="center" >Maintenance and Testing</h5>
+			<a href ="SECLog/pacstesterform.php" target="_blank">
+				<h5 align="center" >Maintenance and Testing</h5></a>
 			</div>
 	</div>
 	</div>

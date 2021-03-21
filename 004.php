@@ -50,7 +50,7 @@
 	</div>
 </div>
 &nbsp
-<div class ="row">
+<!--<div class ="row">
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
@@ -59,7 +59,7 @@
 	</div>
 	</div>
 	
-</div>
+</div>-->
 </div>
 <div class="col-sm-6">
 				<?php include "uptasks.php" ?>
