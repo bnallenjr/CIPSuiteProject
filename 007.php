@@ -19,7 +19,7 @@
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-				<a href ="portmgt.php" target="_blank"><h5 align="center" >Ports & Services Management</h5></a>
+				<a href ="portmgt.php" target="_blank"><h5 align="center" class="text-white">Ports & Services Management</h5></a>
 			</div>
 	</div>
 	</div>
@@ -37,7 +37,7 @@
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
 			<a href ="PMT/pages/index.php" target="_blank">	
-			<h5 align="center" >Patch Management - PMT</h5></a>
+			<h5 align="center" class="text-white">Patch Management - PMT</h5></a>
 			</div>
 	</div>
 	</div>
@@ -45,7 +45,7 @@
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
 			<a href="accmgt.php" target="_blank">
-				<h5 align="center" >Default, Generic, and Shared Account Management</h5></a>
+				<h5 align="center" class="text-white">Default, Generic, and Shared Account Management</h5></a>
 			</div>
 	</div>
 	</div>

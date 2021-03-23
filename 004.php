@@ -27,7 +27,7 @@
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
 			<a href ="CPTT/dashboard.php" target="_blank">	
-				<h5 align="center" >Personnel Management</h5></a>
+				<h5 align="center" class="text-white" >Personnel Management</h5></a>
 			</div>
 	</div>
 	</div>

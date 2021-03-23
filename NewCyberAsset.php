@@ -124,6 +124,10 @@
 		</select>
 	</div>
 	<div class = "form-group">
+		<label for="text">Procurment Identifier:</label>
+		<input type="text" class="form-control form-control-sm" name="procurementID" placeholder="Enter Procurement Identifier...">
+	</div>
+	<div class = "form-group">
 		<label for="text">Manufacturer:</label>
 		<input type="text" class="form-control form-control-sm" name="manufacturer" placeholder="Enter Manufacturer Name...">
 	</div>

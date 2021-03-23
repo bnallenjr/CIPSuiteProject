@@ -18,15 +18,16 @@
 <div class ="row">
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
-			<div class="card-body">
-				<h5 align="center" >Security Incident Reporting & Response</h5>
+		<a href ="#newIncident" data-toggle="modal"><div class="card-body">
+				<h5 align="center" class="text-white">Security Incident Reporting & Response Planning</h5>
 			</div>
-	</div>
+	</div></a>
 	</div>
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-				<h5 align="center" >NIST SP 800-61 Computer Security Incident Handling</h5>
+				<a href = "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf" target="_blank">
+				<h5 align="center" class="text-white">NIST SP 800-61 Computer Security Incident Handling</h5></a>
 			</div>
 	</div>
 	</div>
@@ -57,7 +58,13 @@
 			</div>
 	</div>
 	</div>
-	
+	<div class="col-sm-6">
+		<div class="card bg-secondary text-white">
+			<div class="card-body">
+				<h5 align="center" >Test Simulation/Exercise</h5>
+			</div>
+	</div>
+	</div>
 </div>
 </div>
 <div class="col-sm-6">
@@ -72,6 +79,24 @@
   ?> Copyright. Allen Solutions Group LLC. All Rights Reserved.
   </div>
 	
+ <!--New Incident Form-->
+<div id="newIncident" class="modal fade">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+
+	<div class="modal-header">
+	<h3>New Incident Form</h3>
+	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	</div>
+	<div class="modal-body">
+		<?php include 'NewCyberIncidentForm.php'?>
+	</div>
+	<div class ="modal-footer">
+	
+	</div>
+</div>
+</div>
+</div> 
 </div>	
 </body>
 </html>
