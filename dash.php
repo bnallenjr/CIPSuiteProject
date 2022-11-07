@@ -17,7 +17,7 @@
 	<div class="card-body text-center">
       <h4 class="card-text text-white">Time left before Next Audit: </br> <h4 class="text-white" id="timeLeft"></h4></h4>
     </div>
-	<div class="card-footer text-center text-white">Date of Next Audit - 10/20/2022</div>
+	<div class="card-footer text-center text-white">Date of Next Audit - 10/20/2023</div>
   </div>
   <div class="card bg-dark">
     <div class="card-body text-center">
@@ -79,7 +79,7 @@
 
 // Set the date we're counting down to
 
-var countDownDate = new Date("Oct 20, 2022 09:00:00").getTime();
+var countDownDate = new Date("Oct 20, 2023 09:00:00").getTime();
 
 
 
