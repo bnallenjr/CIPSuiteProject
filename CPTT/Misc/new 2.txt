@@ -1,0 +1,22 @@
+Select DATEDIFF(day, aFinalAssessDate, getdate()) AS timelapse FROM dbo.tbl_Patch_Assessment where DATEDIFF(day, aFinalAssessDate, getdate()) >=25 and dbo.tbl_Patch_Assessment.aApplicability='Yes';
+
+  <script type="text/javascript">
+   function requestAccess()
+  {	
+	
+	if(document.getElementById("SSN_Validation_Date").value.replace(/\s/g,"") == "01-01-1900" || document.getElementById("SSN_Validation_Date").value.replace(/\s/g,"") == "" 
+	|| document.getElementById("Criminal_Background_Date").value.replace(/\s/g,"") == "01-01-1900" || document.getElementById("Criminal_Background_Date").value.replace(/\s/g,"") == ""
+	|| document.getElementById("CurrentTrainingDate").value.replace(/\s/g,"") == "01-01-1900" || document.getElementById("CurrentTrainingDate").value.replace(/\s/g,"") == ""
+	|| document.getElementById("DatePaperWorkSign").value.replace(/\s/g,"") == "01-01-1900" || document.getElementById("DatePaperWorkSign").value.replace(/\s/g,"") == "") {
+		//alert("It's empty, disabling submit button next");
+		document.getElementById("accessButton").disabled = true;	
+	} else {
+		//alert("It's not empty, enabling submit again, if it was disabled before");
+		document.getElementById("accessButton").disabled = false;
+  }
+  };
+  </script>
+  <input id="SSN_Validation_Date" input type="hidden" name="SSN_Validation_Date" value = "<?php echo $SSN_Validation_Date;?>"/>
+  <input id="Criminal_Background_Date" input type="hidden" name="Criminal_Background_Date" value = "<?php echo $Criminal_Background_Date;?>"/>
+  <input id="CurrentTrainingDate" input type="hidden" name="CurrentTrainingDate" value = "<?php echo $CurrentTrainingDate;?>"/>
+  <input id="DatePaperWorkSign" input type="hidden" name="DatePaperWorkSign" value = "<?php echo $DatePaperWorkSign;?>"/>

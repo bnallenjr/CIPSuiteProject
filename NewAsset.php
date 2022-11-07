@@ -136,6 +136,10 @@
 		<label for="text">Indivdual/Group Owner of Asset:</label>
 		<input type="text" class="form-control" name="AssetOwner" placeholder="Enter Name or Group...">
 	</div>
+	<div class = "form-group">
+		<label for="text">Procurment Identifier:</label>
+		<input type="text" class="form-control form-control-sm" name="procurementID" placeholder="Enter Procurement Identifier...">
+	</div>
 	</br>
 	</div>
 	<button type="submit" class="btn btn-success">Submit</button> <button type="reset" class="btn btn-warning" value="Reset">Reset Form</button>

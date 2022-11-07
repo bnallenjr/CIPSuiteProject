@@ -1,0 +1,264 @@
+<tr>
+			<td>Tracking Number:</td>
+			<td><?php echo $Tracking_Num ?></td>
+		</tr>
+		<tr>
+			<td>First Name:</td>
+			<td><?php echo $_POST['FirstName']?></td>
+		</tr>
+		<tr>
+			<td>Last Name:</td>
+			<td><?php echo $_POST['LastName']?></td>
+		</tr>
+		<tr>
+			<td>Status</td>
+			<td><?php echo $_POST['Status']?></td>
+		</tr>
+		<tr>
+			<td>Department</td>
+			<td><?php echo $_POST['Department']?></td>
+		</tr>
+		<tr>
+			<td>Title</td>
+			<td><?php echo $_POST['Title']?></td>
+		</tr>
+		<tr>
+			<td>FOC Company</td>
+			<td><?php echo $_POST['FOC_Company']?></td>
+		</tr>
+		<tr>
+			<td>Contractor</td>
+			<td><?php echo $_POST['Contractor']?></td>
+		</tr>
+		<tr>
+			<td>Contract Agency</td>
+			<td><?php echo $_POST['Contract_Agency']?></td>
+		</tr>
+		<tr>
+			<td>Manager</td>
+			<td><?php echo $_POST['Manager']?></td>
+		</tr>
+		<tr>
+			<td>Email</td>
+			<td><?php echo $_POST['Email']?></td>
+		</tr>
+		<tr>
+			<td>Identity Confirmation / SSN Validation</td>
+			<td><?php echo $_POST['SSN_Validation_Date']?></td>
+		</tr>
+		<tr>
+			<td>Seven Year Background Check</td>
+			<td><?php echo $_POST['Criminal_Background_Date']?></td>
+		</tr>
+		<tr>
+			<td>Latest Cyber Security Training Date</td>
+			<td><?php echo $_POST['CurrentTrainingDate']?></td>
+		</tr>
+		<tr>
+			<td>Date Access Form Approved by BES Reliability Officer</td>
+			<td><?php echo $_POST['DatePaperWorkSign']?></td>
+		</tr>
+		<tr>
+			<td>Ticket Number</td>
+			<td><?php echo $_POST['Initial_Ticket']?></td>
+		</tr>
+		<tr>
+			<td>System Control Center</td>
+			<td><?php echo $_POST['SCC']?></td>
+		</tr>
+		<tr>
+			<td>Energy Control Center</td>
+			<td><?php echo $_POST['ECC']?></td>
+		</tr>
+		<tr>
+			<td>Backup Control Center</td>
+			<td><?php echo $_POST['BCC']?></td>
+		</tr>
+		<tr>
+			<td>ECDA Office</td>
+			<td><?php echo $_POST['ECDA_Offices']?></td>
+		</tr>
+		<tr>
+			<td>ECMS Office</td>
+			<td><?php echo $_POST['ECMS_Offices']?></td>
+		</tr>
+		<tr>
+			<td>Operations Data Center</td>
+			<td><?php echo $_POST['Operations_Data_Center']?></td>
+		</tr>
+		<tr>
+			<td>Server Lobby / Basement Hallway</td>
+			<td><?php echo $_POST['Server_Lobby']?></td>
+		</tr>
+		<tr>
+			<td>Security and Network Operations Center</td>
+			<td><?php echo $_POST['SNOC']?></td>
+		</tr>
+		<tr>
+			<td>Jackson Gate</td>
+			<td><?php echo $_POST['JacksonGate']?></td>
+		</tr>
+		<tr>
+			<td>Restricted Key</td>
+			<td><?php echo $_POST['Restricted_Key']?></td>
+		</tr>
+		<tr>
+			<td>ESP Remote Access / Intermediate System</td>
+			<td><?php echo $_POST['ESP_Remote_Intermediate']?></td>
+		</tr>
+		<tr>
+			<td>VPN Tunnel Access (GE Energy)</td>
+			<td><?php echo $_POST['VPN_Tunnel_Access']?></td>
+		</tr>
+		<tr>
+			<td>Logins - BOTH Generation and Transmission</td>
+			<td><?php echo $_POST['Logins_Gen_Tran']?></td>
+		</tr>
+		<tr>
+			<td>Active Directory (gsoc_prod)</td>
+			<td><?php echo $_POST['AD_prod']?></td>
+		</tr>
+		<tr>
+			<td>Active Directory (gsoc_support)</td>
+			<td><?php echo $_POST['AD_supp']?></td>
+		</tr>
+		<tr>
+			<td>UNIX Access</td>
+			<td><?php echo $_POST['UNIX_Access']?></td>
+		</tr>
+		<tr>
+			<td>Internal EnterNet Suite</td>
+			<td><?php echo $_POST['Internal_EnterNet']?></td>
+		</tr>
+		<tr>
+			<td>External EnterNet Suite (Non-CIP)</td>
+			<td><?php echo $_POST['External_EnterNet']?></td>
+		</tr>
+		<tr>
+			<td>Database User</td>
+			<td><?php echo $_POST['Database_User']?></td>
+		</tr>
+		<tr>
+			<td>AutoCAD User</td>
+			<td><?php echo $_POST['AutoCAD_User']?></td>
+		</tr>
+		<tr>
+			<td>Sudo Account (root)</td>
+			<td><?php echo $_POST['Sudo_root']?></td>
+		</tr>
+		<tr>
+			<td>Sudo Account (xa21)</td>
+			<td><?php echo $_POST['Sudo_XA21']?></td>
+		</tr>
+		<tr>
+			<td>Sudo Account (xacm)</td>
+			<td><?php echo $_POST['Sudo_xacm']?></td>
+		</tr>
+		<tr>
+			<td>Sudo Account (oracle)</td>
+			<td><?php echo $_POST['Sudo_oracle']?></td>
+		</tr>
+		<tr>
+			<td>Sudo Account (ccadmin)</td>
+			<td><?php echo $_POST['Sudo_ccadmin']?></td>
+		</tr>
+		<tr>
+			<td>Administrator / Shared / Generic (iccpadmin)</td>
+			<td><?php echo $_POST['AdminSharedGeneric_iccpadmin']?></td>
+		</tr>
+		<tr>
+			<td>Domain Administrator Privileges</td>
+			<td><?php echo $_POST['Domain_Admin']?></td>
+		</tr>
+		<tr>
+			<td>TE_Engineering_OM Group</td>
+			<td><?php echo $_POST['TE_Engineering_OM_Group']?></td>
+		</tr>
+		<tr>
+			<td>Telecom Shared Accounts</td>
+			<td><?php echo $_POST['TelecomSharedAccount']?></td>
+		</tr>
+		<tr>
+			<td>ACS Local Administrator Account</td>
+			<td><?php echo $_POST['ACS_LocalAdmin']?></td>
+		</tr>
+		<tr>
+			<td>RSA Local Administrator Account</td>
+			<td><?php echo $_POST['RSA_LocalAdmin']?></td>
+		</tr>
+		<tr>
+			<td>Log Retention / Monitoring / Security Application Administrator</td>
+			<td><?php echo $_POST['LogAppAdmin']?></td>
+		</tr>
+		<tr>
+			<td>Log Retention / Monitoring / Security System Administrator</td>
+			<td><?php echo $_POST['LogSysAdmin']?></td>
+		</tr>
+		<tr>
+			<td>Log Retention / Monitoring / Security User</td>
+			<td><?php echo $_POST['LogUser']?></td>
+		</tr>
+		<tr>
+			<td>Industrial Defender Application Administrator</td>
+			<td><?php echo $_POST['IDAppAdmin']?></td>
+		</tr>
+		<tr>
+			<td>Industrial Defender System Administrator</td>
+			<td><?php echo $_POST['IDSysAdmin']?></td>
+		</tr>
+		<tr>
+			<td>Industrial Defender User</td>
+			<td><?php echo $_POST['IDUser']?></td>
+		</tr>
+		<tr>
+			<td>Sys Ops Domain Administrator</td>
+			<td><?php echo $_POST['Sys_Ops_Domain_Administrator']?></td>
+		</tr>
+		<tr>
+			<td>Sys Ops Domain Contractor</td>
+			<td><?php echo $_POST['Sys_Ops_Domain_Contractor']?></td>
+		</tr>
+		<tr>
+			<td>Sys Ops Domain User</td>
+			<td><?php echo $_POST['Sys_Ops_Domain_User']?></td>
+		</tr>
+		<tr>
+			<td>Access Control Application Administrator</td>
+			<td><?php echo $_POST['Access_Control_Application_Administrator']?></td>
+		</tr>
+		<tr>
+			<td>Access Control System User</td>
+			<td><?php echo $_POST['Access_Control_System_User']?></td>
+		</tr>
+		<tr>
+			<td>CCTV Video Application Administrator</td>
+			<td><?php echo $_POST['CCTV_Video_Application_Administrator']?></td>
+		</tr>
+		<tr>
+			<td>CCTV Video User</td>
+			<td><?php echo $_POST['CCTV_Video_User']?></td>
+		</tr>
+		<tr>
+			<td>Nessus Scanner Application Administrator</td>
+			<td><?php echo $_POST['NessusAppAdmin']?></td>
+		</tr>
+		<tr>
+			<td>Nessus Scanner System Administrator</td>
+			<td><?php echo $_POST['NessusSysAdmin']?></td>
+		</tr>
+		<tr>
+			<td>OCRS SharePoint Administrator - ECMS</td>
+			<td><?php echo $_POST['OCRS_ECMSAdmin']?></td>
+		</tr>
+		<tr>
+			<td>OCRS SharePoint Administrator - Shared Services IT</td>
+			<td><?php echo $_POST['OCRS_SSITAdmin']?></td>
+		</tr>
+		<tr>
+			<td>OCRS SharePoint User</td>
+			<td><?php echo $_POST['OCRS_User']?></td>
+		</tr>
+		<tr>
+			<td>CIP-Protected Information (Paper Copies)</td>
+			<td><?php echo $_POST['CIP_ProtectedInfo']?></td>
+		</tr>

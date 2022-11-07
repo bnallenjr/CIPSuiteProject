@@ -26,7 +26,8 @@
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-				<h5 align="center" >Personnel Management</h5>
+			<a href ="CPTT/dashboard.php" target="_blank">	
+				<h5 align="center" class="text-white" >Personnel Management</h5></a>
 			</div>
 	</div>
 	</div>
@@ -49,7 +50,7 @@
 	</div>
 </div>
 &nbsp
-<div class ="row">
+<!--<div class ="row">
 	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
@@ -58,7 +59,7 @@
 	</div>
 	</div>
 	
-</div>
+</div>-->
 </div>
 <div class="col-sm-6">
 				<?php include "uptasks.php" ?>

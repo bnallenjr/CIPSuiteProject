@@ -1,0 +1,86 @@
+html{
+	width:100%;
+	height:100%;
+}
+
+
+#confirmation {
+    display: block;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 50%;
+	height: 300px;
+	overflow-y: scroll;
+	
+}
+
+#confirmation td, #confirmation th {
+    border: 2px solid #000;
+    text-align: left;
+    padding: 4px;
+}
+
+#confirmation tr:nth-child(even){background-color: #f2f2f2}
+
+#confirmation tr:hover {background-color: #ddd;}
+
+#confirmation th, caption {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color: #4CAF50;
+    color: white;
+	border-style: solid;
+	border-width: 2px;
+	border-color: black;
+}
+
+
+
+.nav ul {
+  list-style: none;
+  background-color: #565656;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  width: 75%;
+}
+.nav li {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2em;
+  line-height: 40px;
+  height: 40px;
+  border-bottom: 1px solid #888;
+  text-align: center;
+  width:20%;
+  text-align: center;
+}
+ 
+.nav a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  transition: .3s background-color;
+}
+
+ 
+.nav a:hover {
+  background-color: #e5e5e5;
+}
+ 
+.nav a.active {
+  background-color: #fff;
+  color: #565656;
+  cursor: default;
+}
+
+.nav li {
+  display: inline-block;
+  margin-right: -4px;
+}
+
+h3 {
+	font-size: 30px;
+	text-align: center;
+	font-weight: 900;
+	border: 3px solid;
+	border-width: 100%;
