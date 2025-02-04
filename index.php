@@ -226,7 +226,7 @@
     $copyYear = 2018; // Set your website start date
     $curYear = date('Y'); // Keeps the second year updated
       echo $copyYear . (($copyYear != $curYear) ? '-' . $curYear : '');
-  ?> Copyright. Allen Enterprises Inc. All Rights Reserved.
+  ?> Copyright. Allen Solutions Group Inc. All Rights Reserved.
   </div>
 </body>
 </html>
