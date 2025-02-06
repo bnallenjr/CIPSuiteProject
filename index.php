@@ -17,7 +17,7 @@
         ['title' => 'Cyber Security Program', 'id' => 'CIP-003'],
         ['title' => 'Personnel Management', 'id' => 'CIP-004'],
         ['title' => 'Networks and ESPs', 'id' => 'CIP-005'],
-        ['title' => 'Physical Security', 'id' => 'CIP-006'],
+        ['title' => 'Physical Security of BES Cyber Systems', 'id' => 'CIP-006'],
         ['title' => 'System Security Management', 'id' => 'CIP-007'],
         ['title' => 'Incident Response', 'id' => 'CIP-008'],
         ['title' => 'System Recovery', 'id' => 'CIP-009'],
@@ -25,7 +25,7 @@
         ['title' => 'Information Protection', 'id' => 'CIP-011'],
         ['title' => 'Control Center Communications', 'id' => 'CIP-012'],
         ['title' => 'Supply Chain Mitigation Management', 'id' => 'CIP-013'],
-        ['title' => 'Substation Physical Security', 'id' => 'CIP-014']
+        ['title' => 'Physical Security', 'id' => 'CIP-014']
       ];
 
       foreach ($cipSections as $index => $section) {
