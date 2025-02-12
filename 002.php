@@ -63,7 +63,7 @@
     ["tblCyberAsset", "Cyber Asset List", "tblCybAsset.php"],
     ["newAsset", "New Asset Form", "NewAsset.php"],
     ["newSystem", "New System Form", "NewSystem.php"],
-    ["newCyberAsset", "New Cyber Asset Form", "NewCyberAsset.php"]
+    ["newCyberAsset", "New Cyber Asset Form", 'NewCyberAsset.php']
   ];
   foreach ($modals as $modal) {
     list($id, $title, $file) = $modal;
