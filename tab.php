@@ -199,10 +199,24 @@
           "#19F303"
         ]
         });
+
+        var c12 = new JustGage({
+          id: "c12",
+          value: (0, 100),
+          min: 0,
+          max: 100,
+          title: "CIP-012",
+          label: "% done",
+		  levelColors: [
+          "#FF0F00",
+          "#F7FF00",
+          "#19F303"
+        ]
+        });
 		
 		var c13 = new JustGage({
           id: "c13",
-          value: (100, 0),
+          value: (0, 100),
           min: 0,
           max: 100,
           title: "CIP-013",
@@ -216,10 +230,24 @@
 		
 		var c14 = new JustGage({
           id: "c14",
-          value: (100, 0),
+          value: (0, 100),
           min: 0,
           max: 100,
           title: "CIP-014",
+          label: "% done",
+		  levelColors: [
+          "#FF0F00",
+          "#F7FF00",
+          "#19F303"
+        ]
+        });
+
+        var c15 = new JustGage({
+          id: "c15",
+          value: (100, 0),
+          min: 0,
+          max: 100,
+          title: "CIP-015",
           label: "% done",
 		  levelColors: [
           "#FF0F00",

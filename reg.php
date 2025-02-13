@@ -2,15 +2,21 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <?php
+// Prevent direct access
+if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct script access allowed'); }
+ include "includes/header.php"; ?>
+  
+  
+  
   <title>CIP SUITE</title>
  
 </head>
 <body>
-<?php include 'nav.html'?>
+<?php
+// Prevent direct access
+if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct script access allowed'); }
+ include 'nav.html'?>
 <h2>State of Compliance</h2>
 <div class="row">
 <div class = "col-sm-10">
@@ -181,6 +187,9 @@
 </body>
 <div>
   © <?php
+// Prevent direct access
+if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct script access allowed'); }
+
     $copyYear = 2018; // Set your website start date
     $curYear = date('Y'); // Keeps the second year updated
       echo $copyYear . (($copyYear != $curYear) ? '-' . $curYear : '');
