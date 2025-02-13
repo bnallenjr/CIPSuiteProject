@@ -42,22 +42,24 @@
     <div id="c5"></div>
 	<div id="c6"></div>
 	<div id="c7"></div>
+  <div id="c8"></div>
 	</div>
   </div>
   <div align="center" class = "row">
 	<div class ="col-sm-12">
-	<div id="c8"></div>
 	<div id="c9"></div>
 	<div id="c10"></div>
 	<div id="c11"></div>
+  <div id="c12"></div>
 	<div id="c13"></div>
 	<div id="c14"></div>
+  <div id="c15"></div>
 	</div>
   </div>
     <script src="js/raphael-2.1.4.min.js"></script>
     <script src="js/justgage.js"></script>
     <script>
-      var c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c13, c14;
+      var c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15;
 
       window.onload = function(){
         var c2 = new JustGage({
@@ -200,7 +202,7 @@
         ]
         });
 
-        var c12 = new JustGage({
+    var c12 = new JustGage({
           id: "c12",
           value: (0, 100),
           min: 0,
@@ -242,7 +244,7 @@
         ]
         });
 
-        var c15 = new JustGage({
+    var c15 = new JustGage({
           id: "c15",
           value: (100, 0),
           min: 0,
