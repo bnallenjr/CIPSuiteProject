@@ -15,7 +15,7 @@
         margin: 1em;
       }
 
-      #c2, #c3, #c4, #c5, #c6, #c7, #c8, #c9, #c10, #c11, #c13, #c14 {
+      #c2, #c3, #c4, #c5, #c6, #c7, #c8, #c9, #c10, #c11, #c12, #c13, #c14, #c15 {
         width:100px; height:80px;
         display: inline-block;
         margin: 1em;
