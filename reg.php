@@ -4,7 +4,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
   <?php
 // Prevent direct access
-if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct script access allowed'); }
+//if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct script access allowed'); }
  include "includes/header.php"; ?>
   
   
@@ -15,7 +15,7 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct scri
 <body>
 <?php
 // Prevent direct access
-if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct script access allowed'); }
+//if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct script access allowed'); }
  include 'nav.html'?>
 <h2>State of Compliance</h2>
 <div class="row">
@@ -164,6 +164,17 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct scri
 	</div>
 </div>
 <br>
+<div class ="row">	
+	<div class="col-sm-2">
+		<a href="#"><h3>CIP-015</h3></a>
+	</div>
+	<div class="col-sm-10">
+		<div class="progress" style="height:40px">
+			<div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 0%;height:40px">0%</div>
+		</div>
+	</div>
+</div>
+<br>
 </div>
 <div class="col-sm-2">
 <button type="button" class="btn btn-outline-secondary btn-block btn-lg">Internal Controls</button>
@@ -188,7 +199,7 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct scri
 <div>
   © <?php
 // Prevent direct access
-if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct script access allowed'); }
+//if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct script access allowed'); }
 
     $copyYear = 2018; // Set your website start date
     $curYear = date('Y'); // Keeps the second year updated
