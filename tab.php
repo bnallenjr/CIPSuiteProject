@@ -40,17 +40,19 @@
     <div id="c3"></div>
     <div id="c4"></div>
     <div id="c5"></div>
-	<div id="c6"></div>
-	<div id="c7"></div>
-  <div id="c8"></div>
+	  <div id="c6"></div>
 	</div>
+  <div align="center" class = "row">
+  <div class = "col-sm-12">
+	  <div id="c7"></div>
+    <div id="c8"></div>
+    <div id="c10"></div>
+	  <div id="c11"></div>
+    <div id="c9"></div>
   </div>
   <div align="center" class = "row">
 	<div class ="col-sm-12">
-	<div id="c9"></div>
-	<div id="c10"></div>
-	<div id="c11"></div>
-  <div id="c12"></div>
+	<div id="c12"></div>
 	<div id="c13"></div>
 	<div id="c14"></div>
   <div id="c15"></div>
