@@ -51,7 +51,7 @@
 	<div class="col-sm-1">
 		<a href="#"><h3>CIP-005</h3></a>
 	</div>
-	<div class="col-sm-8">
+	<div class="col-sm-11">
 		<div class="progress" style="height:40px">
 			<div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%;height:40px">100%</div>
 		</div>
@@ -124,6 +124,18 @@
 	</div>
 </div>
 <br>
+<br>
+<div class ="row">	
+	<div class="col-sm-1">
+		<a href="#"><h3>CIP-012</h3></a>
+	</div>
+	<div class="col-sm-11">
+		<div class="progress" style="height:40px">
+			<div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%;height:40px">100%</div>
+		</div>
+	</div>
+</div>
+<br>
 <div class ="row">	
 	<div class="col-sm-1">
 		<a href="#"><h3>CIP-013</h3></a>
@@ -138,6 +150,18 @@
 <div class ="row">	
 	<div class="col-sm-1">
 		<a href="#"><h3>CIP-014</h3></a>
+	</div>
+	<div class="col-sm-11">
+		<div class="progress" style="height:40px">
+			<div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 0%;height:40px">0%</div>
+		</div>
+	</div>
+</div>
+<br>
+<br>
+<div class ="row">	
+	<div class="col-sm-1">
+		<a href="#"><h3>CIP-015</h3></a>
 	</div>
 	<div class="col-sm-11">
 		<div class="progress" style="height:40px">
