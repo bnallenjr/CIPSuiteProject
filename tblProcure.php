@@ -23,7 +23,7 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct scri
         <th>Description</th>
         <th>Start Date</th>
 		    <th>End Date</th>
-        <th>Associated Cyber Assets</th>
+        <th>Associated Cyber Assets/Systems</th>
 		<th></th>
       </tr>
     </thead>
