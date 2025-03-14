@@ -198,7 +198,7 @@ $(window).load(function()
                     <!-- /.panel -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Patching by the Month (Year 2021)
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Patching by the Month (Year 2025)
                             <div class="pull-right">
                             </div>
                         </div>

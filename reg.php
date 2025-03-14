@@ -124,7 +124,6 @@
 	</div>
 </div>
 <br>
-<br>
 <div class ="row">	
 	<div class="col-sm-1">
 		<a href="#"><h3>CIP-012</h3></a>
@@ -157,7 +156,6 @@
 		</div>
 	</div>
 </div>
-<br>
 <br>
 <div class ="row">	
 	<div class="col-sm-1">
