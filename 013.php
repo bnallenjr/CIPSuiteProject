@@ -23,7 +23,7 @@
 			</div>
 	</div></a>
 	</div>
-	<div class="col-sm-8">
+	<div class="col-sm-6">
 		<div class="card bg-secondary text-white">
 			<a href ="#tblProcure" data-toggle="modal"><div class="card-body">
 				<h5 align="center" class="text-white">Procurements</h5>

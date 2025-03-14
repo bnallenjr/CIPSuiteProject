@@ -59,7 +59,7 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct scri
 		<td><a href="#">Edit</a></td>
       </tr>
 	  <tr>
-        <<td>2024-08-POC-1114</td>
+        <td>2024-08-POC-1114</td>
         <td>Service</td>
         <td>Physical Integrators LLC.</td>
         <td>PACS Integration Service</td>
