@@ -75,7 +75,7 @@ if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) { exit('No direct scri
         <td>SCADA Engineering LLC. to Grid Services Inc.</td>
         <td>02-01-2025</td>
 		    <td>03-15-2025</td>
-        <td>POC-SR-24-12, POC-SR-24-13, POC-WS-24-01, POC-WS-24-02</td>
+        <td>SCA-WS-24-10, SCA-WS-24-11, SCA-SR-24-10, SCA-SR-24-12</td>
 		<td><a href="#">Edit</a></td>
       </tr>
 	  

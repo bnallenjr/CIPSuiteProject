@@ -177,7 +177,7 @@ $(window).load(function()
                                     <!--<i class="fa fa-support fa-5x"></i>-->
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge"><?php echo '12'?></div>
+                                    <div class="huge"><?php echo '20'?></div>
                                     <div>Mitigation Plans Year to Date</div>
                                 </div>
                             </div>
@@ -252,12 +252,12 @@ $(window).load(function()
                          $date4=date_create("2020-12-21");
                          $diff2=date_diff($date3,$date4);*/
                          //echo date("Y-m-d");
-                         $OldDateE = strtotime("2020-11-20");
+                         $OldDateE = strtotime("2025-04-20");
                          $NewDateE = date('M j, Y', $OldDateE);
                          $diffE = date_diff(date_create($NewDateE),date_create(date("M j, Y")));
                         // echo $diffE->format('%r%a days');
 
-                         $OldDateI = strtotime("2020-11-15");
+                         $OldDateI = strtotime("2025-04-25");
                          $NewDateI = date('M j, Y', $OldDateI);
                          $diffI = date_diff(date_create($NewDateI),date_create(date("M j, Y")));
                          //echo $diffI->format('%r%a days');
@@ -278,11 +278,11 @@ $(window).load(function()
 					<tr>
 					<td>Vendor Site</td>
 					<td>EMS Supplier</td>
-					<td>11/20/2020</td>
+					<td>04/06/2025</td>
 					<td>EMS Patch ID</td>
-					<td>12/03/2020</td>
-					<td></td>
-					<td></td>
+					<td>04/10/2025</td>
+					<td>EMS Manager</td>
+					<td>04/15/2025</td>
 					<td><?php echo $diffE->format("%r%a days")?></td>
 					<td><a href="#">Edit</a></td>
 					<tr>
@@ -326,11 +326,11 @@ $(window).load(function()
 				    <tr>
 					<td>PACS Vendor Site</td>
 					<td>PACS Supplier</td>
-					<td>10/20/2020</td>
+					<td>03/20/2025</td>
 					<td>PACS Patch ID</td>
-					<td>10/22/2020</td>
+					<td>03/27/2025</td>
 					<td>PACS Manager</td>
-					<td>11/15/2020</td>
+					<td>04/04/2025</td>
 					<td></td>
 					<td></td>
 					<td><?php echo $diffI->format("%r%a days")?></td>

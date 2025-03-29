@@ -61,36 +61,36 @@
             b: <?php echo '176';?>
         }, {
             y: 'May',
-            a: <?php echo '180';?>,
-            b: <?php echo '169';?>
+            a: <?php echo '0';?>,
+            b: <?php echo '0';?>
         }, {
             y: 'Jun',
-            a: <?php echo '185';?>,
-            b: <?php echo '195';?>
+            a: <?php echo '0';?>,
+            b: <?php echo '0';?>
         }, {
             y: 'Jul',
-            a: <?php echo '145';?>,
-            b: <?php echo '140';?>
+            a: <?php echo '0';?>,
+            b: <?php echo '0';?>
 		}, {
             y: 'Aug',
-            a: <?php echo '138';?>,
-            b: <?php echo '142';?>
+            a: <?php echo '0';?>,
+            b: <?php echo '0';?>
 		}, {
             y: 'Sep',
-            a: <?php echo '144';?>,
-            b: <?php echo '156';?>
+            a: <?php echo '0';?>,
+            b: <?php echo '0';?>
 		}, {
             y: 'Oct',
-            a: <?php echo '135';?>,
-            b: <?php echo '116';?>
+            a: <?php echo '0';?>,
+            b: <?php echo '0';?>
 		}, {
             y: 'Nov',
-            a: <?php echo '190';?>,
-            b: <?php echo '184';?>
+            a: <?php echo '0';?>,
+            b: <?php echo '0';?>
 		}, {
             y: 'Dec',
-            a: <?php echo '206';?>,
-            b: <?php echo '200';?>
+            a: <?php echo '0';?>,
+            b: <?php echo '0';?>
         }],
         xkey: 'y',
         ykeys: ['a', 'b'],
