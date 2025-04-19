@@ -24,25 +24,25 @@
         <td>008</td>
         <td>Conduct Incident Response Exercise</td>
         <td>Tre Black</td>
-        <td>11/15/2021</td>
+        <td>11/15/2025</td>
       </tr>
       <tr>
         <td>004</td>
         <td>Performance of QARs</td>
         <td>Teddy Smith</td>
-        <td>12/31/2021</td>
+        <td>06/25/2025</td>
       </tr>
 	  <tr>
         <td>002</td>
         <td>Approval of BES Asset Listing</td>
-        <td>Libby Thomas</td>
-        <td>3/24/2021</td>
+        <td>SaraLita Thomas</td>
+        <td>01/31/2026</td>
       </tr>
 	<tr>
         <td>010</td>
         <td>Performance of Annual CVA</td>
         <td>Olivia Montgomery</td>
-        <td>10/20/2021</td>
+        <td>10/20/2025</td>
       </tr>
     </tbody>
   </table>

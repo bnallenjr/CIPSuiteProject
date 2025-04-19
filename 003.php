@@ -9,15 +9,17 @@
   <title>CIP SUITE</title>
 </head>
 <body>
-  <?php include 'nav.html'; ?>
+  <?php include 'nav.html'?>
 
 <!--div class="container mt-4"-->
     <h2>Security Management Policy</h2>
-
+    <div class ="row">
+    <div class="col-sm-6">
+    
     <div class="row">
       <!-- Left Section -->
       <div class="col-sm-6">
-        <div class="card bg-secondary text-white mb-3">
+        <div class="card bg-secondary text-white">
           <div class="card-body text-center">
             <a href="#tbldocs" data-toggle="modal" class="text-white">
               <h5>CIP Documentation (Policies, Plans, Processes, Procedures, etc.)</h5>
@@ -25,7 +27,7 @@
           </div>
         </div>
 
-        <div class="card bg-secondary text-white mb-3">
+        <div class="card bg-secondary text-white">
           <div class="card-body text-center">
             <a href="#cipSenAssign" data-toggle="modal" class="text-white">
               <h5>CIP Senior Manager (Assignment & Delegation)</h5>
@@ -45,6 +47,8 @@
         <?php include 'uptasks.php'; ?>
       </div>
     </div>
+    </div>
+  </div>
 
     <!-- Footer Section -->
     <footer class="mt-4">
