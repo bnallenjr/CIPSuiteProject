@@ -11,7 +11,7 @@
 <body>
   <?php include 'nav.html'; ?>
 
-  <div class="container mt-4">
+<!--div class="container mt-4"-->
     <h2>Security Management Policy</h2>
 
     <div class="row">
