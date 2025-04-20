@@ -11,7 +11,7 @@
 </head>
 <body>
 <?php include 'nav.html'?>
-<h2 class="text-center">Substation Physical Security</h2>
+<h2 class="text-center">Physical Security</h2>
 <div class="jumbotron">
 <h3 class="text-center">Currently Under Construction</h3>
 <h4 class="card-text text-center">Next Update Expected: </br> <h4 class="text-center" id="timeLeft"></h4></h4>
@@ -20,7 +20,7 @@
 
 // Set the date we're counting down to
 
-var countDownDate = new Date("Dec 31, 2021 09:00:00").getTime();
+var countDownDate = new Date("Dec 31, 2025 09:00:00").getTime();
 
 
 

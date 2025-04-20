@@ -26,7 +26,7 @@
 <div class="col-sm-6">
 <div class="card bg-secondary text-white">
 <div class="card-body">
-<a href = "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf" target="_blank">
+<a href = "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r3.pdf" target="_blank">
 <h5 align="center" class="text-white">NIST SP 800-61 Computer Security Incident Handling</h5></a>
 </div>
 </div>
