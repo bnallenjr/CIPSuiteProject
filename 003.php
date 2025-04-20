@@ -21,7 +21,7 @@
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
 			<a href ="#tbldocs" data-toggle="modal">
-				<h5 align="center" >CIP Documentation (Policies, Plans, Processes, Procedures, etc.)</h5>
+				<h5 align="center" class="text-white" >CIP Documentation (Policies, Plans, Processes, Procedures, etc.)</h5>
 			</div>
 	</div></a>
 	</div>
@@ -32,7 +32,7 @@
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
 			<a href ="#cipSenAssign" data-toggle="modal">
-				<h5 align="center" >CIP Senior Manager (Assignment & Delegation)</h5>
+				<h5 align="center" class="text-white">CIP Senior Manager (Assignment & Delegation)</h5>
 			</div>
 	</div></a>
 	</div>
@@ -43,7 +43,7 @@
 	<div class="col-sm-12">
 		<div class="card bg-secondary text-white">
 			<div class="card-body">
-				<h5 align="center" >Low Impact CIP Program</h5>
+				<h5 align="center" class="text-white">Low Impact CIP Program</h5>
 			</div>
 	</div>
 	</div>
