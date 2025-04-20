@@ -523,19 +523,19 @@ $result = sqlsrv_query($conn, $query)
 					<tr>
 					<td>233</td>
 					<td>John Doe</td>
-					<td>10/20/2021</td>
-					<td>7</td>
-					<td>10/20/2021</td>
-					<td>7</td>
+					<td>10/20/2025</td>
+					<td>6</td>
+					<td>10/20/2025</td>
+					<td>6</td>
 					<td><a href="#">Edit</a></td>
 					<td><a href="#">Report</a></td>
 					</tr>
 					<tr>
 					<td>256</td>
 					<td>Jane Doe</td>
-					<td>03/25/2021</td>
+					<td>05/25/2025</td>
 					<td>1</td>
-					<td>03/20/2021</td>
+					<td>05/20/2025</td>
 					<td>1</td>
 					<td><a href="#">Edit</a></td>
 					<td><a href="#">Report</a></td>
@@ -543,30 +543,30 @@ $result = sqlsrv_query($conn, $query)
 					<tr>
 					<td>233</td>
 					<td>Jay Doe</td>
-					<td>07/29/2021</td>
-					<td>5</td>
-					<td>07/29/2021</td>
-					<td>5</td>
+					<td>07/29/2025</td>
+					<td>3</td>
+					<td>07/29/2025</td>
+					<td>3</td>
 					<td><a href="#">Edit</a></td>
 					<td><a href="#">Report</a></td>
 					</tr>
 					<tr>
 					<td>298</td>
 					<td>Jan Doe</td>
-					<td>06/20/2021</td>
-					<td>4</td>
-					<td>05/24/2021</td>
-					<td>3</td>
+					<td>06/20/2025</td>
+					<td>2</td>
+					<td>06/24/2025</td>
+					<td>2</td>
 					<td><a href="#">Edit</a></td>
 					<td><a href="#">Report</a></td>
 					</tr>
 					<tr>
 					<td>335</td>
 					<td>Jon Doe</td>
-					<td>11/17/2022</td>
-					<td>9</td>
-					<td>12/20/2021</td>
-					<td>10</td>
+					<td>12/17/2025</td>
+					<td>7</td>
+					<td>12/20/2025</td>
+					<td>7</td>
 					<td><a href="#">Edit</a></td>
 					<td><a href="#">Report</a></td>
 					</tr>
@@ -618,9 +618,9 @@ $result = sqlsrv_query($conn, $query)
 					<td>Thomas Jerry</td>
 					<td>Warren Smith</td>
 					<td>SCADA Vendor</td>
-					<td>02/21/2021</td>
-					<td>02/15/2021</td>
-					<td>02/15/2021</td>
+					<td>02/21/2025</td>
+					<td>02/15/2025</td>
+					<td>02/15/2025</td>
 					<td></td>
 					<td></td>
 					<td><a href="#">Edit</a></td>
@@ -630,10 +630,10 @@ $result = sqlsrv_query($conn, $query)
 					<td>Olivia April</td>
 					<td>Sterling Turner</td>
 					<td>Network Vendor</td>
-					<td>02/01/2021</td>
-					<td>02/22/2021</td>
+					<td>02/01/2025</td>
+					<td>02/22/2025</td>
 					<td></td>
-					<td>02/15/2021</td>
+					<td></td>
 					<td>Sterling Turner</td>
 					<td><a href="#">Edit</a></td>
 					</tr>
@@ -642,10 +642,10 @@ $result = sqlsrv_query($conn, $query)
 					<td>Edward Brown</td>
 					<td>Darnell Tobias-Eli</td>
 					<td>Power Company</td>
-					<td>02/12/2021</td>
-					<td>02/14/2021</td>
-					<td>02/14/2021</td>
-					<td>02/23/2021</td>
+					<td>03/12/2025</td>
+					<td>04/14/2025</td>
+					<td>04/20/2021</td>
+					<td></td>
 					<td>Tre Vincent</td>
 					<td><a href="#">Edit</a></td>
 					</tr>
@@ -681,9 +681,9 @@ $result = sqlsrv_query($conn, $query)
 					<tbody>
 					<tr>
 					<td>012</td>
-					<td>Brian Allen</td>
+					<td>Dean Samples</td>
 					<td>Sterling Turner</td>
-					<td>Feb 26 2021 5:00PM</td>
+					<td>May 30 2025 5:00PM</td>
 					<td><div class="countdown"></div></td>
 					<td>In progress</td>
 					<td><a href="#">Edit</a></td>
