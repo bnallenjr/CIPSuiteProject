@@ -693,7 +693,7 @@ $result = sqlsrv_query($conn, $query)
 </div>
 </div>		
 <script>
-x='05-30-2025 5:00 PM';
+x='08-31-2025 5:00 PM';
 //y=document.getElementById('<?php echo date('m-d-Y g:i A', strtotime('08-31-2025 5:00 PM'/*$record ['TerminationTime']*/))?>');
 
 var table=document.getElementById('myTable');
