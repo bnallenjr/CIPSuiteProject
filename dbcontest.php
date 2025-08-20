@@ -1,6 +1,6 @@
 <?php
-		$serverName = '162.226.223.151';
-		$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'CIPSuite', 'PWD'=>'!FinalFantasy777!');
+		$serverName = '';
+		$connectionInfo=array('Database'=>'CIP_Patch', 'UID'=>'CIPSuite', 'PWD'=>'!FinalFantasy777!');
 		
 		$conn = sqlsrv_connect($serverName, $connectionInfo);
 		if($conn) {
