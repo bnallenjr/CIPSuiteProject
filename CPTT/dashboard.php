@@ -683,7 +683,7 @@ $result = sqlsrv_query($conn, $query)
 					<td>012</td>
 					<td>Dean Samples</td>
 					<td>Sterling Turner</td>
-					<td>May 30 2025 5:00PM</td>
+					<td>August 31 2025 5:00PM</td>
 					<td><div class="countdown"></div></td>
 					<td>In progress</td>
 					<td><a href="#">Edit</a></td>
