@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
   <title>New Access Request</title>
-  <meta charset="utf-8">
+<meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="X-UA-Compatible" content="IE=9" />
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script language=javascript>
 	function validateForm()
 	{
@@ -198,7 +197,7 @@
 </nav>
 <form role="form" class="form-horizontal"  id="form" onSubmit="return validateForm()" method="post" action="#" >
 		<div class="well well-sm" align="center" ><h4>CIP Authorized Personnel's Information (Tracking Number: <?php echo $Tracking_Num;?>)</h4></div>
-		<input type="hidden" name="Tracking_Num" value="<?php echo "495";?>"/>
+		<input type="hidden" name="Tracking_Num" value="<?php echo $Tracking_Num;?>"/>
 		<input type="hidden" name="Status" value="Pending"/>
   <div class="form-group">
     <label class="control-label col-sm-2" for="FirstName">First Name:</label>
