@@ -5,9 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=9" />
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script language=javascript>
 	function validateForm()
 	{
@@ -152,7 +152,7 @@
 </script>
 </head>
 <body>
-<?php /*
+<?php 
 			  $q = "SELECT MAX(dbo.PersonnelInfo.Tracking_Num) AS 'id' FROM dbo.PersonnelInfo;";
 		      $r = sqlsrv_query($conn, $q);
 			  $LastID = sqlsrv_fetch_array($r);
@@ -160,7 +160,7 @@
 			  $Tracking_Num = $LastID+1;
 
 
-		*/?>
+		?>
 <div class="container">
 	<h3 align ="center" >New CIP Authorization Access Request </h3>
 </div>
@@ -197,7 +197,7 @@
   </div>
 </nav>
 <form role="form" class="form-horizontal"  id="form" onSubmit="return validateForm()" method="post" action="#" >
-		<div class="well well-sm" align="center" ><h4>CIP Authorized Personnel's Information (Tracking Number: <?php echo "495";?>)</h4></div>
+		<div class="well well-sm" align="center" ><h4>CIP Authorized Personnel's Information (Tracking Number: <?php echo $Tracking_Num;?>)</h4></div>
 		<input type="hidden" name="Tracking_Num" value="<?php echo "495";?>"/>
 		<input type="hidden" name="Status" value="Pending"/>
   <div class="form-group">
@@ -629,7 +629,7 @@
     </div>
   </div>
 <p></p>
-<!--<button type =submit class="btn btn-success" onclick="window.open('PRARequest.php?Tracking_Num=<?php echo "495"; ?>');">Submit  Request</button>     <button type =reset class="btn btn-warning">Reset Form</button>-->
+<!--<button type =submit class="btn btn-success" onclick="window.open('PRARequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>');">Submit  Request</button>     <button type =reset class="btn btn-warning">Reset Form</button>-->
 <button type =submit class="btn btn-success" >Submit Request</button>     <button type =reset class="btn btn-warning">Reset Form</button>
 </form>
 <p></p>
