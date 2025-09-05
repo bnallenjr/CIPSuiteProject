@@ -152,6 +152,15 @@
 </head>
 <body>
 <?php 
+$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+		if($conn) {
+			//echo 'Connection established<br />';
+		}else{
+			echo 'Connection failure<br />';
+			die(print_r(sqlsrv_errors(), TRUE));
+		} 
 			  $q = "SELECT MAX(dbo.PersonnelInfo.Tracking_Num) AS 'id' FROM dbo.PersonnelInfo;";
 		      $r = sqlsrv_query($conn, $q);
 			  $LastID = sqlsrv_fetch_array($r);
@@ -195,7 +204,7 @@
     </div>
   </div>
 </nav>
-<form role="form" class="form-horizontal"  id="form" onSubmit="return validateForm()" method="post" action="#" >
+<form role="form" class="form-horizontal"  id="form" onSubmit="return validateForm()" method="post" action="ManagerConfirmation.php" >
 		<div class="well well-sm" align="center" ><h4>CIP Authorized Personnel's Information (Tracking Number: <?php echo $Tracking_Num;?>)</h4></div>
 		<input type="hidden" name="Tracking_Num" value="<?php echo $Tracking_Num;?>"/>
 		<input type="hidden" name="Status" value="Pending"/>

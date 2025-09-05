@@ -683,7 +683,7 @@ $result = sqlsrv_query($conn, $query)
 					<td>012</td>
 					<td>Dean Samples</td>
 					<td>Sterling Turner</td>
-					<td>August 31 2025 5:00PM</td>
+					<td>September 12 2025 5:00PM</td>
 					<td><div class="countdown"></div></td>
 					<td>In progress</td>
 					<td><a href="#">Edit</a></td>
@@ -693,8 +693,8 @@ $result = sqlsrv_query($conn, $query)
 </div>
 </div>		
 <script>
-x='08-31-2025 5:00 PM';
-//y=document.getElementById('<?php echo date('m-d-Y g:i A', strtotime('08-31-2025 5:00 PM'/*$record ['TerminationTime']*/))?>');
+x='09-12-2025 5:00 PM';
+//y=document.getElementById('<?php echo date('m-d-Y g:i A', strtotime('09-12-2025 5:00 PM'/*$record ['TerminationTime']*/))?>');
 
 var table=document.getElementById('myTable');
 var rows = 0;
