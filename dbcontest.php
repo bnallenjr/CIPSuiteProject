@@ -1,7 +1,7 @@
 
 
 
-<?php
+<?php/*
 // PHP Data Objects(PDO) Sample Code:
 try {
     $conn = new PDO("sqlsrv:server = tcp:asg-db.database.windows.net,1433; Database = asg-db", "asgdb-admin", "!FinalFantasy777!");
@@ -23,4 +23,25 @@ if($conn) {
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
 		}
-?>
+*/?>
+
+<?php
+// db_connect.php
+// Database connection to SQL Server (Azure Web App)
+
+$serverName = "162.266.223.151";   // IP of your SQL Server
+$connectionOptions = [
+    "Database" => "CIP-Patch", // replace with your actual database name
+    "Uid" => "CIPSuite",
+    "PWD" => "!FinalFantasy777!",
+];
+
+// Establishes the connection
+$conn = sqlsrv_connect($serverName, $connectionOptions);
+
+if ($conn === false) {
+    // If connection fails, show detailed error
+    die(print_r(sqlsrv_errors(), true));
+} else {
+    echo "✅ Database connection successful.";
+}
