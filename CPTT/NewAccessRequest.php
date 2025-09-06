@@ -152,7 +152,9 @@
 </head>
 <body>
 <?php 
-$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+
+
+/*$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 		if($conn) {
@@ -160,7 +162,13 @@ $conn = sqlsrv_connect($serverName, $connectionInfo);
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
-		} 
+		}*/
+$serverName = "162.266.223.151";   // IP of your SQL Server
+$connectionOptions = [
+    "Database" => "CIP-Patch", // replace with your actual database name
+    "Uid" => "CIPSuite",
+    "PWD" => "!FinalFantasy777!",
+]; 
 			  $q = "SELECT MAX(dbo.PersonnelInfo.Tracking_Num) AS 'id' FROM dbo.PersonnelInfo;";
 		      $r = sqlsrv_query($conn, $q);
 			  $LastID = sqlsrv_fetch_array($r);
