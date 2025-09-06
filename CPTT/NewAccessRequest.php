@@ -163,7 +163,7 @@ $conn = sqlsrv_connect($serverName, $connectionInfo);
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
 		}*/
-$serverName = "162.266.223.151";   // IP of your SQL Server
+$serverName = "162.226.223.151";   // IP of your SQL Server
 $connectionOptions = [
     "Database" => "CIP-Patch", // replace with your actual database name
     "Uid" => "CIPSuite",

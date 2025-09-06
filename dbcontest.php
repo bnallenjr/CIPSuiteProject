@@ -29,7 +29,7 @@ if($conn) {
 // db_connect.php
 // Database connection to SQL Server (Azure Web App)
 
-$serverName = "162.266.223.151";   // IP of your SQL Server
+$serverName = "162.226.223.151";   // IP of your SQL Server
 $connectionOptions = [
     "Database" => "CIP-Patch", // replace with your actual database name
     "Uid" => "CIPSuite",
@@ -43,5 +43,5 @@ if ($conn === false) {
     // If connection fails, show detailed error
     die(print_r(sqlsrv_errors(), true));
 } else {
-    echo "✅ Database connection successful.";
+    echo "Database connection successful.";
 }
