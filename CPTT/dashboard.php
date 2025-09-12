@@ -59,9 +59,9 @@ $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "D
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
-if($conn) {
-			echo //'Connection established<br />';
-		}else{
+if($conn) { 
+			//echo 'Connection established<br />';
+	}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
 		}
@@ -134,7 +134,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			//echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -193,7 +193,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			//echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -260,7 +260,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			//echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -336,7 +336,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			//echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -408,7 +408,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			//echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -480,7 +480,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			//echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -552,7 +552,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -624,7 +624,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -694,7 +694,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -764,7 +764,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			//echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -826,7 +826,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -888,7 +888,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -952,7 +952,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -1038,7 +1038,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -1110,7 +1110,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -1185,7 +1185,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -1264,7 +1264,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -1327,7 +1327,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -1397,7 +1397,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -1467,7 +1467,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -1541,7 +1541,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if($conn) {
-			echo //'Connection established<br />';
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
