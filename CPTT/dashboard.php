@@ -238,12 +238,7 @@ $result = sqlsrv_query($conn, $query)
     </div>
   </div>
 </div>
-<div class="modal-body">
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
     </div>
   </div>
 </div>
@@ -1251,15 +1246,7 @@ $result = sqlsrv_query($conn, $query)
           <h4 class="modal-title">Incomplete Annual Individual Reviews</h4>
         </div>
         <div class="modal-body">
-                 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+         <?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
@@ -1313,7 +1300,15 @@ $result = sqlsrv_query($conn, $query)
 		</div>';
 		
 		echo $o;
-?>	
+?>	        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="completeReviews" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
