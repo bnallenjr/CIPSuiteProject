@@ -179,16 +179,7 @@ $missingTraining = $row['missingTraining'];
           <h4 class="modal-title">Completed Annual Cyber Security Training</h4>
         </div>
         <div class="modal-body">
-                  
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal-body">
-<?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+         <?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
@@ -239,7 +230,16 @@ $result = sqlsrv_query($conn, $query)
 		</div>';
 		
 		echo $o;
-?>
+?>         
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-body">
+
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
@@ -323,15 +323,7 @@ $result = sqlsrv_query($conn, $query)
           <h4 class="modal-title">Additions 1st Quarter</h4>
         </div>
         <div class="modal-body">
-              
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+         <?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
@@ -386,7 +378,15 @@ $result = sqlsrv_query($conn, $query)
 		</div>';
 		
 		echo $o;
-?>
+?>     
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="addTable2" role="dialog">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -395,15 +395,7 @@ $result = sqlsrv_query($conn, $query)
           <h4 class="modal-title">Additions 2nd Quarter</h4>
         </div>
         <div class="modal-body">
-                 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+         <?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
@@ -458,7 +450,15 @@ $result = sqlsrv_query($conn, $query)
 		</div>';
 		
 		echo $o;
-?>
+?>        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="addTable3" role="dialog">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -467,15 +467,7 @@ $result = sqlsrv_query($conn, $query)
           <h4 class="modal-title">Additions 3rd Quarter</h4>
         </div>
         <div class="modal-body">
-                 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+         <?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
@@ -530,7 +522,15 @@ $result = sqlsrv_query($conn, $query)
 		</div>';
 		
 		echo $o;
-?>
+?>        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="addTable4" role="dialog">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -539,15 +539,7 @@ $result = sqlsrv_query($conn, $query)
           <h4 class="modal-title">Additions 4th Quarter</h4>
         </div>
         <div class="modal-body">
-                  
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+        <?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
@@ -602,7 +594,15 @@ $result = sqlsrv_query($conn, $query)
 		</div>';
 		
 		echo $o;
-?>
+?>          
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="termTable1" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -611,15 +611,7 @@ $result = sqlsrv_query($conn, $query)
           <h4 class="modal-title">Terminations 1st Quarter</h4>
         </div>
         <div class="modal-body">
-                 
-			<div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+        <?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
@@ -672,7 +664,15 @@ $result = sqlsrv_query($conn, $query)
 		</div>';
 		
 		echo $o;
-?> 
+?>         
+			<div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
 <div class="modal fade" id="termTable2" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -681,15 +681,7 @@ $result = sqlsrv_query($conn, $query)
           <h4 class="modal-title">Terminations 2nd Quarter</h4>
         </div>
         <div class="modal-body">
-                  
-			<div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+        <?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
@@ -742,7 +734,15 @@ $result = sqlsrv_query($conn, $query)
 		</div>';
 		
 		echo $o;
-?> 
+?>          
+			<div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
 <div class="modal fade" id="termTable3" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -751,15 +751,7 @@ $result = sqlsrv_query($conn, $query)
           <h4 class="modal-title">Terminations 3rd Quarter</h4>
         </div>
         <div class="modal-body">
-                 
-			<div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+        <?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
@@ -812,7 +804,15 @@ $result = sqlsrv_query($conn, $query)
 		</div>';
 		
 		echo $o;
-?> 
+?>         
+			<div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
 <div class="modal fade" id="termTable4" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
