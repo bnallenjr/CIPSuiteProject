@@ -1172,7 +1172,7 @@ $result = sqlsrv_query($conn, $query)
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Physical Restricted Keys -<a href="RestrictedKeys.php" target="_blank" class="btn btn-link" role "button">Linked Report</a> </h4>
+          <h4 class="modal-title">Physical Restricted Keys -<a href="#RestrictedKeys.php" target="_blank" class="btn btn-link" role "button">Linked Report</a> </h4>
         </div>
         <div class="modal-body">
          <?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
@@ -1188,8 +1188,7 @@ if($conn) {
 		$query = "Select dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName+' '+dbo.PersonnelInfo.LastName AS Name, dbo.PersonnelInfo.Department, dbo.PersonnelInfo.Manager, dbo.PersonnelInfo.FOC_Company, dbo.PersonnelInfo.Contractor, dbo.PersonnelInfo.Contract_Agency, dbo.PhysicalAccess.Restricted_Key
 FROM dbo.PersonnelInfo
 LEFT Join dbo.PhysicalAccess ON dbo.PersonnelInfo.Tracking_Num = dbo.PhysicalAccess.Tracking_Num
-WHERE dbo.PersonnelInfo.Status = 'Valid' AND (dbo.PhysicalAccess.Restricted_Key != 'N/A' AND dbo.PhysicalAccess.Restricted_Key != 'NA' AND dbo.PhysicalAccess.Restricted_Key!='' AND dbo.PhysicalAccess.Restricted_Key != 'No')
-;";
+WHERE dbo.PersonnelInfo.Status = 'Valid' AND (dbo.PhysicalAccess.Restricted_Key != 'N/A' AND dbo.PhysicalAccess.Restricted_Key != 'NA' AND dbo.PhysicalAccess.Restricted_Key!='' AND dbo.PhysicalAccess.Restricted_Key != 'No');";
 
 $result = sqlsrv_query($conn, $query)
 	or die ('A error occured: ' . sqlsrv_errors());

@@ -154,7 +154,7 @@
 <?php 
 
 
-/*$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 		if($conn) {
@@ -162,8 +162,8 @@ $conn = sqlsrv_connect($serverName, $connectionInfo);
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
-		}*/
-$serverName = "162.226.223.151";   // IP of your SQL Server
+		}
+/*$serverName = "162.226.223.151";   // IP of your SQL Server
 $connectionOptions = [
     "Database" => "CIP-Patch", // replace with your actual database name
     "Uid" => "CIPSuite",
@@ -176,7 +176,7 @@ $connectionOptions = [
 			  $Tracking_Num = $LastID+1;
 
 
-		?>
+		*/?>
 <div class="container">
 	<h3 align ="center" >New CIP Authorization Access Request </h3>
 </div>
