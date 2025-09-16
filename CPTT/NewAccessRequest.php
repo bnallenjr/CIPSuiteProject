@@ -168,7 +168,7 @@ $connectionOptions = [
     "Database" => "CIP-Patch", // replace with your actual database name
     "Uid" => "CIPSuite",
     "PWD" => "!FinalFantasy777!",
-]; 
+];*/ 
 			  $q = "SELECT MAX(dbo.PersonnelInfo.Tracking_Num) AS 'id' FROM dbo.PersonnelInfo;";
 		      $r = sqlsrv_query($conn, $q);
 			  $LastID = sqlsrv_fetch_array($r);
@@ -176,7 +176,7 @@ $connectionOptions = [
 			  $Tracking_Num = $LastID+1;
 
 
-		*/?>
+		?>
 <div class="container">
 	<h3 align ="center" >New CIP Authorization Access Request </h3>
 </div>
