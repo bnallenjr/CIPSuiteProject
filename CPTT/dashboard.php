@@ -928,7 +928,7 @@ $row = sqlsrv_fetch_array($query);
 			</tr>
 			<tr>
 				<td><a data-toggle="modal" href ="#">Backup/Recovery Shared Account</a></td>
-				<td><a data-toggle="modal" href ="RestrictedKeys">Physical Restricted Keys</a></td>
+				<td><a data-toggle="modal" href ="#RestrictedKeys">Physical Restricted Keys</a></td>
 			</tr>
 	</table>
 	</div>
