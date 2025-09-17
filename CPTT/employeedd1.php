@@ -41,11 +41,12 @@
 </script>
 
 <body>
-<?php $serverName = '192.168.207.97';
-$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Finalfantasy777!');		
-		$conn = sqlsrv_connect($serverName, $connectionInfo);
-		if($conn) {
-			//echo 'Connection established<br />';
+<?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
+if($conn) {
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
