@@ -24,7 +24,7 @@ if($conn) {
 			die(print_r(sqlsrv_errors(), TRUE));
 		}
 		//debug added by jpg 4/28/16
-		foreach($_POST as $key=>$val)	{			echo "$key : $val <br />\n";		}
+		//foreach($_POST as $key=>$val)	{			echo "$key : $val <br />\n";		}
 		// end debug
 		
 		$q = "SELECT MAX(dbo.PersonnelInfo.Tracking_Num) AS 'id' FROM dbo.PersonnelInfo;";
