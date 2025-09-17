@@ -1,35 +1,33 @@
 <?php
-error_reporting(E_ALL); ini_set('display_errors', 1);
-
-require __DIR__ . '/phpmailer/src/PHPMailer.php';
-require __DIR__ . '/phpmailer/src/SMTP.php';
-require __DIR__ . '/phpmailer/src/Exception.php';
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php'; // Make sure PHPMailer is installed via Composer or included manually
 
 $mail = new PHPMailer(true);
 
 try {
+    // Server settings
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
-    $mail->Password   = getenv('SMTP_PASS') ?: 'pakb zmrf jdru yvax'; // 16-char app password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Username   = 'allensolutiongroup@gmail.com'; // Your Gmail address
+    $mail->Password   = 'pakb zmrf jdru yvax';            // App Password (16 characters, not your normal Gmail password)
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // TLS encryption
     $mail->Port       = 587;
 
-    // Gmail requires From to match the authenticated account
+    // Recipients
     $mail->setFrom('allensolutiongroup@gmail.com', 'CIP Suite WebApp');
-    $mail->addAddress('allensolutiongroup@gmail.com'); // change to your inbox
+    $mail->addAddress('recipient@example.com', 'Test Recipient'); // Change this to your test inbox
 
+    // Content
     $mail->isHTML(true);
-    $mail->Subject = 'Gmail SMTP test from Azure';
-    $mail->Body    = '<p>If you see this, PHPMailer + Gmail works 🎉</p>';
+    $mail->Subject = 'Test Email from CIP Suite (Gmail SMTP)';
+    $mail->Body    = '<h1>Hello!</h1><p>This is a test email sent from <b>CIP Suite</b> via Gmail SMTP and PHP.</p>';
+    $mail->AltBody = 'Hello! This is a test email sent from CIP Suite via Gmail SMTP and PHP.';
 
     $mail->send();
-    echo '✅ Sent successfully';
+    echo '✅ Message has been sent successfully!';
 } catch (Exception $e) {
-    echo "❌ Mailer error: " . $mail->ErrorInfo;
+    echo "❌ Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
-?>
