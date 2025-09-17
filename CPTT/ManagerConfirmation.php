@@ -128,7 +128,7 @@ if($conn) {
 		$subjectNewPerson = $Tracking_Num ' - '.$FirstName. ' ' .$LastName.;
 		$headerNewPerson = "MINE-Version: 1.0" . "\r\n";
 		$headerNewPerson .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-		$headerNewPerson .= 'From: <brianv.allen@gasoc.com' . "\r\n";*/
+		$headerNewPerson .= 'From: <allensolutiongroup@gmail.com' . "\r\n";*/
 		
 		//Approval for SCC
 		/*$toSCC = 'allensolutiongroup@gmail.com'; //To Mark
@@ -147,7 +147,7 @@ if($conn) {
 						<h3 style="color:red">If you have any questions or concerns regarding the requested access right please follow up with the manager ('.$Manager.').</h3>';
 		$headersSCC = "MIME-Version: 1.0" . "\r\n";
 		$headersSCC .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-		$headersSCC .= 'From: <GSOCCIP@gasoc.com>' . "\r\n";
+		$headersSCC .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
 
 		//Approval for ECC
 		$toECC = 'allensolutiongroup@gmail.com'; //To Mark
@@ -166,7 +166,7 @@ if($conn) {
 						<h3 style="color:red">If you have any questions or concerns regarding the requested access right please follow up with the manager ('.$Manager.').</h3>';
 		$headersECC = "MIME-Version: 1.0" . "\r\n";
 		$headersECC .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-		$headersECC .= 'From: <GSOCCIP@gasoc.com>' . "\r\n";*/
+		$headersECC .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";*/
 		
 		//Approval for XA-ECS
 		$toXAECS = 'allensolutiongroup@gmail.com'; //To Ken
