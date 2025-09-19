@@ -120,9 +120,9 @@ function validateCheckBox1()
 		}
 		else {
 		?>			
-		<?php $serverName = '192.168.207.97';
-$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Finalfantasy777!');		
-		$conn = sqlsrv_connect($serverName, $connectionInfo);
+		<?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
 		if($conn) {
 			//echo 'Connection established<br />';
 		}else{
@@ -186,13 +186,13 @@ $connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Fin
 			<!--<span id="PatchID_message"></span>-->
 		</td></tr>
 		<tr><td>
-			<label>*FOC Company:</label>
+			<label>*Organization:</label>
 		</td><td>
 			<select name = "FOC_Company" required>
 				<option value="" disabled selected>Please select one...</option>
-				<option value = "GSOC">GSOC</option>
-				<option value = "GTC">GTC</option> 
-				<option value = "OPC">OPC</option>
+				<option value = "ControlCenter">Control Center Org</option>
+				<option value = "Transmission">Transmission Org</option> 
+				<option value = "Generation">Generation Org</option>
 			</select>
 		</td></tr>
 		<tr><td>
@@ -256,14 +256,14 @@ $connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Fin
 			<h3>Approved Authorizations</h3>
 <div id="tabs">
   <ul>
-    <li><a href="#tabs-1">CIP-Restricted/PSP</a></li>
-    <li><a href="#tabs-2">XA-ECS</a></li>
+    <li><a href="#tabs-1">Physical Access</a></li>
+    <li><a href="#tabs-2">SCADA System</a></li>
     <li><a href="#tabs-3">Network Devices</a></li>
 	<!--<li><a href="#tabs-4">SysLogs</a></li>-->
-	<li><a href="#tabs-5">Industrial Defender</a></li>
+	<li><a href="#tabs-5">SIEM</a></li>
 	<li><a href="#tabs-6">Physical Security System</a></li>
-	<li><a href="#tabs-7">Nessus Scanner</a></li>
-	<li><a href="#tabs-8">CIP-Protected Info.</a></li>
+	<li><a href="#tabs-7">CVA Scanner</a></li>
+	<li><a href="#tabs-8">BCSI</a></li>
   </ul>
   <div id="tabs-1">
   <table style="width:100%" border= "1px solid black">
