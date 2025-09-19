@@ -905,7 +905,7 @@ $conn = sqlsrv_connect($serverName, $connectionInfo);
 		</div>
 		</form>
 	<?php
-	}
+	//} Add back once login is functional
 ?>
 	</body>
 </html>
