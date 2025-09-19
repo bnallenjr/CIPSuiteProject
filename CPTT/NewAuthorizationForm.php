@@ -115,11 +115,11 @@ function validateCheckBox1()
 		<h1>CIP Personnel Tracking Tool</h1>
 		<?php include "menu.php"; ?>
 		<?php 
-		if (@!$_SESSION['authenticated']==1) {
+		/*if (@!$_SESSION['authenticated']==1) {
 		echo "ERROR: Unauthorized access! <a href=login.php>You must login to access this application</a>";
 		}
 		else {
-		?>			
+		*/?>			
 		<?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
