@@ -21,7 +21,7 @@ try {
   $mail->Port       = 587;
 
   $mail->setFrom('allensolutiongroup@gmail.com', 'CIP Suite WebApp');
-  $mail->addAddress('your_inbox@example.com');
+  $mail->addAddress('allensolutiongroup@gmail.com');
 
   $mail->isHTML(true);
   $mail->Subject = 'Gmail SMTP test (manual PHPMailer)';
