@@ -212,7 +212,7 @@ $connectionOptions = [
     </div>
   </div>
 </nav>
-<form role="form" class="form-horizontal"  id="form" onSubmit="return validateForm()" method="post" action="ManagerConfirmation_smtp.php" >
+<form role="form" class="form-horizontal"  id="form" onSubmit="return validateForm()" method="post" action="ManagerConfirmation_smtp_debug.php" >
 		<div class="well well-sm" align="center" ><h4>CIP Authorized Personnel's Information (Tracking Number: <?php echo $Tracking_Num;?>)</h4></div>
 		<input type="hidden" name="Tracking_Num" value="<?php echo $Tracking_Num;?>"/>
 		<input type="hidden" name="Status" value="Pending"/>
