@@ -1,24 +1,15 @@
 <?php
-$__DEBUG = isset($_GET['debug']) ? true : false;
-if ($__DEBUG) { error_reporting(E_ALL); ini_set('display_errors', 1); }
+error_reporting(E_ALL); ini_set('display_errors', 1);
 
-$__autoload = __DIR__ . '/vendor/autoload.php';
-$__haveComposer = file_exists($__autoload);
-$__haveManual = file_exists(__DIR__ . '/phpmailer/src/PHPMailer.php') &&
-                file_exists(__DIR__ . '/phpmailer/src/SMTP.php') &&
-                file_exists(__DIR__ . '/phpmailer/src/Exception.php');
+require __DIR__ . '/phpmailer/src/PHPMailer.php';
+require __DIR__ . '/phpmailer/src/SMTP.php';
+require __DIR__ . '/phpmailer/src/Exception.php';
 
-if ($__haveComposer) {
-    require $__autoload;
-    if ($__DEBUG) echo "<pre>Using Composer autoload</pre>";
-} elseif ($__haveManual) {
-    require __DIR__ . '/phpmailer/src/PHPMailer.php';
-    require __DIR__ . '/phpmailer/src/SMTP.php';
-    require __DIR__ . '/phpmailer/src/Exception.php';
-    if ($__DEBUG) echo "<pre>Using manual PHPMailer includes</pre>";
-} else {
-    if ($__DEBUG) echo "<pre>PHPMailer missing (no vendor/autoload.php and no phpmailer/src/*)</pre>";
-}
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+$mail = new PHPMailer(true);
+$mail->SMTPDebug = 2;
 
 function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
     $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
@@ -28,14 +19,14 @@ function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null
         return [false, 'PHPMailer not found. Ensure Composer vendor/ or phpmailer/src/ is deployed.'];
     }
 
-    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+    $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = $smtpUser;
         $mail->Password   = $smtpPass;
-        $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
         if (isset($GLOBALS['__DEBUG']) && $GLOBALS['__DEBUG']) {
@@ -498,7 +489,7 @@ if($conn) {
 			<td><?php echo $_POST['Email']?></td>
 		</tr>
 <?php if($_POST['SCC'] =="Yes") { ?><?php// list($__ok,$__err) = sendHtmlMail($toSCC, $subjectSCC, $messageSCC, isset($Email)?$Email:null, isset($Manager)?$Manager:null); if(isset($__DEBUG)&&$__DEBUG){ echo $__ok?'<pre>sendHtmlMail OK</pre>':'<pre>sendHtmlMail FAIL: '.htmlspecialchars($__err).'</pre>'; } ?><?php } ?>
-<?php if($_POST['ECC'] =="Yes") { ?><?php/// list($__ok,$__err) = sendHtmlMail($toECC, $subjectECC, $messageECC, isset($Email)?$Email:null, isset($Manager)?$Manager:null); if(isset($__DEBUG)&&$__DEBUG){ echo $__ok?'<pre>sendHtmlMail OK</pre>':'<pre>sendHtmlMail FAIL: '.htmlspecialchars($__err).'</pre>'; } ?><?php } ?>
+<?php if($_POST['ECC'] =="Yes") { ?><?php// list($__ok,$__err) = sendHtmlMail($toECC, $subjectECC, $messageECC, isset($Email)?$Email:null, isset($Manager)?$Manager:null); if(isset($__DEBUG)&&$__DEBUG){ echo $__ok?'<pre>sendHtmlMail OK</pre>':'<pre>sendHtmlMail FAIL: '.htmlspecialchars($__err).'</pre>'; } ?><?php } ?>
 <?php if($_POST['SCC'] =="Yes") { ?><tr><th>System Control Center:</th><td><?php echo($_POST['SCC']); ?></td></tr><?php } ?>
 <?php if($_POST['ECC'] =="Yes") { ?><tr><th>Energy Control Center:</th><td><?php echo($_POST['ECC']); ?></td></tr><?php } ?>
 <?php if($_POST['ECDA_Offices'] =="Yes") { ?><tr><th>ECDA Office:</th><td><?php echo($_POST['ECDA_Offices']); ?></td></tr><?php } ?>
