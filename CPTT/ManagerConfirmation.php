@@ -1,5 +1,58 @@
 <?php
 //@session_start();
+$autoload = __DIR__ . '/vendor/autoload.php';
+if (file_exists($autoload)) {
+    require $autoload;
+} else {
+    require __DIR__ . '/phpmailer/src/PHPMailer.php';
+    require __DIR__ . '/phpmailer/src/SMTP.php';
+    require __DIR__ . '/phpmailer/src/Exception.php';
+}
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+/**
+ * Send HTML email via Gmail SMTP.
+ * $to can be a string or array of addresses.
+ */
+function sendHtmlMail($to, string $subject, string $html, ?string $replyTo = null, ?string $replyToName = null): bool {
+    $mail = new PHPMailer(true);
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
+        $mail->Password   = getenv('SMTP_PASS') ?: 'pakb zmrf jdru yvax'; // 16-char Gmail App Password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        // Gmail requires From to match authenticated account
+        $mail->setFrom('allensolutiongroup@gmail.com', 'CIP Suite WebApp');
+
+        // Recipients
+        if (is_array($to)) {
+            foreach ($to as $addr) { if ($addr) $mail->addAddress($addr); }
+        } else {
+            $mail->addAddress($to);
+        }
+
+        if ($replyTo) {
+            $mail->addReplyTo($replyTo, $replyToName ?: $replyTo);
+        }
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $html;
+        $mail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $html));
+
+        return $mail->send();
+    } catch (Exception $e) {
+        // For debugging: error_log($mail->ErrorInfo);
+        return false;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -225,7 +278,7 @@ if($conn) {
 		$headersTSA .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 		$headersTSA .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
 		
-		//mail($to, $subject, $message, $headers);
+		sendHtmlMail($to, $subject, $message, $headers);
 		$Tracking_Num = $LastID+1;
 		//echo $Tracking_Num;
 		//$aAssessor = $_SESSION['username'];
@@ -451,7 +504,7 @@ if($conn) {
 <?php if($_POST['LAW_Network_Room_104'] =="Yes") { ?><tr><td>LAW-Network Room 104:</td><td><?php echo($_POST['LAW_Network_Room_104']); ?></td></tr><?php } ?>
 <?php if($_POST['ESP_Remote_Intermediate'] =="Yes") { ?><tr><th>ESP Remote Access / Intermediate System:</th><td><?php echo($_POST['ESP_Remote_Intermediate']); ?></td></tr><?php } ?>
 <?php if($_POST['VPN_Tunnel_Access'] =="Yes") { ?><tr><th>VPN Tunnel Access (GE Energy):</th><td><?php echo($_POST['VPN_Tunnel_Access']); ?></td></tr><?php } ?>
-<?php if($_POST['AD_prod'] =="Yes" OR $_POST['AD_supp']=="Yes"){ ?><?php mail($toXAECS, $subjectXAECS, $messageXAECS, $headersXAECS);}?>
+<?php if($_POST['AD_prod'] =="Yes" OR $_POST['AD_supp']=="Yes"){ ?><?php sendHtmlMail($toXAECS, $subjectXAECS, $messageXAECS, $headersXAECS);}?>
 <?php if($_POST['AD_prod'] =="Yes") { ?><tr><th>Active Directory (gsoc_prod):</th><td><?php echo($_POST['AD_prod']); ?></td></tr><?php } ?>
 <?php if($_POST['AD_supp'] =="Yes") { ?><tr><th>Active Directory (gsoc_support):</th><td><?php echo($_POST['AD_supp']); ?></td></tr><?php } ?>
 <?php if($_POST['UNIX_Access'] =="Yes") { ?><tr><th>UNIX Access:</th><td><?php echo($_POST['UNIX_Access']); ?></td></tr><?php } ?>
@@ -467,9 +520,9 @@ if($conn) {
 <?php if($_POST['AdminSharedGeneric_iccpadmin'] =="Yes") { ?><tr><th>Administrator / Shared / Generic (iccpadmin):</th><td><?php echo($_POST['AdminSharedGeneric_iccpadmin']); ?></td></tr><?php } ?>
 <?php if($_POST['Domain_Admin'] =="Yes") { ?><tr><th>Domain Administrator Privileges:</th><td><?php echo($_POST['Domain_Admin']); ?></td></tr><?php } ?>
 <?php if($_POST['emrg'] =="Yes") { ?><tr><th>Shared (emrg) Account:</th><td><?php echo($_POST['emrg']); ?></td></tr><?php } ?>
-<?php if($_POST['TE_Engineering_OM_Group'] == "Yes" OR $_POST['ACS_LocalAdmin'] == "Yes" OR $_POST['RSA_LocalAdmin']=="Yes" OR $_POST['IntermediateSystemAdmin']=="Yes"){ ?><?php mail ($toNetwork, $subjectNetwork, $messageNetwork, $headersNetwork);}?>
+<?php if($_POST['TE_Engineering_OM_Group'] == "Yes" OR $_POST['ACS_LocalAdmin'] == "Yes" OR $_POST['RSA_LocalAdmin']=="Yes" OR $_POST['IntermediateSystemAdmin']=="Yes"){ ?><?php sendHtmlMail ($toNetwork, $subjectNetwork, $messageNetwork, $headersNetwork);}?>
 <?php if($_POST['TE_Engineering_OM_Group'] =="Yes") { ?><tr><th>TE_Engineering_OM Group:</th><td><?php echo($_POST['TE_Engineering_OM_Group']); ?></td></tr><?php } ?>
-<?php if($_POST['TelecomSharedAccount'] =="Yes") { ?><tr><th>Telecom Shared Accounts:</th><td><?php mail($toTSA, $subjectTSA, $messageTSA, $headersTSA); //echo($_POST['TelecomSharedAccount']); ?></td></tr><?php } ?>
+<?php if($_POST['TelecomSharedAccount'] =="Yes") { ?><tr><th>Telecom Shared Accounts:</th><td><?php sendHtmlMail($toTSA, $subjectTSA, $messageTSA, $headersTSA); //echo($_POST['TelecomSharedAccount']); ?></td></tr><?php } ?>
 <?php if($_POST['ACS_LocalAdmin'] =="Yes") { ?><tr><th>ACS Local Administrator Account:</th><td><?php echo($_POST['ACS_LocalAdmin']); ?></td></tr><?php } ?>
 <?php if($_POST['RSA_LocalAdmin'] =="Yes") { ?><tr><th>RSA Local Administrator Account:</th><td><?php echo($_POST['RSA_LocalAdmin']); ?></td></tr><?php } ?>
 <?php if($_POST['IntermediateSystemAdmin'] =="Yes") { ?><tr><th>Intermediate System Administrator:</th><td><?php echo($_POST['IntermediateSystemAdmin']); ?></td></tr><?php } ?>
