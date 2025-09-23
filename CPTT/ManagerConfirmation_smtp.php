@@ -15,9 +15,9 @@ if (file_exists($__autoload)) {
         require __DIR__ . '/phpmailer/src/Exception.php';
     }
 }
-if (class_exists('PHPMailer\PHPMailer\PHPMailer')) {
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
     if (!function_exists('sendHtmlMail')) {
         function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
             $mail = new PHPMailer(true);
@@ -55,7 +55,7 @@ if (class_exists('PHPMailer\PHPMailer\PHPMailer')) {
             }
         }
     }
-}
+
 ?>
 <!DOCTYPE html>
 <html>
