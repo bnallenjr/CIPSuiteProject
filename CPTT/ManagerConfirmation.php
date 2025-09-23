@@ -1,5 +1,6 @@
 <?php
 //@session_start();
+error_reporting(E_ALL);
 $autoload = __DIR__ . '/vendor/autoload.php';
 if (file_exists($autoload)) {
     require $autoload;
