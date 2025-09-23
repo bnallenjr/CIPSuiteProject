@@ -171,7 +171,7 @@ if($conn) {
 		//Approval for XA-ECS
 		$toXAECS = 'allensolutiongroup@gmail.com'; //To Ken
 		$subjectXAECS = 'CIP Authorized Personnel Request to XA-ECS for '.$FirstName. ' ' .$LastName.'';
-		$messageXAECS = '<h3>This is notification that '.$Manager.' is requesting '.$FirstName. ' ' .$LastName.' have access rights to the XA-Energy Control System. Please see the following for more information:</h3>
+		$messageXAECS = '<h3>This is notification that '.$Manager.' is requesting '.$FirstName. ' ' .$LastName.' have access rights to the Energy Control System. Please see the following for more information:</h3>
 						<table border ="1">	
 						<tr><th>Name</th><td>'.$FirstName.' '.$LastName.'</td></tr>
 						<tr><th>Manager</th><td>'.$Manager.'</td></tr>
