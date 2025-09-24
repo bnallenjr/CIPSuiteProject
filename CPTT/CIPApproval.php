@@ -57,7 +57,7 @@ function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null
 }
 ?>
 <?php
-//@session_start();
+@session_start();
 ?>
 <?php
  function renderForm($Tracking_Num, $FirstName, $LastName, $DatePaperWorkSign, $PaperWorkApprovedBy, $error)
@@ -128,7 +128,7 @@ if($conn) {
   </div>
 </nav>-->
 <?php 
-	if (/*@!$_SESSION['authenticated']==1*/) {
+	if (@!$_SESSION['authenticated']==1) {
 		$Tracking_Num = $_GET['Tracking_Num'];
 	echo	"<div class='container'>
 
