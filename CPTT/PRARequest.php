@@ -101,8 +101,8 @@ list($ok, $err) = sendHtmlMail($to, $subject, $message, 'allensolutiongroup@gmai
 
 if ($ok) {
   // IMPORTANT: no echo/HTML before header() or it may not redirect
-  //header("Location: approvalConfirmation.php?Tracking_Num=$Tracking_Num");
-  //exit;
+  header("Location: approvalConfirmation.php?Tracking_Num=$Tracking_Num");
+  exit;
 } else {
   // Show the reason so you can fix quickly
   http_response_code(500);
