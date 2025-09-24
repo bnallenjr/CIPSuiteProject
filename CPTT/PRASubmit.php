@@ -1,5 +1,5 @@
 <?php
-@session_start();
+//@session_start();
 ?>
 <?php
 /* 
@@ -77,7 +77,7 @@ if($conn) {
   </div>
 </nav>-->
 <?php 
-	if (@!$_SESSION['authenticated']==1) {
+	if (/*@!$_SESSION['authenticated']==1*/) {
 		$Tracking_Num = $_GET['Tracking_Num'];
 	echo	"<div class='container'>
 
@@ -292,7 +292,7 @@ if (isset($_POST['submit']))
 		$FirstName=$row['FirstName'];
 		$LastName=$row['LastName'];	
 	    $PRACompletedDate = date("m-d-y h:i:sa");
-        $PRACompletedBy = $_SESSION['username'];
+        $PRACompletedBy = "allenbv1020";//$_SESSION['username'];
 		
 	$to = "allensolutiongroup@gmail.com";
 	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;
@@ -309,7 +309,7 @@ if (isset($_POST['submit']))
 	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 	$headers .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
 
-	mail($to,$subject,$message,$headers);	
+	sendHtmlMail($to,$subject,$message,'allensolutiongroup@gmail.com', 'CIP Suite WebApp');	
 		
 }			
 ?>
