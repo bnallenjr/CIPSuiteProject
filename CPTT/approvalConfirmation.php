@@ -184,7 +184,7 @@ if ($record = sqlsrv_fetch_array($result)) {
       <tr><th align="left">CIP-Protected Information:</th><td>'.htmlspecialchars($record['CIP_ProtectedInfo']).'</td></tr>
     </table>
     <p>Business Need for CIP Authorization: '.htmlspecialchars($record['Business_Need']).'</p>
-    <h2><a href="http://192.168.207.94/cptt/CIPApproval.php?Tracking_Num='.$Tracking_Num.'"><button type="button" style="color:green">Grant Approval</button></a></h2>';
+    <h2><a href="https://aetest1.azurewebsites.net/cptt/CIPApproval.php?Tracking_Num='.$Tracking_Num.'"><button type="button" style="color:green">Grant Approval</button></a></h2>';
 }
 
 // -------- send primary email --------

@@ -57,7 +57,8 @@ function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null
 }
 ?>
 <?php
-//@session_start();
+ require_once __DIR__ . '/auth/session.php';
+ session_boot();//@session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -201,7 +202,7 @@ if($conn) {
 						<tr><th>Contract Agency</th><td>'.$Contract_Agency.'</td></tr>
 						<tr><th>Business Need</th><td>'.$Business_Need.'</td></tr></table>
 						</br>
-						<h2><a href = "http://192.168.207.94/cptt/SCCApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2>
+						<h2><a href = "https://aetest1.azurewebsites.net/cptt/SCCApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2>
 						<h3 style="color:red">If you have any questions or concerns regarding the requested access right please follow up with the manager ('.$Manager.').</h3>';
 		$headersSCC = "MIME-Version: 1.0" . "\r\n";
 		$headersSCC .= "Content-type:text/html;charset=UTF-8" . "\r\n";
@@ -220,7 +221,7 @@ if($conn) {
 						<tr><th>Contract Agency</th><td>'.$Contract_Agency.'</td></tr>
 						<tr><th>Business Need</th><td>'.$Business_Need.'</td></tr></table>
 						</br>
-						<h2><a href = "http://192.168.207.94/cptt/ECCApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2>
+						<h2><a href = "https://aetest1.azurewebsites.net/cptt/ECCApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2>
 						<h3 style="color:red">If you have any questions or concerns regarding the requested access right please follow up with the manager ('.$Manager.').</h3>';
 		$headersECC = "MIME-Version: 1.0" . "\r\n";
 		$headersECC .= "Content-type:text/html;charset=UTF-8" . "\r\n";
@@ -239,7 +240,7 @@ if($conn) {
 						<tr><th>Contract Agency</th><td>'.$Contract_Agency.'</td></tr>
 						<tr><th>Business Need</th><td>'.$Business_Need.'</td></tr></table>
 						</br>
-						<h2><a href = "http://192.168.207.94/cptt/XAECSApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2>
+						<h2><a href = "https://aetest1.azurewebsites.net/cptt/XAECSApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2>
 						<h3 style="color:red">If you have any questions or concerns regarding the requested access right please follow up with the manager ('.$Manager.').</h3>';
 		$headersXAECS = "MIME-Version: 1.0" . "\r\n";
 		$headersXAECS .= "Content-type:text/html;charset=UTF-8" . "\r\n";
@@ -258,7 +259,7 @@ if($conn) {
 						<tr><th>Contract Agency</th><td>'.$Contract_Agency.'</td></tr>
 						<tr><th>Business Need</th><td>'.$Business_Need.'</td></tr></table>
 						</br>
-						<h2><a href = "http://192.168.207.94/cptt/NetworkApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2>
+						<h2><a href = "https://aetest1.azurewebsites.net/cptt/NetworkApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2>
 						<h3 style="color:red">If you have any questions or concerns regarding the requested access right please follow up with the manager ('.$Manager.').</h3>';
 		$headersNetwork = "MIME-Version: 1.0" . "\r\n";
 		$headersNetwork .= "Content-type:text/html;charset=UTF-8" . "\r\n";
@@ -277,7 +278,7 @@ if($conn) {
 						<tr><th>Contract Agency</th><td>'.$Contract_Agency.'</td></tr>
 						<tr><th>Business Need</th><td>'.$Business_Need.'</td></tr></table>
 						</br>
-						<h2><a href = "http://192.168.207.94/cptt/TSAApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2>
+						<h2><a href = "https://aetest1.azurewebsites.net/cptt/TSAApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2>
 						<h3 style="color:red">If you have any questions or concerns regarding the requested access right please follow up with the manager ('.$Manager.').</h3>';
 		$headersTSA = "MIME-Version: 1.0" . "\r\n";
 		$headersTSA .= "Content-type:text/html;charset=UTF-8" . "\r\n";

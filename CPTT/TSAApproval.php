@@ -1,5 +1,6 @@
 <?php
-@session_start();
+require_once __DIR__ . '/auth/Auth.php';
+Auth::requireLogin();//@session_start();
 ?>
 <?php
  function renderForm($Tracking_Num, $FirstName, $LastName, $TSA_Approved_On, $TSA_Approved_By, $error)
@@ -24,11 +25,12 @@
  //{
  //echo '<div style="padding:4px; border:1px solid red; color:red;">'.$error.'</div>';
  //}
-		$serverName = '192.168.207.97';
-$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Finalfantasy777!');		
-		$conn = sqlsrv_connect($serverName, $connectionInfo);
-		if($conn) {
-			//echo 'Connection established<br />';
+		$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
+if($conn) {
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -70,7 +72,7 @@ $connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Fin
   </div>
 </nav>-->
 <?php 
-	if (@!$_SESSION['authenticated']==1) {
+	if (/*@!$_SESSION['authenticated']==1*/!Auth::check()) {
 		$Tracking_Num = $_GET['Tracking_Num'];
 	echo	"<div class='container'>
 
@@ -118,7 +120,7 @@ $(window).load(function()
 	<label class="control-label col-sm-2" for="TSA_Approved_On" hidden >Date of Approval:</label>
     <div class="col-sm-4" hidden >
       <input type="text" class="form-control" name="TSA_Approved_On" hidden value = "<?php echo date("m-d-Y h:i:sa");?>"  />
-	  <input type="text" class="form-control" name="TSA_Approved_By" hidden value ="<?php echo $_SESSION['username'];?>"  />
+	  <input type="text" class="form-control" name="TSA_Approved_By" hidden value ="<?php echo Auth::user()['username']; //$_SESSION['username'];?>"  />
     </div>
   </div>
 <p></p>
@@ -139,16 +141,16 @@ $(window).load(function()
 </html>
 <?php
 }
-		$serverName = '192.168.207.97';
-$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Finalfantasy777!');		
-		$conn = sqlsrv_connect($serverName, $connectionInfo);
-		if($conn) {
-			//echo 'Connection established<br />';
+		$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
+if($conn) {
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
 		}
-	 
 if (isset($_POST['TSA_Approved_On']))
 {
 if (is_numeric($_POST['Tracking_Num']))
@@ -229,7 +231,7 @@ if (isset($_POST['submit']))
 		$FirstName=$row['FirstName'];
 		$LastName=$row['LastName'];	
 	    $TSA_Approved_On = date("m-d-y h:i:sa");
-        $TSA_Approved_By = $_SESSION['username'];
+        $TSA_Approved_By = Auth::user()['username'];//$_SESSION['username'];
 		
 	$to = "allensolutiongroup@gmail.com";
 	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;

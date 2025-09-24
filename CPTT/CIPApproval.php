@@ -57,7 +57,8 @@ function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null
 }
 ?>
 <?php
-@session_start();
+require_once __DIR__ . '/auth/session.php';
+session_boot();//@session_start();
 ?>
 <?php
  function renderForm($Tracking_Num, $FirstName, $LastName, $DatePaperWorkSign, $PaperWorkApprovedBy, $error)
@@ -128,7 +129,7 @@ if($conn) {
   </div>
 </nav>-->
 <?php 
-	if (@!$_SESSION['authenticated']==1) {
+	if (!Auth::check()/*@!$_SESSION['authenticated']==1*/) {
 		$Tracking_Num = $_GET['Tracking_Num'];
 	echo	"<div class='container'>
 
@@ -176,7 +177,7 @@ $(window).load(function()
 	<label class="control-label col-sm-2" for="DatePaperWorkSign" hidden >Date of Approval:</label>
     <div class="col-sm-4" hidden >
       <input type="text" class="form-control" name="DatePaperWorkSign" hidden value = "<?php echo date("m-d-Y h:i:sa");?>"  />
-	  <input type="text" class="form-control" name="PaperWorkApprovedBy" hidden value ="<?php echo /*$_SESSION['username']*/"allenbv1020";?>"  />
+	  <input type="text" class="form-control" name="PaperWorkApprovedBy" hidden value ="<?php echo /*$_SESSION['username']*/Auth::user()['username'];?>"  />
     </div>
   </div>
 <p></p>
@@ -286,7 +287,7 @@ if (isset($_POST['submit']))
 		$FirstName=$row['FirstName'];
 		$LastName=$row['LastName'];	
 	    $DatePaperWorkSign = date("m-d-y h:i:sa");
-        $PaperWorkApprovedBy = /*$_SESSION['username']*/"allenbv1020";
+        $PaperWorkApprovedBy = /*$_SESSION['username']*/Auth::user()['username'];
 		
 	$to = "allensolutiongroup@gmail.com";
 	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;

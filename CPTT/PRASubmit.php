@@ -1,5 +1,6 @@
 <?php
-//@session_start();
+require_once __DIR__ . '/auth/session.php';
+session_boot();
 ?>
 <?php
 /* 
@@ -77,7 +78,7 @@ if($conn) {
   </div>
 </nav>-->
 <?php 
-	if (/*@!$_SESSION['authenticated']==1*/) {
+	if (!Auth::check()/*@!$_SESSION['authenticated']==1*/) {
 		$Tracking_Num = $_GET['Tracking_Num'];
 	echo	"<div class='container'>
 
@@ -292,7 +293,7 @@ if (isset($_POST['submit']))
 		$FirstName=$row['FirstName'];
 		$LastName=$row['LastName'];	
 	    $PRACompletedDate = date("m-d-y h:i:sa");
-        $PRACompletedBy = "allenbv1020";//$_SESSION['username'];
+        $PRACompletedBy = Auth::user()['username'];//$_SESSION['username'];
 		
 	$to = "allensolutiongroup@gmail.com";
 	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;

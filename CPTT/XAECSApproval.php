@@ -1,5 +1,6 @@
 <?php
-@session_start();
+require_once __DIR__ . '/auth/Auth.php';
+Auth::requireLogin();//@session_start();
 ?>
 <?php
  function renderForm($Tracking_Num, $FirstName, $LastName, $XAECS_Approved_On, $XAECS_Approved_By, $error)
@@ -71,7 +72,7 @@ if($conn) {
   </div>
 </nav>-->
 <?php 
-	if (/*@!$_SESSION['authenticated']==1*/) {
+	if (/*@!$_SESSION['authenticated']==1*/!Auth::check()) {
 		$Tracking_Num = $_GET['Tracking_Num'];
 	echo	"<div class='container'>
 
@@ -119,7 +120,7 @@ $(window).load(function()
 	<label class="control-label col-sm-2" for="XAECS_Approved_On" hidden >Date of Approval:</label>
     <div class="col-sm-4" hidden >
       <input type="text" class="form-control" name="XAECS_Approved_On" hidden value = "<?php echo date("m-d-Y h:i:sa");?>"  />
-	  <input type="text" class="form-control" name="XAECS_Approved_By" hidden value ="<?php echo $_SESSION['username'];?>"  />
+	  <input type="text" class="form-control" name="XAECS_Approved_By" hidden value ="<?php echo Auth::user()['username']; //$_SESSION['username'];?>"  />
     </div>
   </div>
 <p></p>
@@ -231,7 +232,7 @@ if (isset($_POST['submit']))
 		$FirstName=$row['FirstName'];
 		$LastName=$row['LastName'];	
 	    $XAECS_Approved_On = date("m-d-y h:i:sa");
-        $XAECS_Approved_By = /*$_SESSION['username']*/"allenbv1020";
+        $XAECS_Approved_By = /*$_SESSION['username']*/Auth::user()['username'];
 		
 	$to = "allensolutiongroup@gmail.com";
 	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;
