@@ -1,59 +1,63 @@
 <?php
-//@session_start();
-error_reporting(E_ALL);
-$autoload = __DIR__ . '/vendor/autoload.php';
-if (file_exists($autoload)) {
-    require $autoload;
-} else {
-    require __DIR__ . '/phpmailer/src/PHPMailer.php';
-    require __DIR__ . '/phpmailer/src/SMTP.php';
-    require __DIR__ . '/phpmailer/src/Exception.php';
-}
+error_reporting(E_ALL); ini_set('display_errors', 1);
+
+require __DIR__ . '/phpmailer/src/PHPMailer.php';
+require __DIR__ . '/phpmailer/src/SMTP.php';
+require __DIR__ . '/phpmailer/src/Exception.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-/**
- * Send HTML email via Gmail SMTP.
- * $to can be a string or array of addresses.
- */
-function sendHtmlMail($to, string $subject, string $html, ?string $replyTo = null, ?string $replyToName = null): bool {
+$mail = new PHPMailer(true);
+$mail->SMTPDebug = 2;
+
+function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
+    $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
+    $smtpPass = getenv('SMTP_PASS') ?: 'pakbzmrfjdruyvax';
+
+    if (!class_exists('\\PHPMailer\\PHPMailer\\PHPMailer')) {
+        return [false, 'PHPMailer not found. Ensure Composer vendor/ or phpmailer/src/ is deployed.'];
+    }
+
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
-        $mail->Password   = getenv('SMTP_PASS') ?: 'pakb zmrf jdru yvax'; // 16-char Gmail App Password
+        $mail->Username   = $smtpUser;
+        $mail->Password   = $smtpPass;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
-        // Gmail requires From to match authenticated account
+        if (isset($GLOBALS['__DEBUG']) && $GLOBALS['__DEBUG']) {
+            $mail->SMTPDebug = 2;
+            $mail->Debugoutput = function($str){ echo "<pre>SMTP: ".htmlspecialchars($str)."</pre>"; };
+        }
+
         $mail->setFrom('allensolutiongroup@gmail.com', 'CIP Suite WebApp');
 
-        // Recipients
         if (is_array($to)) {
             foreach ($to as $addr) { if ($addr) $mail->addAddress($addr); }
         } else {
             $mail->addAddress($to);
         }
 
-        if ($replyTo) {
-            $mail->addReplyTo($replyTo, $replyToName ?: $replyTo);
-        }
+        if ($replyTo) { $mail->addReplyTo($replyTo, $replyToName ?: $replyTo); }
 
-        // Content
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body    = $html;
-        $mail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $html));
+        $mail->AltBody = strip_tags(preg_replace('/<br\\s*\\/?>(?i)/', "\n", $html));
 
-        return $mail->send();
-    } catch (Exception $e) {
-        // For debugging: error_log($mail->ErrorInfo);
-        return false;
+        $mail->send();
+        return [true, ''];
+    } catch (\Throwable $e) {
+        return [false, $e->getMessage()];
     }
 }
+?>
+<?php
+//@session_start();
 ?>
 <!DOCTYPE html>
 <html>

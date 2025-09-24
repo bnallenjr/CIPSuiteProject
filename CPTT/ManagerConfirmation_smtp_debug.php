@@ -186,7 +186,7 @@ if($conn) {
 		$subjectNewPerson = $Tracking_Num ' - '.$FirstName. ' ' .$LastName.;
 		$headerNewPerson = "MINE-Version: 1.0" . "\r\n";
 		$headerNewPerson .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-		$headerNewPerson .= 'From: <allensolutiongroup@gmail.com' . "\r\n";*/
+		$headerNewPerson .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";*/
 		
 		//Approval for SCC
 		/*$toSCC = 'allensolutiongroup@gmail.com'; //To Mark

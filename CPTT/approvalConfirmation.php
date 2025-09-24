@@ -1,3 +1,61 @@
+<?php
+error_reporting(E_ALL); ini_set('display_errors', 1);
+
+require __DIR__ . '/phpmailer/src/PHPMailer.php';
+require __DIR__ . '/phpmailer/src/SMTP.php';
+require __DIR__ . '/phpmailer/src/Exception.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+$mail = new PHPMailer(true);
+$mail->SMTPDebug = 2;
+
+function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
+    $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
+    $smtpPass = getenv('SMTP_PASS') ?: 'pakbzmrfjdruyvax';
+
+    if (!class_exists('\\PHPMailer\\PHPMailer\\PHPMailer')) {
+        return [false, 'PHPMailer not found. Ensure Composer vendor/ or phpmailer/src/ is deployed.'];
+    }
+
+    $mail = new PHPMailer(true);
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $smtpUser;
+        $mail->Password   = $smtpPass;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        if (isset($GLOBALS['__DEBUG']) && $GLOBALS['__DEBUG']) {
+            $mail->SMTPDebug = 2;
+            $mail->Debugoutput = function($str){ echo "<pre>SMTP: ".htmlspecialchars($str)."</pre>"; };
+        }
+
+        $mail->setFrom('allensolutiongroup@gmail.com', 'CIP Suite WebApp');
+
+        if (is_array($to)) {
+            foreach ($to as $addr) { if ($addr) $mail->addAddress($addr); }
+        } else {
+            $mail->addAddress($to);
+        }
+
+        if ($replyTo) { $mail->addReplyTo($replyTo, $replyToName ?: $replyTo); }
+
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $html;
+        $mail->AltBody = strip_tags(preg_replace('/<br\\s*\\/?>(?i)/', "\n", $html));
+
+        $mail->send();
+        return [true, ''];
+    } catch (\Throwable $e) {
+        return [false, $e->getMessage()];
+    }
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -152,7 +210,7 @@ $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 $headers .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
 
-mail($to,$subject,$message,$headers);
+sendHtmlMail($to,$subject,$message,$headers);
 
 $toNewPerson = 'allensolutiongroup@gmail.com';
 $subjectNewPerson = ''.$Tracking_Num. ' - '.$name.'';
@@ -168,7 +226,7 @@ $headerNewPerson = "MINE-Version: 1.0" . "\r\n";
 $headerNewPerson .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 $headerNewPerson .= 'From: <allensolutiongroup@gmail.com' . "\r\n";
 
-mail($toNewPerson, $subjectNewPerson, $messageNewPerson, $headerNewPerson);
+sendHtmlMail($toNewPerson, $subjectNewPerson, $messageNewPerson, $headerNewPerson);
 
 //
 //header("Location: edit2.php?Tracking_Num=$Tracking_Num"); 
