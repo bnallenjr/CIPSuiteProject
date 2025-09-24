@@ -109,7 +109,6 @@ LEFT JOIN dbo.NetworkDevices n ON p.Tracking_Num = n.Tracking_Num
 LEFT JOIN dbo.OCRS o ON p.Tracking_Num = o.Tracking_Num
 LEFT JOIN dbo.PhysicalAccess pa ON p.Tracking_Num = pa.Tracking_Num
 LEFT JOIN dbo.PSS pss ON p.Tracking_Num = pss.Tracking_Num
-LEFT JOIN dbo.SysLog so ON p.Tracking_Num = so.Tracking_Num
 LEFT JOIN dbo.XA21_ECS x ON p.Tracking_Num = x.Tracking_Num
 WHERE p.Tracking_Num = $Tracking_Num;
 ";
