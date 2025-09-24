@@ -57,7 +57,7 @@ function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null
 }
 ?>
 <?php
- require_once __DIR__ . 'auth/auth/session.php';
+ require_once __DIR__ . '/../auth/session.php';
  session_boot();//@session_start();
 ?>
 <!DOCTYPE html>

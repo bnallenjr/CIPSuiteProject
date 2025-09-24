@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/auth/Auth.php';
+require_once __DIR__ . '/../auth/Auth.php';
 Auth::requireLogin();//@session_start();
 ?>
 <?php
