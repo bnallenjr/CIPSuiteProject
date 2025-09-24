@@ -98,7 +98,6 @@ SELECT p.Tracking_Num,
        x.Database_User, x.AutoCAD_User, x.Sudo_root, x.Sudo_XA21, x.Sudo_xacm, x.Sudo_oracle, x.Sudo_ccadmin, x.AdminSharedGeneric_iccpadmin,
        x.Domain_Admin, x.emrg, n.TE_Engineering_OM_Group, n.TelecomSharedAccount, n.ACS_LocalAdmin, n.RSA_LocalAdmin,
        idf.IDAppAdmin, idf.IDSysAdmin, idf.IDUser, idf.IDroot, idf.IDadmin_shared, idf.IDWinAdmin,
-       so.Sys_Ops_Domain_Administrator, so.Sys_Ops_Domain_Contractor, so.Sys_Ops_Domain_User,
        pss.Access_Control_Application_Administrator, pss.Access_Control_System_User, pss.CCTV_Video_Application_Administrator, pss.CCTV_Video_User, pss.PSS_WinAdmin,
        nes.NessusAppAdmin, nes.NessusSysAdmin,
        o.OCRS_ECMSAdmin, o.OCRS_SSITAdmin, o.OCRS_User,
@@ -170,9 +169,6 @@ if ($record = sqlsrv_fetch_array($result)) {
       <tr><th align="left">Industrial Defender (root) Shared Account:</th><td>'.htmlspecialchars($record['IDroot']).'</td></tr>
       <tr><th align="left">Industrial Defender (admin) Shared Account:</th><td>'.htmlspecialchars($record['IDadmin_shared']).'</td></tr>
       <tr><th align="left">Industrial Defender (winadmin) Account:</th><td>'.htmlspecialchars($record['IDWinAdmin']).'</td></tr>
-      <tr><th align="left">Sys Ops Domain Administrator:</th><td>'.htmlspecialchars($record['Sys_Ops_Domain_Administrator']).'</td></tr>
-      <tr><th align="left">Sys Ops Domain Contractor:</th><td>'.htmlspecialchars($record['Sys_Ops_Domain_Contractor']).'</td></tr>
-      <tr><th align="left">Sys Ops Domain User:</th><td>'.htmlspecialchars($record['Sys_Ops_Domain_User']).'</td></tr>
       <tr><th align="left">Access Control Application Administrator:</th><td>'.htmlspecialchars($record['Access_Control_Application_Administrator']).'</td></tr>
       <tr><th align="left">Access Control System User:</th><td>'.htmlspecialchars($record['Access_Control_System_User']).'</td></tr>
       <tr><th align="left">CCTV Video Application Administrator:</th><td>'.htmlspecialchars($record['CCTV_Video_Application_Administrator']).'</td></tr>
