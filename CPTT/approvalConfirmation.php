@@ -131,7 +131,6 @@ if ($record = sqlsrv_fetch_array($result)) {
       <tr><th align="left">Operations Data Center:</th><td>'.htmlspecialchars($record['Operations_Data_Center']).'</td></tr>
       <tr><th align="left">Server Lobby / Basement Hallway:</th><td>'.htmlspecialchars($record['Server_Lobby']).'</td></tr>
       <tr><th align="left">Security and Network Operations Center:</th><td>'.htmlspecialchars($record['SNOC']).'</td></tr>
-      <tr><th align="left">Jackson Gate:</th><td>'.htmlspecialchars($record['JacksonGate']).'</td></tr>
       <tr><th align="left">Restricted Key:</th><td>'.htmlspecialchars($record['Restricted_Key']).'</td></tr>
       <tr><th align="left">LAW-Perimeter:</th><td>'.htmlspecialchars($record['LAW_Perimeter']).'</td></tr>
       <tr><th align="left">LAW-Data Center:</th><td>'.htmlspecialchars($record['LAW_Data_Center']).'</td></tr>
@@ -196,7 +195,7 @@ $message  = "<html><body>$o</body></html>";
 // pass a reply-to email (optional), NOT headers:
 list($ok1, $err1) = sendHtmlMail($to, $subject, $message, 'allensolutiongroup@gmail.com', 'CIP Suite WebApp');
 
-// -------- send “new person” email --------
+// -------- send “new person” email (This email is to create a folder in SharePoint to document records for individual) --------
 $toNewPerson      = 'allensolutiongroup@gmail.com';
 $subjectNewPerson = $Tracking_Num.' - '.$name;
 $messageNewPerson = "<html><body>$o</body></html>";

@@ -81,8 +81,8 @@ $o = '';
 $record = null;
 while ($record = sqlsrv_fetch_array($result)) {
   $o .= '
-    <h3>Please provide PRA dates for '.htmlspecialchars($record['Name']).'. 
-    Please click this <a href="http://192.168.207.94/cptt/PRASubmit.php?Tracking_Num='.$Tracking_Num.'">link</a> to provide this information.</h3>
+    <h2>Please provide PRA dates for '.htmlspecialchars($record['Name']).'. 
+    Please click this <a href="http://192.168.207.94/cptt/PRASubmit.php?Tracking_Num='.$Tracking_Num.'">link</a> to provide this information.</h2>
     <h2>Contractor Company Name if Applicable: '.htmlspecialchars($record['Contract_Agency']).'</h2>';
 }
 

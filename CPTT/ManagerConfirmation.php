@@ -186,7 +186,7 @@ if($conn) {
 		$subjectNewPerson = $Tracking_Num ' - '.$FirstName. ' ' .$LastName.;
 		$headerNewPerson = "MINE-Version: 1.0" . "\r\n";
 		$headerNewPerson .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-		$headerNewPerson .= 'From: <allensolutiongroup@gmail.com' . "\r\n";*/
+		$headerNewPerson .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";*/
 		
 		//Approval for SCC
 		/*$toSCC = 'allensolutiongroup@gmail.com'; //To Mark
@@ -283,7 +283,7 @@ if($conn) {
 		$headersTSA .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 		$headersTSA .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
 		
-		sendHtmlMail($to, $subject, $message, $headers);
+		//list($__ok,$__err) = sendHtmlMail($to, $subject, $message, isset($Email)?$Email:null, isset($Manager)?$Manager:null); if(isset($__DEBUG)&&$__DEBUG){ echo $__ok?'<pre>sendHtmlMail OK</pre>':'<pre>sendHtmlMail FAIL: '.htmlspecialchars($__err).'</pre>'; }
 		$Tracking_Num = $LastID+1;
 		//echo $Tracking_Num;
 		//$aAssessor = $_SESSION['username'];
@@ -488,8 +488,8 @@ if($conn) {
 			<th>Email</th>
 			<td><?php echo $_POST['Email']?></td>
 		</tr>
-<?php if($_POST['SCC'] =="Yes") { ?><?php// mail($toSCC, $subjectSCC, $messageSCC, $headersSCC); ?><?php } ?>
-<?php if($_POST['ECC'] =="Yes") { ?><?php/// mail($toECC, $subjectECC, $messageECC, $headersECC); ?><?php } ?>
+<?php if($_POST['SCC'] =="Yes") { ?><?php// list($__ok,$__err) = sendHtmlMail($toSCC, $subjectSCC, $messageSCC, isset($Email)?$Email:null, isset($Manager)?$Manager:null); if(isset($__DEBUG)&&$__DEBUG){ echo $__ok?'<pre>sendHtmlMail OK</pre>':'<pre>sendHtmlMail FAIL: '.htmlspecialchars($__err).'</pre>'; } ?><?php } ?>
+<?php if($_POST['ECC'] =="Yes") { ?><?php// list($__ok,$__err) = sendHtmlMail($toECC, $subjectECC, $messageECC, isset($Email)?$Email:null, isset($Manager)?$Manager:null); if(isset($__DEBUG)&&$__DEBUG){ echo $__ok?'<pre>sendHtmlMail OK</pre>':'<pre>sendHtmlMail FAIL: '.htmlspecialchars($__err).'</pre>'; } ?><?php } ?>
 <?php if($_POST['SCC'] =="Yes") { ?><tr><th>System Control Center:</th><td><?php echo($_POST['SCC']); ?></td></tr><?php } ?>
 <?php if($_POST['ECC'] =="Yes") { ?><tr><th>Energy Control Center:</th><td><?php echo($_POST['ECC']); ?></td></tr><?php } ?>
 <?php if($_POST['ECDA_Offices'] =="Yes") { ?><tr><th>ECDA Office:</th><td><?php echo($_POST['ECDA_Offices']); ?></td></tr><?php } ?>
@@ -509,7 +509,7 @@ if($conn) {
 <?php if($_POST['LAW_Network_Room_104'] =="Yes") { ?><tr><td>LAW-Network Room 104:</td><td><?php echo($_POST['LAW_Network_Room_104']); ?></td></tr><?php } ?>
 <?php if($_POST['ESP_Remote_Intermediate'] =="Yes") { ?><tr><th>ESP Remote Access / Intermediate System:</th><td><?php echo($_POST['ESP_Remote_Intermediate']); ?></td></tr><?php } ?>
 <?php if($_POST['VPN_Tunnel_Access'] =="Yes") { ?><tr><th>VPN Tunnel Access (GE Energy):</th><td><?php echo($_POST['VPN_Tunnel_Access']); ?></td></tr><?php } ?>
-<?php if($_POST['AD_prod'] =="Yes" OR $_POST['AD_supp']=="Yes"){ ?><?php sendHtmlMail($toXAECS, $subjectXAECS, $messageXAECS, $headersXAECS);}?>
+<?php if($_POST['AD_prod'] =="Yes" OR $_POST['AD_supp']=="Yes"){ ?><?php list($__ok,$__err) = sendHtmlMail($toXAECS, $subjectXAECS, $messageXAECS, isset($Email)?$Email:null, isset($Manager)?$Manager:null); if(isset($__DEBUG)&&$__DEBUG){ echo $__ok?'<pre>sendHtmlMail OK</pre>':'<pre>sendHtmlMail FAIL: '.htmlspecialchars($__err).'</pre>'; }}?>
 <?php if($_POST['AD_prod'] =="Yes") { ?><tr><th>Active Directory (gsoc_prod):</th><td><?php echo($_POST['AD_prod']); ?></td></tr><?php } ?>
 <?php if($_POST['AD_supp'] =="Yes") { ?><tr><th>Active Directory (gsoc_support):</th><td><?php echo($_POST['AD_supp']); ?></td></tr><?php } ?>
 <?php if($_POST['UNIX_Access'] =="Yes") { ?><tr><th>UNIX Access:</th><td><?php echo($_POST['UNIX_Access']); ?></td></tr><?php } ?>
@@ -525,9 +525,9 @@ if($conn) {
 <?php if($_POST['AdminSharedGeneric_iccpadmin'] =="Yes") { ?><tr><th>Administrator / Shared / Generic (iccpadmin):</th><td><?php echo($_POST['AdminSharedGeneric_iccpadmin']); ?></td></tr><?php } ?>
 <?php if($_POST['Domain_Admin'] =="Yes") { ?><tr><th>Domain Administrator Privileges:</th><td><?php echo($_POST['Domain_Admin']); ?></td></tr><?php } ?>
 <?php if($_POST['emrg'] =="Yes") { ?><tr><th>Shared (emrg) Account:</th><td><?php echo($_POST['emrg']); ?></td></tr><?php } ?>
-<?php if($_POST['TE_Engineering_OM_Group'] == "Yes" OR $_POST['ACS_LocalAdmin'] == "Yes" OR $_POST['RSA_LocalAdmin']=="Yes" OR $_POST['IntermediateSystemAdmin']=="Yes"){ ?><?php sendHtmlMail ($toNetwork, $subjectNetwork, $messageNetwork, $headersNetwork);}?>
+<?php if($_POST['TE_Engineering_OM_Group'] == "Yes" OR $_POST['ACS_LocalAdmin'] == "Yes" OR $_POST['RSA_LocalAdmin']=="Yes" OR $_POST['IntermediateSystemAdmin']=="Yes"){ ?><?php list($__ok,$__err) = sendHtmlMail($toNetwork, $subjectNetwork, $messageNetwork, isset($Email)?$Email:null, isset($Manager)?$Manager:null); if(isset($__DEBUG)&&$__DEBUG){ echo $__ok?'<pre>sendHtmlMail OK</pre>':'<pre>sendHtmlMail FAIL: '.htmlspecialchars($__err).'</pre>'; }}?>
 <?php if($_POST['TE_Engineering_OM_Group'] =="Yes") { ?><tr><th>TE_Engineering_OM Group:</th><td><?php echo($_POST['TE_Engineering_OM_Group']); ?></td></tr><?php } ?>
-<?php if($_POST['TelecomSharedAccount'] =="Yes") { ?><tr><th>Telecom Shared Accounts:</th><td><?php sendHtmlMail($toTSA, $subjectTSA, $messageTSA, $headersTSA); //echo($_POST['TelecomSharedAccount']); ?></td></tr><?php } ?>
+<?php if($_POST['TelecomSharedAccount'] =="Yes") { ?><tr><th>Telecom Shared Accounts:</th><td><?php list($__ok,$__err) = sendHtmlMail($toTSA, $subjectTSA, $messageTSA, isset($Email)?$Email:null, isset($Manager)?$Manager:null); if(isset($__DEBUG)&&$__DEBUG){ echo $__ok?'<pre>sendHtmlMail OK</pre>':'<pre>sendHtmlMail FAIL: '.htmlspecialchars($__err).'</pre>'; } //echo($_POST['TelecomSharedAccount']); ?></td></tr><?php } ?>
 <?php if($_POST['ACS_LocalAdmin'] =="Yes") { ?><tr><th>ACS Local Administrator Account:</th><td><?php echo($_POST['ACS_LocalAdmin']); ?></td></tr><?php } ?>
 <?php if($_POST['RSA_LocalAdmin'] =="Yes") { ?><tr><th>RSA Local Administrator Account:</th><td><?php echo($_POST['RSA_LocalAdmin']); ?></td></tr><?php } ?>
 <?php if($_POST['IntermediateSystemAdmin'] =="Yes") { ?><tr><th>Intermediate System Administrator:</th><td><?php echo($_POST['IntermediateSystemAdmin']); ?></td></tr><?php } ?>
