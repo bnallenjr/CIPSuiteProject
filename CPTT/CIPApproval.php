@@ -78,10 +78,10 @@ function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null
 <body>
 <?php 
 // if there are any errors, display them
- //if ($error != '')
- //{
- //echo '<div style="padding:4px; border:1px solid red; color:red;">'.$error.'</div>';
- //}
+ if ($error != '')
+ {
+ echo '<div style="padding:4px; border:1px solid red; color:red;">'.$error.'</div>';
+ }
 		$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
