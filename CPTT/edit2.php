@@ -359,7 +359,7 @@ $rec = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
       <?php csrf_input(); ?>
       <input type="hidden" name="Tracking_Num" value="<?php echo (int)$Tracking_Num; ?>">
 
-      <h2>Identity & Organization (dbo.PersonnelInfo)</h2>
+      <h2>Identity & Organization</h2><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#AuditTable">Audit History</button>
       <table class="kv">
         <tr><th>First Name</th><td><?php renderInput('dbo.PersonnelInfo','FirstName',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
         <tr><th>Last Name</th><td><?php renderInput('dbo.PersonnelInfo','LastName',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
@@ -379,7 +379,7 @@ $rec = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
         <tr><th>Paperwork Approved By</th><td><?php renderInput('dbo.PersonnelInfo','PaperWorkApprovedBy',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
       </table>
 
-      <h2>Physical Access (dbo.PhysicalAccess)</h2>
+      <h2>Physical Access</h2>
       <div class="grid">
         <table class="kv">
           <tr><th>System Control Center</th><td><?php renderInput('dbo.PhysicalAccess','SCC',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
@@ -404,7 +404,7 @@ $rec = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
         </table>
       </div>
 
-      <h2>Systems & Accounts</h2>
+      <h2>Systems & Accounts Access</h2>
       <div class="grid">
         <table class="kv">
           <tr><th>ESP Remote / Intermediate</th><td><?php renderInput('dbo.XA21_ECS','ESP_Remote_Intermediate',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
@@ -468,6 +468,77 @@ $rec = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
         <a class="btn secondary" href="dashboard.php">Cancel</a>
       </div>
     </form>
+	<div class="modal fade" id="AuditTable" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Audit</h4>
+        </div>
+        <div class="modal-body">
+                  <?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
+if($conn) {
+			// echo 'Connection established<br />';
+		}else{
+			echo 'Connection failure<br />';
+			die(print_r(sqlsrv_errors(), TRUE));
+		}
+		$Tracking_Num = $_GET['Tracking_Num'];
+		$query = " select dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName +' '+ dbo.PersonnelInfo.LastName AS Name, dbo.Audit.FieldName, dbo.Audit.OldValue, dbo.Audit.NewValue, dbo.Audit.UpdateDate
+  from dbo.Audit
+  Left Join dbo.PersonnelInfo ON dbo.udf_extractInteger(dbo.Audit.PK)=dbo.PersonnelInfo.Tracking_Num
+  WHERE dbo.PersonnelInfo.Tracking_Num = $Tracking_Num
+  ORDER BY dbo.Audit.UpdateDate ASC;";
+  
+$result = sqlsrv_query($conn, $query)
+	or die ('A error occured: ' . sqlsrv_errors());
+	
+		$o = '<div class="container">
+		<div class="row">
+			<div class="col-sm-8">
+			<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Tracking #</th>
+					<th>Name</th>
+					<th>Field Changed</th>
+					<th>Old Value</th>
+					<th>New Value</th>
+					<th>Date of Change</th>
+				</tr>
+			</thead>';
+
+			while ($record = sqlsrv_fetch_array($result) )
+			{
+				$o .= 
+				'<tbody>
+					<tr>
+					<td>'.$record['Tracking_Num'].'</td>
+					<td>'.$record['Name'].'</td>
+					<td>'.$record['FieldName'].'</td>
+					<td>'.$record['OldValue'].'</td>
+					<td>'.$record['NewValue'].'</td>
+					<td>'.$record['UpdateDate']->format('m/d/Y').'</td>
+					</tr>';
+			}
+			$o .= '</tbody>		
+			</table>		
+        </div>
+		</div>
+		</div>';
+		
+		echo $o;
+?>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
   </div>
 </div>
 </body>
