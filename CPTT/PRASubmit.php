@@ -194,3 +194,119 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 </body>
 </html>
+<?php
+
+		$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
+if($conn) {
+			// echo 'Connection established<br />';
+		}else{
+			echo 'Connection failure<br />';
+			die(print_r(sqlsrv_errors(), TRUE));
+		}
+	 
+if (isset($_POST['submit']))
+{
+if (is_numeric($_POST['Tracking_Num']))
+{
+		$Tracking_Num=$_POST['Tracking_Num'];
+		//$FirstName=$_POST['FirstName'];
+		//$LastName=$_POST['LastName'];
+		//$Contractor=$_POST['Contractor'];
+		//$Contract_Agency=$_POST['Contract_Agency'];
+		$SSN_Validation_Date=$_POST['SSN_Validation_Date'];
+		$Criminal_Background_Date=$_POST['Criminal_Background_Date'];
+	
+		
+		
+if ($SSN_Validation_Date == '' || $Criminal_Background_Date== '')
+{
+$error = 'Error: Please fill in all required fields';
+renderForm($Tracking_Num, $SSN_Validation_Date, $Criminal_Background_Date, $error);
+}
+else
+{	
+		sqlsrv_query($conn, "BEGIN TRANSACTION
+							 UPDATE dbo.PersonnelInfo SET SSN_Validation_Date='$SSN_Validation_Date', Criminal_Background_Date='$Criminal_Background_Date'WHERE Tracking_Num= '$Tracking_Num'
+							 COMMIT")
+		or die(print_r(sqlsrv_errors(), TRUE));
+		//header("Location: home.php");
+}
+}
+else
+{
+echo 'Error1!';
+}
+}
+else
+{
+if (isset($_GET['Tracking_Num']) && is_numeric($_GET['Tracking_Num']) && $_GET['Tracking_Num'] > 0)
+{
+		$Tracking_Num = $_GET['Tracking_Num'];
+		$result = sqlsrv_query($conn, "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName, dbo.PersonnelInfo.LastName, dbo.PersonnelInfo.Status, dbo.PersonnelInfo.Department, 
+		dbo.PersonnelInfo.Title, dbo.PersonnelInfo.FOC_Company, dbo.PersonnelInfo.Contract_Agency, dbo.PersonnelInfo.Contractor, dbo.PersonnelInfo.Manager, dbo.PersonnelInfo.Department,
+		CONVERT (varchar, dbo.PersonnelInfo.SSN_Validation_Date, 110) AS SSN_VALIDATION_DATE, CONVERT (varchar, dbo.PersonnelInfo.Criminal_Background_Date, 110) AS BACKGROUND_CHECK_DATE 
+		FROM dbo.PersonnelInfo
+        WHERE dbo.PersonnelInfo.Tracking_Num=$Tracking_Num")
+		
+		or die(print_r(sqlsrv_errors(), TRUE));
+		$row = sqlsrv_fetch_array($result);
+		//$checked =explode(',', $row['iMitigationPlan']);
+if ($row)
+{
+		$Tracking_Num=$row['Tracking_Num'];
+		$FirstName=$row['FirstName'];
+		$LastName=$row['LastName'];
+		$Contractor=$row['Contractor'];
+		$Contract_Agency=$row['Contract_Agency'];
+		$SSN_Validation_Date=$row['SSN_VALIDATION_DATE'];
+		$Criminal_Background_Date=$row['BACKGROUND_CHECK_DATE'];
+		$Manager=$row['Manager'];
+		$Department=$row['Department'];
+		
+		renderForm($Tracking_Num, $FirstName, $LastName, $Manager, $Department, $Contractor, $Contract_Agency, $SSN_Validation_Date, $Criminal_Background_Date, '');
+}
+else 
+{
+echo "No results!";
+}
+}
+else
+{
+echo 'Error2!';
+}
+}
+if (isset($_POST['submit']))
+{
+	$result = sqlsrv_query($conn, "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName, dbo.PersonnelInfo.LastName, CONVERT (varchar, dbo.PersonnelInfo.DatePaperWorkSign, 110) AS PAPERWORK_APPROVED_ON, dbo.PersonnelInfo.PaperWorkApprovedBy
+		FROM dbo.PersonnelInfo
+        WHERE dbo.PersonnelInfo.Tracking_Num=$Tracking_Num")
+		
+		or die(print_r(sqlsrv_errors(), TRUE));
+		$row = sqlsrv_fetch_array($result);
+		$FirstName=$row['FirstName'];
+		$LastName=$row['LastName'];	
+	    $PRACompletedDate = date("m-d-y h:i:sa");
+        $PRACompletedBy = Auth::user()['username'];
+		
+	$to = "allensolutiongroup@gmail.com";
+	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;
+	$message = "		<h4>Human Resources has verified the following information regarding the review and validation of the PRA</h4><br>
+						<b>-	Seven year criminal history records check</b><br>
+							&nbsp&nbsp&nbsp&nbsp  o	Based on the current residence regardless of duration<br>
+							&nbsp&nbsp&nbsp&nbsp  o	Other locations where, during the seven years immediately prior to the date of the criminal history records check, the individual has resided for six consecutive months or more.<br>
+						<b>-	Identity check</b><br>
+							&nbsp&nbsp&nbsp&nbsp  o	Social Security Number Check for all US citizens and permanent residents,<br>
+							&nbsp&nbsp&nbsp&nbsp  o	Other methods of identity verification for foreign nationals approved by the PRA Review Board.<br>
+							<br>Approved by: $PRACompletedBy - $PRACompletedDate" ;
+	
+	$headers = "MIME-Version: 1.0" . "\r\n";
+	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+	$headers .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
+
+	sendHtmlMail($to,$subject,$message, 'allensolutiongroup@gmail.com', 'CIP Suite WebApp');	
+		
+}			
+?>
