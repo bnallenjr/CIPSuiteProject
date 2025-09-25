@@ -1,12 +1,11 @@
 <?php
-/*******************************************************
- * CPTT/edit2.php — Full, mobile-friendly, single-form
- * - Auth required (auth/ is a sibling of CPTT/)
- * - Inline Azure SQL connection (sqlsrv)
- * - Shows full record across your joins (read-only fields)
- * - Edits & saves: SSN_Validation_Date, Criminal_Background_Date
- * - Also updates Session_User (and Session_Updated_At) if columns exist
- *******************************************************/
+/************************************************************
+ * CPTT/edit2.php — Full editor with Yes/No checkboxes
+ * - Auth (auth/ is sibling of CPTT/)
+ * - Single, mobile-friendly form
+ * - Parameterized updates + upserts for child tables
+ * - Redirects to dashboard.php on success
+ ************************************************************/
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -15,7 +14,7 @@ require_once __DIR__ . '/../auth/Auth.php';
 require_once __DIR__ . '/../auth/csrf.php';
 Auth::requireLogin();
 
-/* ===== Azure SQL connection (inline, explicit) ===== */
+/* ===== Azure SQL connection (inline) ===== */
 $connectionInfo = [
   "UID" => "asgdb-admin",
   "PWD" => "!FinalFantasy777!",
@@ -26,93 +25,163 @@ $connectionInfo = [
 ];
 $serverName = "tcp:asg-db.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
-if (!$conn) {
-  http_response_code(500);
-  die('Connection failure: ' . print_r(sqlsrv_errors(), true));
-}
+if (!$conn) { http_response_code(500); die('Connection failure: ' . print_r(sqlsrv_errors(), true)); }
 
-/* ===== Utilities ===== */
+/* ===== Helpers ===== */
 function h($v){ return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
+function asDateYmd($v){ $v = trim((string)$v); return $v === '' ? null : $v; }
 
-function fetch_full_record($conn, $trackingNum) {
-  $sql = "
-  SELECT
-      p.Tracking_Num,
-      p.FirstName,
-      p.LastName,
-      p.Status,
-      p.Department,
-      p.Title,
-      p.FOC_Company,
-      p.Contract_Agency,
-      p.Contractor,
-      p.Manager,
-      p.Business_Need,
-      p.Email,
+/* Editable fields by table */
+$FIELDS = [
+  'dbo.PersonnelInfo' => [
+    'FirstName','LastName','Status','Department','Title','FOC_Company',
+    'Contract_Agency','Contractor','Manager','Business_Need','Email',
+    'SSN_Validation_Date'=>['type'=>'date'],
+    'Criminal_Background_Date'=>['type'=>'date'],
+    'CurrentTrainingDate'=>['type'=>'date'],
+    'DatePaperWorkSign'=>['type'=>'date'],
+    'PaperWorkApprovedBy'
+  ],
+  'dbo.PhysicalAccess' => [
+    'SCC','ECC','ECDA_Offices','ECMS_Offices','Operations_Data_Center','Server_Lobby',
+    'SNOC','JacksonGate','Restricted_Key','LAW_Perimeter','LAW_Data_Center','LAW_SNOC',
+    'LAW_Generation','LAW_Transmission','LAW_Maintenance_Electric','LAW_Operations_Storage',
+    'LAW_Network_Room_104'
+  ],
+  'dbo.XA21_ECS' => [
+    'ESP_Remote_Intermediate','VPN_Tunnel_Access','AD_prod','AD_supp','UNIX_Access',
+    'Internal_EnterNet','External_EnterNet','Database_User','AutoCAD_User','Sudo_root',
+    'Sudo_XA21','Sudo_xacm','Sudo_oracle','Sudo_ccadmin','AdminSharedGeneric_iccpadmin',
+    'Domain_Admin','emrg'
+  ],
+  'dbo.NetworkDevices' => ['TE_Engineering_OM_Group','TelecomSharedAccount','ACS_LocalAdmin','RSA_LocalAdmin'],
+  'dbo.IndustrialDefender' => ['IDAppAdmin','IDSysAdmin','IDUser','IDroot','IDadmin_shared','IDWinAdmin'],
+  'dbo.SysLog' => ['LogAppAdmin','LogSysAdmin','LogUser'],
+  'dbo.PSS' => [
+    'Access_Control_Application_Administrator','Access_Control_System_User',
+    'CCTV_Video_Application_Administrator','CCTV_Video_User',
+    'Sys_Ops_Domain_Administrator','Sys_Ops_Domain_Contractor','Sys_Ops_Domain_User','PSS_WinAdmin'
+  ],
+  'dbo.Nessus' => ['NessusAppAdmin','NessusSysAdmin'],
+  'dbo.OCRS' => ['OCRS_ECMSAdmin','OCRS_SSITAdmin','OCRS_User','CIP_ProtectedInfo','Stratus','Catalogic','SolarWinds','ServiceDeskPlus'],
+];
 
-      CONVERT(varchar(10), p.SSN_Validation_Date, 23)      AS SSN_Validation_Date,       -- yyyy-mm-dd
-      CONVERT(varchar(10), p.Criminal_Background_Date, 23) AS Criminal_Background_Date,  -- yyyy-mm-dd
-      CONVERT(varchar(10), p.CurrentTrainingDate, 110)     AS CurrentTrainingDate,
-      CONVERT(varchar(10), p.DatePaperWorkSign, 110)       AS PaperworkApprovedOn,
-      p.PaperWorkApprovedBy,
+/* Treat these as Yes/No checkboxes (most access flags + Contractor) */
+$BOOLEAN_FIELDS = [
+  // PersonnelInfo
+  'dbo.PersonnelInfo' => ['Contractor'],
+  // PhysicalAccess
+  'dbo.PhysicalAccess' => [
+    'SCC','ECC','ECDA_Offices','ECMS_Offices','Operations_Data_Center','Server_Lobby','SNOC',
+    'JacksonGate','Restricted_Key','LAW_Perimeter','LAW_Data_Center','LAW_SNOC','LAW_Generation',
+    'LAW_Transmission','LAW_Maintenance_Electric','LAW_Operations_Storage','LAW_Network_Room_104'
+  ],
+  // XA21_ECS
+  'dbo.XA21_ECS' => [
+    'ESP_Remote_Intermediate','VPN_Tunnel_Access','AD_prod','AD_supp','UNIX_Access',
+    'Internal_EnterNet','External_EnterNet','Database_User','AutoCAD_User','Sudo_root',
+    'Sudo_XA21','Sudo_xacm','Sudo_oracle','Sudo_ccadmin','AdminSharedGeneric_iccpadmin',
+    'Domain_Admin','emrg'
+  ],
+  // NetworkDevices
+  'dbo.NetworkDevices' => ['TE_Engineering_OM_Group','TelecomSharedAccount','ACS_LocalAdmin','RSA_LocalAdmin'],
+  // IndustrialDefender
+  'dbo.IndustrialDefender' => ['IDAppAdmin','IDSysAdmin','IDUser','IDroot','IDadmin_shared','IDWinAdmin'],
+  // SysLog
+  'dbo.SysLog' => ['LogAppAdmin','LogSysAdmin','LogUser'],
+  // PSS
+  'dbo.PSS' => [
+    'Access_Control_Application_Administrator','Access_Control_System_User',
+    'CCTV_Video_Application_Administrator','CCTV_Video_User',
+    'Sys_Ops_Domain_Administrator','Sys_Ops_Domain_Contractor','Sys_Ops_Domain_User','PSS_WinAdmin'
+  ],
+  // Nessus
+  'dbo.Nessus' => ['NessusAppAdmin','NessusSysAdmin'],
+  // OCRS
+  'dbo.OCRS' => ['OCRS_ECMSAdmin','OCRS_SSITAdmin','OCRS_User','CIP_ProtectedInfo','Stratus','Catalogic','SolarWinds','ServiceDeskPlus'],
+];
 
-      -- Physical Access
-      pa.SCC, pa.ECC, pa.ECDA_Offices, pa.ECMS_Offices, pa.Operations_Data_Center, pa.Server_Lobby,
-      pa.SNOC, pa.JacksonGate, pa.Restricted_Key, pa.LAW_Perimeter, pa.LAW_Data_Center, pa.LAW_SNOC,
-      pa.LAW_Generation, pa.LAW_Transmission, pa.LAW_Maintenance_Electric, pa.LAW_Operations_Storage,
-      pa.LAW_Network_Room_104,
+/* Full SELECT (joins) */
+$SELECT_SQL = "
+SELECT
+  p.Tracking_Num, p.FirstName, p.LastName, p.Status, p.Department, p.Title, p.FOC_Company,
+  p.Contract_Agency, p.Contractor, p.Manager, p.Business_Need, p.Email,
+  CONVERT(varchar(10), p.SSN_Validation_Date, 23)      AS SSN_Validation_Date,
+  CONVERT(varchar(10), p.Criminal_Background_Date, 23) AS Criminal_Background_Date,
+  CONVERT(varchar(10), p.CurrentTrainingDate, 23)      AS CurrentTrainingDate,
+  CONVERT(varchar(10), p.DatePaperWorkSign, 23)        AS DatePaperWorkSign,
+  p.PaperWorkApprovedBy,
 
-      -- XA21_ECS (x)
-      x.ESP_Remote_Intermediate, x.VPN_Tunnel_Access, x.AD_prod, x.AD_supp, x.UNIX_Access,
-      x.Internal_EnterNet, x.External_EnterNet, x.Database_User, x.AutoCAD_User, x.Sudo_root,
-      x.Sudo_XA21, x.Sudo_xacm, x.Sudo_oracle, x.Sudo_ccadmin, x.AdminSharedGeneric_iccpadmin,
-      x.Domain_Admin, x.emrg,
+  pa.SCC, pa.ECC, pa.ECDA_Offices, pa.ECMS_Offices, pa.Operations_Data_Center, pa.Server_Lobby,
+  pa.SNOC, pa.JacksonGate, pa.Restricted_Key, pa.LAW_Perimeter, pa.LAW_Data_Center, pa.LAW_SNOC,
+  pa.LAW_Generation, pa.LAW_Transmission, pa.LAW_Maintenance_Electric, pa.LAW_Operations_Storage,
+  pa.LAW_Network_Room_104,
 
-      -- NetworkDevices (n)
-      n.TE_Engineering_OM_Group, n.TelecomSharedAccount, n.ACS_LocalAdmin, n.RSA_LocalAdmin,
+  x.ESP_Remote_Intermediate, x.VPN_Tunnel_Access, x.AD_prod, x.AD_supp, x.UNIX_Access,
+  x.Internal_EnterNet, x.External_EnterNet, x.Database_User, x.AutoCAD_User, x.Sudo_root,
+  x.Sudo_XA21, x.Sudo_xacm, x.Sudo_oracle, x.Sudo_ccadmin, x.AdminSharedGeneric_iccpadmin,
+  x.Domain_Admin, x.emrg,
 
-      -- IndustrialDefender (idf)
-      idf.IDAppAdmin, idf.IDSysAdmin, idf.IDUser, idf.IDroot, idf.IDadmin_shared, idf.IDWinAdmin,
+  n.TE_Engineering_OM_Group, n.TelecomSharedAccount, n.ACS_LocalAdmin, n.RSA_LocalAdmin,
 
-      -- SysLog (so)
-      so.LogAppAdmin, so.LogSysAdmin, so.LogUser,
+  idf.IDAppAdmin, idf.IDSysAdmin, idf.IDUser, idf.IDroot, idf.IDadmin_shared, idf.IDWinAdmin,
 
-      -- PSS
-      pss.Access_Control_Application_Administrator, pss.Access_Control_System_User,
-      pss.CCTV_Video_Application_Administrator, pss.CCTV_Video_User, pss.Sys_Ops_Domain_Administrator,
-      pss.Sys_Ops_Domain_Contractor, pss.Sys_Ops_Domain_User, pss.PSS_WinAdmin,
+  so.LogAppAdmin, so.LogSysAdmin, so.LogUser,
 
-      -- Nessus (nes)
-      nes.NessusAppAdmin, nes.NessusSysAdmin,
+  pss.Access_Control_Application_Administrator, pss.Access_Control_System_User,
+  pss.CCTV_Video_Application_Administrator, pss.CCTV_Video_User, pss.Sys_Ops_Domain_Administrator,
+  pss.Sys_Ops_Domain_Contractor, pss.Sys_Ops_Domain_User, pss.PSS_WinAdmin,
 
-      -- OCRS (o)
-      o.OCRS_ECMSAdmin, o.OCRS_SSITAdmin, o.OCRS_User, o.CIP_ProtectedInfo, o.Stratus, o.Catalogic,
-      o.SolarWinds, o.ServiceDeskPlus
+  nes.NessusAppAdmin, nes.NessusSysAdmin,
 
-  FROM dbo.PersonnelInfo p
-  LEFT JOIN dbo.IndustrialDefender idf ON p.Tracking_Num = idf.Tracking_Num
-  LEFT JOIN dbo.Nessus nes            ON p.Tracking_Num = nes.Tracking_Num
-  LEFT JOIN dbo.NetworkDevices n      ON p.Tracking_Num = n.Tracking_Num
-  LEFT JOIN dbo.OCRS o                ON p.Tracking_Num = o.Tracking_Num
-  LEFT JOIN dbo.PhysicalAccess pa     ON p.Tracking_Num = pa.Tracking_Num
-  LEFT JOIN dbo.PSS pss               ON p.Tracking_Num = pss.Tracking_Num
-  LEFT JOIN dbo.SysLog so             ON p.Tracking_Num = so.Tracking_Num
-  LEFT JOIN dbo.XA21_ECS x            ON p.Tracking_Num = x.Tracking_Num
-  WHERE p.Tracking_Num = ?
-  ";
-  $stmt = sqlsrv_query($conn, $sql, [$trackingNum]);
-  if ($stmt === false) {
-    http_response_code(500);
-    die('DB error: ' . print_r(sqlsrv_errors(), true));
-  }
-  return sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) ?: null;
-}
+  o.OCRS_ECMSAdmin, o.OCRS_SSITAdmin, o.OCRS_User, o.CIP_ProtectedInfo, o.Stratus, o.Catalogic,
+  o.SolarWinds, o.ServiceDeskPlus
+
+FROM dbo.PersonnelInfo p
+LEFT JOIN dbo.PhysicalAccess      pa  ON p.Tracking_Num = pa.Tracking_Num
+LEFT JOIN dbo.XA21_ECS            x   ON p.Tracking_Num = x.Tracking_Num
+LEFT JOIN dbo.NetworkDevices      n   ON p.Tracking_Num = n.Tracking_Num
+LEFT JOIN dbo.IndustrialDefender  idf ON p.Tracking_Num = idf.Tracking_Num
+LEFT JOIN dbo.SysLog              so  ON p.Tracking_Num = so.Tracking_Num
+LEFT JOIN dbo.PSS                 pss ON p.Tracking_Num = pss.Tracking_Num
+LEFT JOIN dbo.Nessus              nes ON p.Tracking_Num = nes.Tracking_Num
+LEFT JOIN dbo.OCRS                o   ON p.Tracking_Num = o.Tracking_Num
+WHERE p.Tracking_Num = ?";
 
 $Tracking_Num = (int)($_GET['Tracking_Num'] ?? $_POST['Tracking_Num'] ?? 0);
 if ($Tracking_Num <= 0) { http_response_code(400); die('Missing or invalid Tracking_Num'); }
 
-$rec = fetch_full_record($conn, $Tracking_Num);
+$stmt = sqlsrv_query($conn, $SELECT_SQL, [$Tracking_Num]);
+if ($stmt === false) { http_response_code(500); die('DB error: ' . print_r(sqlsrv_errors(), true)); }
+$rec = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
 if (!$rec) { http_response_code(404); die('No record found.'); }
+
+/* Build field->table map + helpers */
+$fieldToTable = [];
+foreach ($FIELDS as $table => $cols) {
+  foreach ($cols as $k=>$v) {
+    $col = is_string($k) ? $k : $v;
+    $fieldToTable[$col] = $table;
+  }
+}
+function isDateField($table, $col, $FIELDS){
+  $arr = $FIELDS[$table] ?? [];
+  foreach ($arr as $k=>$v) {
+    if (is_string($k) && $k === $col && is_array($v) && ($v['type'] ?? '') === 'date') return true;
+  }
+  return false;
+}
+function isBoolField($table, $col, $BOOLEAN_FIELDS){
+  return in_array($col, $BOOLEAN_FIELDS[$table] ?? [], true);
+}
+function boolToYesNo($v){
+  $v = strtoupper(trim((string)$v));
+  return in_array($v, ['1','Y','YES','TRUE','ON'], true) ? 'Yes' : 'No';
+}
+function yesNoChecked($current){
+  $v = strtoupper(trim((string)$current));
+  return in_array($v, ['1','Y','YES','TRUE','ON'], true) || $v==='YES';
+}
 
 /* ===== Save (POST) ===== */
 $err = '';
@@ -121,51 +190,131 @@ $ok  = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   csrf_validate();
 
-  $ssn = trim($_POST['SSN_Validation_Date'] ?? '');
-  $cbk = trim($_POST['Criminal_Background_Date'] ?? '');
+  // Collect posted values per table (checkboxes: hidden "No" + checkbox "Yes")
+  $updatesByTable = [];
+  foreach ($fieldToTable as $col => $table) {
+    $name = $table . '__' . $col;
+    if (array_key_exists($name, $_POST)) {
+      $val = $_POST[$name];
+      if (isDateField($table, $col, $FIELDS)) {
+        $val = asDateYmd($val);
+      } elseif (isBoolField($table, $col, $BOOLEAN_FIELDS)) {
+        $val = boolToYesNo($val);
+      } else {
+        $val = trim((string)$val);
+      }
+      $updatesByTable[$table][$col] = $val;
+    } else {
+      // Unchecked checkbox: treat as "No"
+      if (isBoolField($table, $col, $BOOLEAN_FIELDS)) {
+        $updatesByTable[$table][$col] = 'No';
+      }
+    }
+  }
 
-  if ($ssn === '' || $cbk === '') {
-    $err = "Please enter both PRA dates.";
+  if (!sqlsrv_begin_transaction($conn)) {
+    $err = 'Could not start DB transaction.';
   } else {
     $user = Auth::user();
     $by   = $user['username'] ?? 'unknown';
 
-    if (!sqlsrv_begin_transaction($conn)) {
-      $err = 'Could not start DB transaction.';
-    } else {
-      // Update dates; also capture session user & timestamp if those columns exist
-      $tsql = "
-        UPDATE dbo.PersonnelInfo
-           SET SSN_Validation_Date      = CONVERT(date, ?, 23),
-               Criminal_Background_Date = CONVERT(date, ?, 23)
-         WHERE Tracking_Num = ?;
-
-        IF COL_LENGTH('dbo.PersonnelInfo','Session_User') IS NOT NULL
-          UPDATE dbo.PersonnelInfo SET Session_User = ? WHERE Tracking_Num = ?;
-
-        IF COL_LENGTH('dbo.PersonnelInfo','Session_Updated_At') IS NOT NULL
-          UPDATE dbo.PersonnelInfo SET Session_Updated_At = SYSUTCDATETIME() WHERE Tracking_Num = ?;
-      ";
-      $params = [$ssn, $cbk, $Tracking_Num, $by, $Tracking_Num, $Tracking_Num];
-      $stmt = sqlsrv_query($conn, $tsql, $params);
-
-      if ($stmt === false) {
-        sqlsrv_rollback($conn);
-        $err = 'Update failed: ' . print_r(sqlsrv_errors(), true);
-      } else {
-        if (!sqlsrv_commit($conn)) {
-          sqlsrv_rollback($conn);
-          $err = 'Commit failed: ' . print_r(sqlsrv_errors(), true);
+    // PersonnelInfo first (+ session stamps)
+    if (!empty($updatesByTable['dbo.PersonnelInfo'])) {
+      $cols = $updatesByTable['dbo.PersonnelInfo'];
+      $sets = []; $params = [];
+      foreach ($cols as $col=>$val) {
+        if (isDateField('dbo.PersonnelInfo',$col,$FIELDS)) {
+          $sets[] = $val===null ? "$col = NULL" : "$col = CONVERT(date, ?, 23)";
+          if ($val!==null) $params[] = $val;
         } else {
-          $ok  = true;
-          $rec = fetch_full_record($conn, $Tracking_Num); // refresh
-          // Uncomment to redirect back to approval page after save:
-          // header("Location: CIPApproval.php?Tracking_Num=".$Tracking_Num); exit;
+          $sets[] = "$col = ?";
+          $params[] = $val;
         }
       }
+      $sql = "UPDATE dbo.PersonnelInfo SET ".implode(', ',$sets)." WHERE Tracking_Num = ?";
+      $okPI = sqlsrv_query($conn, $sql, array_merge($params, [$Tracking_Num]));
+      if ($okPI === false) { sqlsrv_rollback($conn); die('Update PersonnelInfo failed: ' . print_r(sqlsrv_errors(), true)); }
+
+      // Session stamps if columns exist
+      $sess = "
+        IF COL_LENGTH('dbo.PersonnelInfo','Session_User') IS NOT NULL
+          UPDATE dbo.PersonnelInfo SET Session_User = ? WHERE Tracking_Num = ?;
+        IF COL_LENGTH('dbo.PersonnelInfo','Session_Updated_At') IS NOT NULL
+          UPDATE dbo.PersonnelInfo SET Session_Updated_At = SYSUTCDATETIME() WHERE Tracking_Num = ?;";
+      $okSess = sqlsrv_query($conn, $sess, [$by, $Tracking_Num, $Tracking_Num]);
+      if ($okSess === false) { sqlsrv_rollback($conn); die('Session stamp failed: ' . print_r(sqlsrv_errors(), true)); }
+
+      unset($updatesByTable['dbo.PersonnelInfo']);
+    }
+
+    // Other tables (UPDATE, INSERT if missing)
+    foreach ($updatesByTable as $table=>$cols) {
+      if (empty($cols)) continue;
+
+      $sets = []; $params = [];
+      foreach ($cols as $col=>$val) {
+        if (isDateField($table,$col,$FIELDS)) {
+          $sets[] = $val===null ? "$col = NULL" : "$col = CONVERT(date, ?, 23)";
+          if ($val!==null) $params[] = $val;
+        } else {
+          $sets[] = "$col = ?";
+          $params[] = $val;
+        }
+      }
+      $u = sqlsrv_query($conn, "UPDATE $table SET ".implode(', ',$sets)." WHERE Tracking_Num = ?", array_merge($params, [$Tracking_Num]));
+      if ($u === false) { sqlsrv_rollback($conn); die("Update $table failed: " . print_r(sqlsrv_errors(), true)); }
+
+      $rows = sqlsrv_rows_affected($u);
+      if ($rows === 0) {
+        // INSERT row
+        $colsList = array_keys($cols);
+        $vals = []; $insParams = [];
+        foreach ($colsList as $c) {
+          $v = $cols[$c];
+          if (isDateField($table,$c,$FIELDS)) {
+            $vals[] = $v===null ? "NULL" : "CONVERT(date, ?, 23)";
+            if ($v!==null) $insParams[] = $v;
+          } else {
+            $vals[] = "?";
+            $insParams[] = $v;
+          }
+        }
+        $ins = sqlsrv_query($conn,
+          "INSERT INTO $table (Tracking_Num,".implode(',',$colsList).") VALUES (?, ".implode(',',$vals).")",
+          array_merge([$Tracking_Num], $insParams)
+        );
+        if ($ins === false) { sqlsrv_rollback($conn); die("Insert into $table failed: " . print_r(sqlsrv_errors(), true)); }
+      }
+    }
+
+    if (!sqlsrv_commit($conn)) { sqlsrv_rollback($conn); $err = 'Commit failed: ' . print_r(sqlsrv_errors(), true); }
+    else {
+      // Success: redirect to dashboard
+      header("Location: dashboard.php");
+      exit;
     }
   }
 }
+
+/* ===== UI helpers ===== */
+function renderInput($table,$col,$rec,$FIELDS,$BOOLEAN_FIELDS){
+  $name  = $table.'__'.$col;
+  $value = $rec[$col] ?? '';
+  if (isDateField($table,$col,$FIELDS)) {
+    echo '<input type="date" name="'.h($name).'" value="'.h($value).'" class="in in-date">';
+  } elseif (isBoolField($table,$col,$BOOLEAN_FIELDS)) {
+    // Hidden "No", checkbox overrides to "Yes" if checked
+    $checked = yesNoChecked($value) ? ' checked' : '';
+    echo '<input type="hidden" name="'.h($name).'" value="No">';
+    echo '<label class="chk"><input type="checkbox" name="'.h($name).'" value="Yes"'.$checked.'> Yes</label>';
+  } else {
+    echo '<input type="text" name="'.h($name).'" value="'.h($value).'" class="in in-text">';
+  }
+}
+
+/* ===== Re-fetch for render (fresh values) ===== */
+$stmt = sqlsrv_query($conn, $SELECT_SQL, [$Tracking_Num]);
+$rec = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
 
 /* ===== Render ===== */
 ?>
@@ -173,173 +322,150 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Edit Record — Tracking #<?php echo h($Tracking_Num); ?></title>
+  <title>Edit — #<?php echo h($Tracking_Num); ?></title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="customize.css">
+  <link rel="stylesheet" href="customize.css">
   <style>
     :root { --gap: 12px; }
     body { font-family: Arial, sans-serif; margin: 0; background: #fafafa; color: #111; }
-    .wrap { max-width: 1024px; margin: 18px auto; padding: 0 12px; }
+    .wrap { max-width: 1100px; margin: 18px auto; padding: 0 12px; }
     .card { background: #fff; border: 1px solid #e2e2e2; border-radius: 10px; padding: 18px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
     h1 { margin: 6px 0 14px; text-align: center; }
+    h2 { font-size: 18px; margin: 22px 0 10px; }
     .error { color: #b00020; white-space: pre-wrap; margin: 10px 0; }
-    .ok    { color: #0a7f2e; margin: 10px 0; }
-
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
-    @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
-
-    .section { margin-top: 18px; }
-    .section h2 { font-size: 18px; margin: 0 0 10px; }
-    table.kv { width: 100%; border-collapse: collapse; }
-    table.kv th, table.kv td { border: 1px solid #e6e6e6; padding: 8px; text-align: left; vertical-align: top; }
-    table.kv th { background: #f6f8fa; width: 42%; }
-
-    .field { margin: 8px 0 12px; }
-    .field label { display: block; font-weight: 600; margin-bottom: 6px; }
-    .field input[type="date"] { width: 100%; max-width: 420px; padding: 8px; border: 1px solid #ccc; border-radius: 6px; }
-    .actions { margin-top: 14px; display: flex; flex-wrap: wrap; gap: var(--gap); }
-    .btn { padding: 10px 16px; background: #1565c0; color: #fff; border: 0; border-radius: 6px; cursor: pointer; }
-    .btn.secondary { background: #666; text-decoration: none; display: inline-block; }
+    table.kv { width:100%; border-collapse: collapse; }
+    table.kv th, table.kv td { border:1px solid #e6e6e6; padding:8px; vertical-align:top; text-align:left; }
+    table.kv th { background:#f6f8fa; width:42%; }
+    .grid { display:grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+    @media (max-width: 900px){ .grid { grid-template-columns: 1fr; } }
+    .in { width:100%; max-width:640px; padding:8px; border:1px solid #ccc; border-radius:6px; }
+    .in-date { max-width: 260px; }
+    .chk { display:inline-flex; gap:8px; align-items:center; }
+    .actions { margin-top:14px; display:flex; gap:var(--gap); flex-wrap:wrap; }
+    .btn { padding:10px 16px; background:#1565c0; color:#fff; border:0; border-radius:6px; cursor:pointer; }
+    .btn.secondary { background:#666; text-decoration:none; display:inline-block; }
   </style>
 </head>
 <body>
 <div class="wrap">
   <div class="card">
-    <h1>Edit Record — Tracking #<?php echo h($Tracking_Num); ?></h1>
+    <h1>Edit — Tracking #<?php echo h($Tracking_Num); ?></h1>
 
-    <?php if ($err): ?>
+    <?php if (!empty($err)): ?>
       <div class="error">❌ <?php echo h($err); ?></div>
-    <?php elseif ($ok): ?>
-      <div class="ok">✅ Saved successfully.</div>
     <?php endif; ?>
 
     <form method="post" action="?Tracking_Num=<?php echo urlencode($Tracking_Num); ?>">
       <?php csrf_input(); ?>
       <input type="hidden" name="Tracking_Num" value="<?php echo (int)$Tracking_Num; ?>">
 
-      <div class="section">
-        <h2>Identity & Organization</h2>
+      <h2>Identity & Organization (dbo.PersonnelInfo)</h2>
+      <table class="kv">
+        <tr><th>First Name</th><td><?php renderInput('dbo.PersonnelInfo','FirstName',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>Last Name</th><td><?php renderInput('dbo.PersonnelInfo','LastName',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>Status</th><td><?php renderInput('dbo.PersonnelInfo','Status',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>Department</th><td><?php renderInput('dbo.PersonnelInfo','Department',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>Title</th><td><?php renderInput('dbo.PersonnelInfo','Title',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>FOC Company</th><td><?php renderInput('dbo.PersonnelInfo','FOC_Company',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>Contract Agency</th><td><?php renderInput('dbo.PersonnelInfo','Contract_Agency',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>Contractor</th><td><?php renderInput('dbo.PersonnelInfo','Contractor',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>Manager</th><td><?php renderInput('dbo.PersonnelInfo','Manager',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>Email</th><td><?php renderInput('dbo.PersonnelInfo','Email',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>Business Need</th><td><?php renderInput('dbo.PersonnelInfo','Business_Need',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>SSN Validation Date</th><td><?php renderInput('dbo.PersonnelInfo','SSN_Validation_Date',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>7-Year Criminal History Check</th><td><?php renderInput('dbo.PersonnelInfo','Criminal_Background_Date',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>Current Training Date</th><td><?php renderInput('dbo.PersonnelInfo','CurrentTrainingDate',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>Paperwork Approved On</th><td><?php renderInput('dbo.PersonnelInfo','DatePaperWorkSign',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        <tr><th>Paperwork Approved By</th><td><?php renderInput('dbo.PersonnelInfo','PaperWorkApprovedBy',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+      </table>
+
+      <h2>Physical Access (dbo.PhysicalAccess)</h2>
+      <div class="grid">
         <table class="kv">
-          <tr><th>Name</th><td><?php echo h($rec['FirstName'] . ' ' . $rec['LastName']); ?></td></tr>
-          <tr><th>Status</th><td><?php echo h($rec['Status']); ?></td></tr>
-          <tr><th>Department</th><td><?php echo h($rec['Department']); ?></td></tr>
-          <tr><th>Title</th><td><?php echo h($rec['Title']); ?></td></tr>
-          <tr><th>FOC Company</th><td><?php echo h($rec['FOC_Company']); ?></td></tr>
-          <tr><th>Contract Agency</th><td><?php echo h($rec['Contract_Agency']); ?></td></tr>
-          <tr><th>Contractor</th><td><?php echo h($rec['Contractor']); ?></td></tr>
-          <tr><th>Manager</th><td><?php echo h($rec['Manager']); ?></td></tr>
-          <tr><th>Email</th><td><?php echo h($rec['Email']); ?></td></tr>
-          <tr><th>Business Need</th><td><?php echo h($rec['Business_Need']); ?></td></tr>
-          <tr><th>Current Training Date</th><td><?php echo h($rec['CurrentTrainingDate']); ?></td></tr>
-          <tr><th>Paperwork Approved On</th><td><?php echo h($rec['PaperworkApprovedOn']); ?></td></tr>
-          <tr><th>Paperwork Approved By</th><td><?php echo h($rec['PaperWorkApprovedBy']); ?></td></tr>
+          <tr><th>System Control Center</th><td><?php renderInput('dbo.PhysicalAccess','SCC',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Energy Control Center</th><td><?php renderInput('dbo.PhysicalAccess','ECC',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>ECDA Offices</th><td><?php renderInput('dbo.PhysicalAccess','ECDA_Offices',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>ECMS Offices</th><td><?php renderInput('dbo.PhysicalAccess','ECMS_Offices',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Operations Data Center</th><td><?php renderInput('dbo.PhysicalAccess','Operations_Data_Center',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Server Lobby / Basement</th><td><?php renderInput('dbo.PhysicalAccess','Server_Lobby',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>SNOC</th><td><?php renderInput('dbo.PhysicalAccess','SNOC',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        </table>
+        <table class="kv">
+          <tr><th>Jackson Gate</th><td><?php renderInput('dbo.PhysicalAccess','JacksonGate',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Restricted Key</th><td><?php renderInput('dbo.PhysicalAccess','Restricted_Key',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>LAW Perimeter</th><td><?php renderInput('dbo.PhysicalAccess','LAW_Perimeter',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>LAW Data Center</th><td><?php renderInput('dbo.PhysicalAccess','LAW_Data_Center',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>LAW SNOC</th><td><?php renderInput('dbo.PhysicalAccess','LAW_SNOC',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>LAW Generation</th><td><?php renderInput('dbo.PhysicalAccess','LAW_Generation',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>LAW Transmission</th><td><?php renderInput('dbo.PhysicalAccess','LAW_Transmission',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>LAW Maintenance &amp; Electric</th><td><?php renderInput('dbo.PhysicalAccess','LAW_Maintenance_Electric',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>LAW Operations Storage</th><td><?php renderInput('dbo.PhysicalAccess','LAW_Operations_Storage',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>LAW Network Room 104</th><td><?php renderInput('dbo.PhysicalAccess','LAW_Network_Room_104',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
         </table>
       </div>
 
-      <div class="section">
-        <h2>PRA Dates (Editable)</h2>
-        <div class="field">
-          <label for="SSN_Validation_Date">Date of Identity Confirmation / SSN Validation</label>
-          <input type="date" id="SSN_Validation_Date" name="SSN_Validation_Date"
-                 value="<?php echo h($rec['SSN_Validation_Date'] ?? ''); ?>" required>
-        </div>
-        <div class="field">
-          <label for="Criminal_Background_Date">Date of 7 Year Criminal History Records Check</label>
-          <input type="date" id="Criminal_Background_Date" name="Criminal_Background_Date"
-                 value="<?php echo h($rec['Criminal_Background_Date'] ?? ''); ?>" required>
-        </div>
-      </div>
+      <h2>Systems & Accounts</h2>
+      <div class="grid">
+        <table class="kv">
+          <tr><th>ESP Remote / Intermediate</th><td><?php renderInput('dbo.XA21_ECS','ESP_Remote_Intermediate',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>VPN Tunnel Access (GE)</th><td><?php renderInput('dbo.XA21_ECS','VPN_Tunnel_Access',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Active Directory (gsoc_prod)</th><td><?php renderInput('dbo.XA21_ECS','AD_prod',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Active Directory (gsoc_support)</th><td><?php renderInput('dbo.XA21_ECS','AD_supp',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>UNIX Access</th><td><?php renderInput('dbo.XA21_ECS','UNIX_Access',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Internal EnterNet</th><td><?php renderInput('dbo.XA21_ECS','Internal_EnterNet',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>External EnterNet (Non-CIP)</th><td><?php renderInput('dbo.XA21_ECS','External_EnterNet',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Database User</th><td><?php renderInput('dbo.XA21_ECS','Database_User',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>AutoCAD User</th><td><?php renderInput('dbo.XA21_ECS','AutoCAD_User',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Sudo (root)</th><td><?php renderInput('dbo.XA21_ECS','Sudo_root',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Sudo (xa21)</th><td><?php renderInput('dbo.XA21_ECS','Sudo_XA21',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Sudo (xacm)</th><td><?php renderInput('dbo.XA21_ECS','Sudo_xacm',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Sudo (oracle)</th><td><?php renderInput('dbo.XA21_ECS','Sudo_oracle',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Sudo (ccadmin)</th><td><?php renderInput('dbo.XA21_ECS','Sudo_ccadmin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Admin/Shared/Generic (iccpadmin)</th><td><?php renderInput('dbo.XA21_ECS','AdminSharedGeneric_iccpadmin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Domain Admin</th><td><?php renderInput('dbo.XA21_ECS','Domain_Admin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Shared (emrg) Account</th><td><?php renderInput('dbo.XA21_ECS','emrg',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        </table>
 
-      <div class="section">
-        <h2>Physical Access</h2>
-        <div class="grid">
-          <table class="kv">
-            <tr><th>System Control Center</th><td><?php echo h($rec['SCC']); ?></td></tr>
-            <tr><th>Energy Control Center</th><td><?php echo h($rec['ECC']); ?></td></tr>
-            <tr><th>ECDA Office</th><td><?php echo h($rec['ECDA_Offices']); ?></td></tr>
-            <tr><th>ECMS Office</th><td><?php echo h($rec['ECMS_Offices']); ?></td></tr>
-            <tr><th>Operations Data Center</th><td><?php echo h($rec['Operations_Data_Center']); ?></td></tr>
-            <tr><th>Server Lobby / Basement Hallway</th><td><?php echo h($rec['Server_Lobby']); ?></td></tr>
-          </table>
-          <table class="kv">
-            <tr><th>SNOC</th><td><?php echo h($rec['SNOC']); ?></td></tr>
-            <tr><th>Jackson Gate</th><td><?php echo h($rec['JacksonGate']); ?></td></tr>
-            <tr><th>Restricted Key</th><td><?php echo h($rec['Restricted_Key']); ?></td></tr>
-            <tr><th>LAW – Perimeter</th><td><?php echo h($rec['LAW_Perimeter']); ?></td></tr>
-            <tr><th>LAW – Data Center</th><td><?php echo h($rec['LAW_Data_Center']); ?></td></tr>
-            <tr><th>LAW – SNOC</th><td><?php echo h($rec['LAW_SNOC']); ?></td></tr>
-            <tr><th>LAW – Generation</th><td><?php echo h($rec['LAW_Generation']); ?></td></tr>
-            <tr><th>LAW – Transmission</th><td><?php echo h($rec['LAW_Transmission']); ?></td></tr>
-            <tr><th>LAW – Maintenance &amp; Electric</th><td><?php echo h($rec['LAW_Maintenance_Electric']); ?></td></tr>
-            <tr><th>LAW – Operations Storage</th><td><?php echo h($rec['LAW_Operations_Storage']); ?></td></tr>
-            <tr><th>LAW – Network Room 104</th><td><?php echo h($rec['LAW_Network_Room_104']); ?></td></tr>
-          </table>
-        </div>
-      </div>
+        <table class="kv">
+          <tr><th>TE Engineering OM Group</th><td><?php renderInput('dbo.NetworkDevices','TE_Engineering_OM_Group',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Telecom Shared Account</th><td><?php renderInput('dbo.NetworkDevices','TelecomSharedAccount',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>ACS Local Admin</th><td><?php renderInput('dbo.NetworkDevices','ACS_LocalAdmin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>RSA Local Admin</th><td><?php renderInput('dbo.NetworkDevices','RSA_LocalAdmin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
 
-      <div class="section">
-        <h2>Systems & Accounts</h2>
-        <div class="grid">
-          <table class="kv">
-            <tr><th>ESP Remote / Intermediate</th><td><?php echo h($rec['ESP_Remote_Intermediate']); ?></td></tr>
-            <tr><th>VPN Tunnel Access (GE Energy)</th><td><?php echo h($rec['VPN_Tunnel_Access']); ?></td></tr>
-            <tr><th>Active Directory (gsoc_prod)</th><td><?php echo h($rec['AD_prod']); ?></td></tr>
-            <tr><th>Active Directory (gsoc_support)</th><td><?php echo h($rec['AD_supp']); ?></td></tr>
-            <tr><th>UNIX Access</th><td><?php echo h($rec['UNIX_Access']); ?></td></tr>
-            <tr><th>Internal EnterNet Suite</th><td><?php echo h($rec['Internal_EnterNet']); ?></td></tr>
-            <tr><th>External EnterNet Suite (Non-CIP)</th><td><?php echo h($rec['External_EnterNet']); ?></td></tr>
-            <tr><th>Database User</th><td><?php echo h($rec['Database_User']); ?></td></tr>
-            <tr><th>AutoCAD User</th><td><?php echo h($rec['AutoCAD_User']); ?></td></tr>
-            <tr><th>Sudo (root)</th><td><?php echo h($rec['Sudo_root']); ?></td></tr>
-            <tr><th>Sudo (xa21)</th><td><?php echo h($rec['Sudo_XA21']); ?></td></tr>
-            <tr><th>Sudo (xacm)</th><td><?php echo h($rec['Sudo_xacm']); ?></td></tr>
-            <tr><th>Sudo (oracle)</th><td><?php echo h($rec['Sudo_oracle']); ?></td></tr>
-            <tr><th>Sudo (ccadmin)</th><td><?php echo h($rec['Sudo_ccadmin']); ?></td></tr>
-            <tr><th>Admin/Shared/Generic (iccpadmin)</th><td><?php echo h($rec['AdminSharedGeneric_iccpadmin']); ?></td></tr>
-            <tr><th>Domain Admin Privileges</th><td><?php echo h($rec['Domain_Admin']); ?></td></tr>
-            <tr><th>Shared (emrg) Account</th><td><?php echo h($rec['emrg']); ?></td></tr>
-          </table>
+          <tr><th>ID ASA</th><td><?php renderInput('dbo.IndustrialDefender','IDAppAdmin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>ID ASM</th><td><?php renderInput('dbo.IndustrialDefender','IDSysAdmin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>ID NIDS</th><td><?php renderInput('dbo.IndustrialDefender','IDUser',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>ID (root) Shared</th><td><?php renderInput('dbo.IndustrialDefender','IDroot',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>ID (admin) Shared</th><td><?php renderInput('dbo.IndustrialDefender','IDadmin_shared',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>ID (winadmin)</th><td><?php renderInput('dbo.IndustrialDefender','IDWinAdmin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
 
-          <table class="kv">
-            <tr><th>TE Engineering OM Group</th><td><?php echo h($rec['TE_Engineering_OM_Group']); ?></td></tr>
-            <tr><th>Telecom Shared Account</th><td><?php echo h($rec['TelecomSharedAccount']); ?></td></tr>
-            <tr><th>ACS Local Admin</th><td><?php echo h($rec['ACS_LocalAdmin']); ?></td></tr>
-            <tr><th>RSA Local Admin</th><td><?php echo h($rec['RSA_LocalAdmin']); ?></td></tr>
-            <tr><th>Industrial Defender ASA</th><td><?php echo h($rec['IDAppAdmin']); ?></td></tr>
-            <tr><th>Industrial Defender ASM</th><td><?php echo h($rec['IDSysAdmin']); ?></td></tr>
-            <tr><th>Industrial Defender NIDS</th><td><?php echo h($rec['IDUser']); ?></td></tr>
-            <tr><th>Industrial Defender (root) Shared</th><td><?php echo h($rec['IDroot']); ?></td></tr>
-            <tr><th>Industrial Defender (admin) Shared</th><td><?php echo h($rec['IDadmin_shared']); ?></td></tr>
-            <tr><th>Industrial Defender (winadmin)</th><td><?php echo h($rec['IDWinAdmin']); ?></td></tr>
+          <tr><th>SysLog App Admin</th><td><?php renderInput('dbo.SysLog','LogAppAdmin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>SysLog Sys Admin</th><td><?php renderInput('dbo.SysLog','LogSysAdmin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>SysLog User</th><td><?php renderInput('dbo.SysLog','LogUser',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
 
-            <tr><th>SysLog App Admin</th><td><?php echo h($rec['LogAppAdmin']); ?></td></tr>
-            <tr><th>SysLog Sys Admin</th><td><?php echo h($rec['LogSysAdmin']); ?></td></tr>
-            <tr><th>SysLog User</th><td><?php echo h($rec['LogUser']); ?></td></tr>
+          <tr><th>Access Control App Admin</th><td><?php renderInput('dbo.PSS','Access_Control_Application_Administrator',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Access Control System User</th><td><?php renderInput('dbo.PSS','Access_Control_System_User',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>CCTV Video App Admin</th><td><?php renderInput('dbo.PSS','CCTV_Video_Application_Administrator',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>CCTV Video User</th><td><?php renderInput('dbo.PSS','CCTV_Video_User',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>PSS WinAdmin</th><td><?php renderInput('dbo.PSS','PSS_WinAdmin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
 
-            <tr><th>Access Control App Admin</th><td><?php echo h($rec['Access_Control_Application_Administrator']); ?></td></tr>
-            <tr><th>Access Control System User</th><td><?php echo h($rec['Access_Control_System_User']); ?></td></tr>
-            <tr><th>CCTV Video App Admin</th><td><?php echo h($rec['CCTV_Video_Application_Administrator']); ?></td></tr>
-            <tr><th>CCTV Video User</th><td><?php echo h($rec['CCTV_Video_User']); ?></td></tr>
-            <tr><th>PSS WinAdmin</th><td><?php echo h($rec['PSS_WinAdmin']); ?></td></tr>
+          <tr><th>Nessus App Admin</th><td><?php renderInput('dbo.Nessus','NessusAppAdmin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Nessus Sys Admin</th><td><?php renderInput('dbo.Nessus','NessusSysAdmin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
 
-            <tr><th>Nessus App Admin</th><td><?php echo h($rec['NessusAppAdmin']); ?></td></tr>
-            <tr><th>Nessus Sys Admin</th><td><?php echo h($rec['NessusSysAdmin']); ?></td></tr>
-
-            <tr><th>OCRS ECMS Admin</th><td><?php echo h($rec['OCRS_ECMSAdmin']); ?></td></tr>
-            <tr><th>OCRS SSIT Admin</th><td><?php echo h($rec['OCRS_SSITAdmin']); ?></td></tr>
-            <tr><th>OCRS User</th><td><?php echo h($rec['OCRS_User']); ?></td></tr>
-            <tr><th>CIP-Protected Information</th><td><?php echo h($rec['CIP_ProtectedInfo']); ?></td></tr>
-            <tr><th>Stratus</th><td><?php echo h($rec['Stratus']); ?></td></tr>
-            <tr><th>Catalogic</th><td><?php echo h($rec['Catalogic']); ?></td></tr>
-            <tr><th>SolarWinds</th><td><?php echo h($rec['SolarWinds']); ?></td></tr>
-            <tr><th>ServiceDesk Plus</th><td><?php echo h($rec['ServiceDeskPlus']); ?></td></tr>
-          </table>
-        </div>
+          <tr><th>OCRS ECMS Admin</th><td><?php renderInput('dbo.OCRS','OCRS_ECMSAdmin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>OCRS SSIT Admin</th><td><?php renderInput('dbo.OCRS','OCRS_SSITAdmin',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>OCRS User</th><td><?php renderInput('dbo.OCRS','OCRS_User',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>CIP-Protected Info</th><td><?php renderInput('dbo.OCRS','CIP_ProtectedInfo',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Stratus</th><td><?php renderInput('dbo.OCRS','Stratus',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>Catalogic</th><td><?php renderInput('dbo.OCRS','Catalogic',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>SolarWinds</th><td><?php renderInput('dbo.OCRS','SolarWinds',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+          <tr><th>ServiceDesk Plus</th><td><?php renderInput('dbo.OCRS','ServiceDeskPlus',$rec,$FIELDS,$BOOLEAN_FIELDS); ?></td></tr>
+        </table>
       </div>
 
       <div class="actions">
         <button class="btn" type="submit" name="submit" value="1">Save</button>
-        <a class="btn secondary" href="CIPApproval.php?Tracking_Num=<?php echo urlencode($Tracking_Num); ?>">Back</a>
+        <a class="btn secondary" href="dashboard.php">Cancel</a>
       </div>
     </form>
   </div>
