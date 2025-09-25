@@ -61,7 +61,7 @@ $FIELDS = [
   ],
   'dbo.NetworkDevices' => ['TE_Engineering_OM_Group','TelecomSharedAccount','ACS_LocalAdmin','RSA_LocalAdmin'],
   'dbo.IndustrialDefender' => ['IDAppAdmin','IDSysAdmin','IDUser','IDroot','IDadmin_shared','IDWinAdmin'],
-  'dbo.SysLog' => ['LogAppAdmin','LogSysAdmin','LogUser'],
+  //'dbo.SysLog' => ['LogAppAdmin','LogSysAdmin','LogUser'],
   'dbo.PSS' => [
     'Access_Control_Application_Administrator','Access_Control_System_User',
     'CCTV_Video_Application_Administrator','CCTV_Video_User',
@@ -87,7 +87,7 @@ $BOOLEAN_FIELDS = [
   ],
   'dbo.NetworkDevices' => ['TE_Engineering_OM_Group','TelecomSharedAccount','ACS_LocalAdmin','RSA_LocalAdmin'],
   'dbo.IndustrialDefender' => ['IDAppAdmin','IDSysAdmin','IDUser','IDroot','IDadmin_shared','IDWinAdmin'],
-  'dbo.SysLog' => ['LogAppAdmin','LogSysAdmin','LogUser'],
+  //'dbo.SysLog' => ['LogAppAdmin','LogSysAdmin','LogUser'],
   'dbo.PSS' => [
     'Access_Control_Application_Administrator','Access_Control_System_User',
     'CCTV_Video_Application_Administrator','CCTV_Video_User',
@@ -122,7 +122,6 @@ SELECT
 
   idf.IDAppAdmin, idf.IDSysAdmin, idf.IDUser, idf.IDroot, idf.IDadmin_shared, idf.IDWinAdmin,
 
-  so.LogAppAdmin, so.LogSysAdmin, so.LogUser,
 
   pss.Access_Control_Application_Administrator, pss.Access_Control_System_User,
   pss.CCTV_Video_Application_Administrator, pss.CCTV_Video_User, pss.Sys_Ops_Domain_Administrator,
@@ -138,7 +137,7 @@ LEFT JOIN dbo.PhysicalAccess      pa  ON p.Tracking_Num = pa.Tracking_Num
 LEFT JOIN dbo.XA21_ECS            x   ON p.Tracking_Num = x.Tracking_Num
 LEFT JOIN dbo.NetworkDevices      n   ON p.Tracking_Num = n.Tracking_Num
 LEFT JOIN dbo.IndustrialDefender  idf ON p.Tracking_Num = idf.Tracking_Num
-LEFT JOIN dbo.SysLog              so  ON p.Tracking_Num = so.Tracking_Num
+
 LEFT JOIN dbo.PSS                 pss ON p.Tracking_Num = pss.Tracking_Num
 LEFT JOIN dbo.Nessus              nes ON p.Tracking_Num = nes.Tracking_Num
 LEFT JOIN dbo.OCRS                o   ON p.Tracking_Num = o.Tracking_Num
@@ -426,7 +425,7 @@ function renderStatus($current, $name, $options){
         <tr><th>Status</th><td><?php renderStatus($rec['Status'] ?? '', 'dbo.PersonnelInfo__Status', $STATUS_OPTIONS); ?></td></tr>
         <tr><th>Department</th><td><?php renderText('dbo.PersonnelInfo','Department',$rec); ?></td></tr>
         <tr><th>Title</th><td><?php renderText('dbo.PersonnelInfo','Title',$rec); ?></td></tr>
-        <tr><th>FOC Company</th><td><?php renderText('dbo.PersonnelInfo','FOC_Company',$rec); ?></td></tr>
+        <!--<tr><th>FOC Company</th><td><?php //renderText('dbo.PersonnelInfo','FOC_Company',$rec); ?></td></tr>-->
         <tr><th>Contract Agency</th><td><?php renderText('dbo.PersonnelInfo','Contract_Agency',$rec); ?></td></tr>
         <tr><th>Contractor</th><td><?php renderYesNo('dbo.PersonnelInfo','Contractor',$rec); ?></td></tr>
         <tr><th>Manager</th><td><?php renderText('dbo.PersonnelInfo','Manager',$rec); ?></td></tr>
