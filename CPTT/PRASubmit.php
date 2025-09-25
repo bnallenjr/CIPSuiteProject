@@ -93,12 +93,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_validate();
 
     // Basic validation
-    $pra_start = trim($_POST['pra_start'] ?? '');
-    $pra_end   = trim($_POST['pra_end'] ?? '');
-    $notes     = trim($_POST['notes'] ?? '');
+    $SSN_Validation_Date = trim($_POST['SSN_Validation_Date'] ?? '');
+    $Criminal_Background_Date   = trim($_POST['Criminal_Background_Date'] ?? '');
+   
 
-    if ($pra_start === '' || $pra_end === '') {
-        $err = 'Please enter both PRA Start and PRA End dates.';
+    if ($SSN_Validation_Date === '' || $Criminal_Background_Date === '') {
+        $err = 'Please enter both dates for PRA.';
     } else {
         // (Optional) Save to DB here if you have a PRA table/columns.
         // Without a published schema, we email the submission.
@@ -112,9 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <tr><th align="left">Tracking #</th><td>'.htmlspecialchars($Tracking_Num).'</td></tr>
             <tr><th align="left">Name</th><td>'.htmlspecialchars($person['Name']).'</td></tr>
             <tr><th align="left">Contract Agency</th><td>'.htmlspecialchars($person['Contract_Agency']).'</td></tr>
-            <tr><th align="left">PRA Start</th><td>'.htmlspecialchars($pra_start).'</td></tr>
-            <tr><th align="left">PRA End</th><td>'.htmlspecialchars($pra_end).'</td></tr>
-            <tr><th align="left">Notes</th><td>'.nl2br(htmlspecialchars($notes)).'</td></tr>
+            <tr><th align="left">Date of Identity Confirmation / SSN Validation</th><td>'.htmlspecialchars($SSN_Validation_Date).'</td></tr>
+            <tr><th align="left">Date of 7 Year Criminal History Records Check</th><td>'.htmlspecialchars($Criminal_Background_Date).'</td></tr>
             <tr><th align="left">Submitted By</th><td>'.htmlspecialchars($submitted_by).'</td></tr>
             <tr><th align="left">Submitted On (UTC)</th><td>'.gmdate('Y-m-d H:i:s').'</td></tr>
           </table>
