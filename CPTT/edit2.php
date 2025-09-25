@@ -34,7 +34,7 @@ function h($v){ return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 function asDateYmd($v){ $v = trim((string)$v); return $v === '' ? null : $v; }
 
 /* Status dropdown options (adjust to your canonical set) */
-$STATUS_OPTIONS = ['Active','Inactive','Pending','On Leave','Terminated','Retired'];
+$STATUS_OPTIONS = ['Active','Withdrawn','Change in Roles and Responsibilities','Pending','On Leave','Terminated','Retired', 'Deceased', 'Deactivated Access', 'On Hold'];
 
 /* Editable fields by table */
 $FIELDS = [
