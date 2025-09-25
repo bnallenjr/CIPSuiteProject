@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php if ($err): ?>
       <div class="error">❌ <?php echo htmlspecialchars($err); ?></div>
     <?php elseif ($ok): ?>
-      <div class="ok">✅ PRA dates saved and email sent.</div>
+      <div class="ok">✅ PRA dates saved and email sent. Please exit form.</div>
     <?php endif; ?>
 
     <form method="post" action="?Tracking_Num=<?php echo urlencode($Tracking_Num); ?>">
