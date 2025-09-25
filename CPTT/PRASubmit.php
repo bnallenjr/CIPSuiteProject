@@ -177,19 +177,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="post" action="?Tracking_Num=<?php echo urlencode($Tracking_Num); ?>">
       <?php csrf_input(); ?>
       <div class="row">
-        <label for="pra_start">PRA Start</label>
-        <input type="date" id="pra_start" name="pra_start" required value="<?php echo htmlspecialchars($_POST['pra_start'] ?? ''); ?>">
+        <label for="SSN_Validation_Date">Date of Identity Confirmation / SSN Validation</label>
+        <input type="date" id="SSN_Validation_Date" name="SSN_Validation_Date" required value="<?php echo htmlspecialchars($_POST['SSN_Validation_Date'] ?? ''); ?>">
       </div>
       <div class="row">
-        <label for="pra_end">PRA End</label>
-        <input type="date" id="pra_end" name="pra_end" required value="<?php echo htmlspecialchars($_POST['pra_end'] ?? ''); ?>">
+        <label for="Criminal_Background_Date">Date of 7 Year Criminal History Records Check</label>
+        <input type="date" id="Criminal_Background_Date" name="Criminal_Background_Date" required value="<?php echo htmlspecialchars($_POST['Criminal_Background_Date'] ?? ''); ?>">
       </div>
       <div class="row">
-        <label for="notes">Notes</label>
-        <textarea id="notes" name="notes" rows="4" placeholder="Optional additional information..."><?php echo htmlspecialchars($_POST['notes'] ?? ''); ?></textarea>
-      </div>
-      <div class="row">
-        <button class="btn" type="submit">Submit PRA</button>
+        <button input type="submit" name="submit" class="btn btn-success" onclick="window.close();">Submit PRA</button>
       </div>
     </form>
     <?php else: ?>
