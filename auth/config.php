@@ -6,6 +6,6 @@ define('DB_USER', getenv('DB_USER') ?: 'asgdb-admin');
 define('DB_PASS', getenv('DB_PASS') ?: '!FinalFantasy777!');
 
 define('SESSION_NAME', 'cipsuite_sid');
-define('SESSION_SECURE', false);
+define('SESSION_SECURE', true);
 define('SESSION_HTTPONLY', true);
 define('SESSION_SAMESITE', 'Lax');

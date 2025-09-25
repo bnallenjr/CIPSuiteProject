@@ -1,316 +1,201 @@
 <?php
-require_once __DIR__ . '/../auth/session.php';
-session_boot();
-?>
-<?php
-/* 
- EDIT.PHP
- Allows user to edit specific entry in database
-*/
+/*******************************************************
+ * PRASubmit.php  (CPTT/PRASubmit.php)
+ * - Requires Auth (auth/ is sibling to CPTT/)
+ * - Fetches person by Tracking_Num
+ * - Renders PRA dates form (start/end/notes)
+ * - On POST: validates CSRF + sends email via Gmail SMTP
+ *******************************************************/
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
- // creates the edit record form
- // since this form is used multiple times in this file, I have made it a function that is easily reusable
- function renderForm($Tracking_Num, $FirstName, $LastName, $Manager, $Department, $Contractor, $Contract_Agency, $SSN_Validation_Date, $Criminal_Background_Date, $error)
-					 {				 
+/* 1) Auth (auth is sibling of CPTT) */
+require_once __DIR__ . '/../auth/Auth.php';
+require_once __DIR__ . '/../auth/csrf.php';
+require_once __DIR__ . '/../auth/db.php';   // reuses your sqlsrv settings
+Auth::requireLogin();                       // redirect to /auth/login.php if not signed in
+
+/* 2) PHPMailer (CPTT/phpmailer/src/...) */
+require __DIR__ . '/phpmailer/src/PHPMailer.php';
+require __DIR__ . '/phpmailer/src/SMTP.php';
+require __DIR__ . '/phpmailer/src/Exception.php';
+
+/* 3) Helpers */
+function db() { return db_connect(); }      // from auth/db.php
+
+function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
+    $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
+    $smtpPass = getenv('SMTP_PASS') ?: 'pakbzmrfjdruyvax'; // Gmail App Password (no spaces)
+
+    if (!class_exists('\\PHPMailer\\PHPMailer\\PHPMailer')) {
+        return [false, 'PHPMailer not found.'];
+    }
+
+    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $smtpUser;
+        $mail->Password   = $smtpPass;
+        $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        // From must match Gmail account
+        $mail->setFrom('allensolutiongroup@gmail.com', 'CIP Suite WebApp');
+
+        if (is_array($to)) { foreach ($to as $addr) { if ($addr) $mail->addAddress($addr); } }
+        else { $mail->addAddress($to); }
+
+        if ($replyTo) { $mail->addReplyTo($replyTo, $replyToName ?: $replyTo); }
+
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $html;
+        $mail->AltBody = strip_tags(preg_replace('/<br\s*\/?>/i', "\n", $html));
+
+        $mail->send();
+        return [true, ''];
+    } catch (\Throwable $e) {
+        return [false, $e->getMessage()];
+    }
+}
+
+/* 4) Load person by Tracking_Num */
+$Tracking_Num = (int)($_GET['Tracking_Num'] ?? 0);
+if ($Tracking_Num <= 0) {
+    http_response_code(400);
+    die('Missing or invalid Tracking_Num.');
+}
+
+$sql = "SELECT p.Tracking_Num,
+               p.FirstName + ' ' + p.LastName AS Name,
+               p.Email,
+               p.Manager,
+               p.Contract_Agency
+        FROM dbo.PersonnelInfo p
+        WHERE p.Tracking_Num = ?";
+$stmt = sqlsrv_query(db(), $sql, [$Tracking_Num]);
+if ($stmt === false) {
+    http_response_code(500);
+    die('DB error: '.print_r(sqlsrv_errors(), true));
+}
+$person = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+if (!$person) {
+    http_response_code(404);
+    die('No person found for Tracking_Num '.$Tracking_Num);
+}
+
+/* 5) Process POST (submit PRA dates) */
+$err = '';
+$ok  = false;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_validate();
+
+    // Basic validation
+    $pra_start = trim($_POST['pra_start'] ?? '');
+    $pra_end   = trim($_POST['pra_end'] ?? '');
+    $notes     = trim($_POST['notes'] ?? '');
+
+    if ($pra_start === '' || $pra_end === '') {
+        $err = 'Please enter both PRA Start and PRA End dates.';
+    } else {
+        // (Optional) Save to DB here if you have a PRA table/columns.
+        // Without a published schema, we email the submission.
+
+        $user = Auth::user();
+        $submitted_by = $user ? $user['username'] : 'unknown';
+
+        $html = '
+          <h2>PRA Dates Submitted</h2>
+          <table border="1" cellpadding="6" cellspacing="0">
+            <tr><th align="left">Tracking #</th><td>'.htmlspecialchars($Tracking_Num).'</td></tr>
+            <tr><th align="left">Name</th><td>'.htmlspecialchars($person['Name']).'</td></tr>
+            <tr><th align="left">Contract Agency</th><td>'.htmlspecialchars($person['Contract_Agency']).'</td></tr>
+            <tr><th align="left">PRA Start</th><td>'.htmlspecialchars($pra_start).'</td></tr>
+            <tr><th align="left">PRA End</th><td>'.htmlspecialchars($pra_end).'</td></tr>
+            <tr><th align="left">Notes</th><td>'.nl2br(htmlspecialchars($notes)).'</td></tr>
+            <tr><th align="left">Submitted By</th><td>'.htmlspecialchars($submitted_by).'</td></tr>
+            <tr><th align="left">Submitted On (UTC)</th><td>'.gmdate('Y-m-d H:i:s').'</td></tr>
+          </table>
+        ';
+
+        // Send to your ops inbox (adjust as needed)
+        $to = 'allensolutiongroup@gmail.com';
+        $subject = 'PRA Information Submitted - Tracking #'.$Tracking_Num.' - '.$person['Name'];
+        list($ok, $sendErr) = sendHtmlMail($to, $subject, $html, 'allensolutiongroup@gmail.com', 'CIP Suite WebApp');
+        if (!$ok) {
+            $err = 'Email failed: '.$sendErr;
+        }
+    }
+}
+
+/* 6) Render page */
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>PRA Request</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="X-UA-Compatible" content="IE=9" />
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <title>PRA Submission</title>
+  <link rel="stylesheet" type="text/css" href="customize.css">
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .wrap { max-width: 860px; margin: 20px auto; }
+    .card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 18px; }
+    .row { margin-bottom: 10px; }
+    label { display: inline-block; width: 160px; vertical-align: top; font-weight: bold; }
+    input[type="date"], input[type="text"], textarea { width: 60%; padding: 6px; }
+    .error { color: #b00020; margin: 10px 0; }
+    .ok { color: #0a7f2e; margin: 10px 0; }
+    .btn { display: inline-block; padding: 8px 14px; background: #1565c0; color: #fff; border-radius: 4px; text-decoration: none; border: 0; cursor: pointer; }
+    .btn:disabled { opacity: .6; cursor: not-allowed; }
+    table.info { border-collapse: collapse; margin-bottom: 16px; width: 100%; }
+    table.info th, table.info td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    table.info th { background: #f5f5f5; width: 220px; }
+  </style>
 </head>
 <body>
-<?php 
-// if there are any errors, display them
- //if ($error != '')
- //{
- //echo '<div style="padding:4px; border:1px solid red; color:red;">'.$error.'</div>';
- //}
-		$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
-$serverName = "tcp:asg-db.database.windows.net,1433";
-$conn = sqlsrv_connect($serverName, $connectionInfo);
+<div class="wrap">
+  <div class="card">
+    <h1>PRA Submission</h1>
 
-if($conn) {
-			// echo 'Connection established<br />';
-		}else{
-			echo 'Connection failure<br />';
-			die(print_r(sqlsrv_errors(), TRUE));
-		}
- $Tracking_Num = $_GET['Tracking_Num'];
-		$result = sqlsrv_query($conn, "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName, dbo.PersonnelInfo.LastName, dbo.PersonnelInfo.Contract_Agency, dbo.PersonnelInfo.Contractor, 
-		dbo.PersonnelInfo.Manager, dbo.PersonnelInfo.Department, CONVERT (varchar, dbo.PersonnelInfo.SSN_Validation_Date, 110) AS SSN_VALIDATION_DATE, CONVERT (varchar, dbo.PersonnelInfo.Criminal_Background_Date, 110) AS BACKGROUND_CHECK_DATE 
-	    FROM dbo.PersonnelInfo
-        WHERE dbo.PersonnelInfo.Tracking_Num=$Tracking_Num")
-		or die(print_r(sqlsrv_errors(), TRUE));
-		
-		$row = sqlsrv_fetch_array($result);
-?>
-<div class="container">
-	<h2 align ="center" >PRA Request </h2>
-</div>
-<!--<nav class="navbar navbar-inverse">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-		<span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-	  <a class="navbar-brand" href="#">CIP Authorization Tool</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="NewAccessRequest.php">Request Access</a></li>
-        <li><a href="#">Request Access Modification</a></li>
-        <li><a href="TerminationRequest.php">Request Access Termination</a></li>
-		<li><a href="#">Reports</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="search.php"><span class="glyphicon glyphicon-search"></span> Search</a></li>
-        <li><a href="home.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>-->
-<?php 
-	if (!Auth::check()/*@!$_SESSION['authenticated']==1*/) {
-		$Tracking_Num = $_GET['Tracking_Num'];
-	echo	"<div class='container'>
+    <table class="info">
+      <tr><th>Tracking #</th><td><?php echo htmlspecialchars($Tracking_Num); ?></td></tr>
+      <tr><th>Name</th><td><?php echo htmlspecialchars($person['Name']); ?></td></tr>
+      <tr><th>Contract Agency</th><td><?php echo htmlspecialchars($person['Contract_Agency']); ?></td></tr>
+      <tr><th>Manager</th><td><?php echo htmlspecialchars($person['Manager']); ?></td></tr>
+      <tr><th>Email on file</th><td><?php echo htmlspecialchars($person['Email']); ?></td></tr>
+    </table>
 
+    <?php if ($err): ?>
+      <div class="error">❌ <?php echo htmlspecialchars($err); ?></div>
+    <?php elseif ($ok): ?>
+      <div class="ok">✅ PRA information submitted and emailed successfully.</div>
+    <?php endif; ?>
 
-      <!-- Modal content-->
-      <div class='modal-content'>
-        <div class='modal-header'>
-          <button type='button' class='close' data-dismiss='modal'>&times;</button>
-          <h4 style='color:red;'><span class='glyphicon glyphicon-lock'></span> Login using your corporate ID</h4>
-        </div>
-        <div class='modal-body'>
-          <form role='form' method='post' action='authenticationpra.php?Tracking_Num=$Tracking_Num'>
-            <div class='form-group'>
-              <label for='username'><span class='glyphicon glyphicon-user'></span> Username</label>
-              <input type='text' class='form-control' name='username' id='username' placeholder='Enter Corporate Username'>
-            </div>
-            <div class='form-group'>
-              <label for='password'><span class='glyphicon glyphicon-eye-open'></span> Password</label>
-              <input type='password' class='form-control' name='password' id='password' placeholder='Enter password'>
-            </div>
-            <button type='submit' class='btn btn-default btn-success btn-block'><span class='glyphicon glyphicon-off'></span> Login</button>
-          </form>
-        </div>
-        <div class='modal-footer'>
-          <button type='submit' class='btn btn-default btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
-        </div>
+    <?php if (!$ok): ?>
+    <form method="post" action="?Tracking_Num=<?php echo urlencode($Tracking_Num); ?>">
+      <?php csrf_input(); ?>
+      <div class="row">
+        <label for="pra_start">PRA Start</label>
+        <input type="date" id="pra_start" name="pra_start" required value="<?php echo htmlspecialchars($_POST['pra_start'] ?? ''); ?>">
       </div>
-    </div>
-  </div> 
+      <div class="row">
+        <label for="pra_end">PRA End</label>
+        <input type="date" id="pra_end" name="pra_end" required value="<?php echo htmlspecialchars($_POST['pra_end'] ?? ''); ?>">
+      </div>
+      <div class="row">
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" rows="4" placeholder="Optional additional information..."><?php echo htmlspecialchars($_POST['notes'] ?? ''); ?></textarea>
+      </div>
+      <div class="row">
+        <button class="btn" type="submit">Submit PRA</button>
+      </div>
+    </form>
+    <?php else: ?>
+      <p><a class="btn" href="CIPApproval.php?Tracking_Num=<?php echo urlencode($Tracking_Num); ?>">Back to Approval</a></p>
+    <?php endif; ?>
+  </div>
 </div>
-<script>
-$(window).load(function()
-{
-    $('#myModal').modal('show');
-});
-</script>
-";
-	}
-	else {
-		?>
-<form role="form" class="form-horizontal"  id="form" method="post" action="">
-<input type = "hidden" name="Tracking_Num" value="<?php echo $Tracking_Num; ?>"/>
-<div class="well well-sm" align="center" ><h3>PRA Information</h3></div>  
-    <div class="form-group">
-	<label class="control-label col-sm-2" for="FirstName">First Name:</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" name="FirstName" value = "<?php echo $FirstName;?>"  disabled />
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="LastName">Last Name:</label>
-    <div class="col-sm-4"> 
-      <input type="text" class="form-control" name="LastName" value = "<?php echo $LastName;?>" disabled />
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="Manager">Manager:</label>
-    <div class="col-sm-4"> 
-      <input type="text" class="form-control" name="Manager" value = "<?php echo $Manager;?>" disabled />
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="Department">Department:</label>
-    <div class="col-sm-4"> 
-      <input type="text" class="form-control" name="Department" value = "<?php echo $Department;?>" disabled />
-    </div>
-  </div>
-<div class="form-group">
-    <label class="control-label col-sm-2" for="Contractor">Contractor:</label>
-    <div class="col-sm-4"> 
-      <select class="form-control" name="Contractor" disabled>
-				<option value = "<?php echo $Contractor;?>"><?php echo $Contractor;?></option>
-				<option value = "Yes">Yes</option>
-				<option value = "No">No</option> 
-			</select>
-    </div>
-  </div>
-    <div class="form-group">
-    <label class="control-label col-sm-2" for="Contract_Agency">Contract Agency/Service Vendor:</label>
-    <div class="col-sm-4"> 
-      <input type="text" class="form-control" name="Contract_Agency" value = "<?php echo $Contract_Agency;?>" disabled />
-    </div>
-  </div>  
-  <div class = "container">
-  <h2>By entering the dates below you attest that the following actions were performed with regards to this individual's PRA.</h2>
-  <ul class="list-group">
-	<li><h4 class ="list-group-item-heading">Seven year criminal history records check</h4></li>
-	<p class = "list-group-item-text">- Based on current residence regardless of duration</p>
-	<p class = "list-group-item-text">- Other locations where, during the seven years immediately prior to the date of the criminal history records check, the individual has resided for six consecutive months or more.</p>
- 
-	<li><h4 class ="list-group-item-heading">Identity Check</h4></li>
-	<p class = "list-group-item-text">- Social Security Number Check for all US citizens and permanent residents</p>
-	<p class = "list-group-item-text">- Other methods of identity verfication for foreign nationals approved by the PRA Review Board.</p>
-  </ul>
-  </div>
-
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="SSN_Validation_Date">Date of Identity Confirmation / SSN Validation:</label>
-    <div class="col-sm-4"> 
-      <input type="date" class="form-control" name="SSN_Validation_Date" required>
-    </div>
-  </div>    
-    <div class="form-group">
-    <label class="control-label col-sm-2" for="Criminal_Background_Date">Date of Seven-Year Criminal History Records Check:</label>
-    <div class="col-sm-4"> 
-      <input type="date" class="form-control" name="Criminal_Background_Date" required>
-    </div>
-  </div>  
-<p></p>
-<!--<div class = "button">
-		<p><input type="submit" name="submit" value="Save & Close"></p>
-		</div>-->
-	<button input type="submit" name="submit" class="btn btn-success" onclick="window.close();">Submit PRA</button>	
-</form>
-<?php
-	}
-?>
 </body>
 </html>
-<?php
-}
-		$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
-$serverName = "tcp:asg-db.database.windows.net,1433";
-$conn = sqlsrv_connect($serverName, $connectionInfo);
-
-if($conn) {
-			// echo 'Connection established<br />';
-		}else{
-			echo 'Connection failure<br />';
-			die(print_r(sqlsrv_errors(), TRUE));
-		}
-	 
-if (isset($_POST['submit']))
-{
-if (is_numeric($_POST['Tracking_Num']))
-{
-		$Tracking_Num=$_POST['Tracking_Num'];
-		//$FirstName=$_POST['FirstName'];
-		//$LastName=$_POST['LastName'];
-		//$Contractor=$_POST['Contractor'];
-		//$Contract_Agency=$_POST['Contract_Agency'];
-		$SSN_Validation_Date=$_POST['SSN_Validation_Date'];
-		$Criminal_Background_Date=$_POST['Criminal_Background_Date'];
-	
-		
-		
-if ($SSN_Validation_Date == '' || $Criminal_Background_Date== '')
-{
-$error = 'Error: Please fill in all required fields';
-renderForm($Tracking_Num, $SSN_Validation_Date, $Criminal_Background_Date, $error);
-}
-else
-{	
-		sqlsrv_query($conn, "BEGIN TRANSACTION
-							 UPDATE dbo.PersonnelInfo SET SSN_Validation_Date='$SSN_Validation_Date', Criminal_Background_Date='$Criminal_Background_Date'WHERE Tracking_Num= '$Tracking_Num'
-							 COMMIT")
-		or die(print_r(sqlsrv_errors(), TRUE));
-		//header("Location: home.php");
-}
-}
-else
-{
-echo 'Error1!';
-}
-}
-else
-{
-if (isset($_GET['Tracking_Num']) && is_numeric($_GET['Tracking_Num']) && $_GET['Tracking_Num'] > 0)
-{
-		$Tracking_Num = $_GET['Tracking_Num'];
-		$result = sqlsrv_query($conn, "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName, dbo.PersonnelInfo.LastName, dbo.PersonnelInfo.Status, dbo.PersonnelInfo.Department, 
-		dbo.PersonnelInfo.Title, dbo.PersonnelInfo.FOC_Company, dbo.PersonnelInfo.Contract_Agency, dbo.PersonnelInfo.Contractor, dbo.PersonnelInfo.Manager, dbo.PersonnelInfo.Department,
-		CONVERT (varchar, dbo.PersonnelInfo.SSN_Validation_Date, 110) AS SSN_VALIDATION_DATE, CONVERT (varchar, dbo.PersonnelInfo.Criminal_Background_Date, 110) AS BACKGROUND_CHECK_DATE 
-		FROM dbo.PersonnelInfo
-        WHERE dbo.PersonnelInfo.Tracking_Num=$Tracking_Num")
-		
-		or die(print_r(sqlsrv_errors(), TRUE));
-		$row = sqlsrv_fetch_array($result);
-		//$checked =explode(',', $row['iMitigationPlan']);
-if ($row)
-{
-		$Tracking_Num=$row['Tracking_Num'];
-		$FirstName=$row['FirstName'];
-		$LastName=$row['LastName'];
-		$Contractor=$row['Contractor'];
-		$Contract_Agency=$row['Contract_Agency'];
-		$SSN_Validation_Date=$row['SSN_VALIDATION_DATE'];
-		$Criminal_Background_Date=$row['BACKGROUND_CHECK_DATE'];
-		$Manager=$row['Manager'];
-		$Department=$row['Department'];
-		
-		renderForm($Tracking_Num, $FirstName, $LastName, $Manager, $Department, $Contractor, $Contract_Agency, $SSN_Validation_Date, $Criminal_Background_Date, '');
-}
-else 
-{
-echo "No results!";
-}
-}
-else
-{
-echo 'Error2!';
-}
-}
-if (isset($_POST['submit']))
-{
-	$result = sqlsrv_query($conn, "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName, dbo.PersonnelInfo.LastName, CONVERT (varchar, dbo.PersonnelInfo.DatePaperWorkSign, 110) AS PAPERWORK_APPROVED_ON, dbo.PersonnelInfo.PaperWorkApprovedBy
-		FROM dbo.PersonnelInfo
-        WHERE dbo.PersonnelInfo.Tracking_Num=$Tracking_Num")
-		
-		or die(print_r(sqlsrv_errors(), TRUE));
-		$row = sqlsrv_fetch_array($result);
-		$FirstName=$row['FirstName'];
-		$LastName=$row['LastName'];	
-	    $PRACompletedDate = date("m-d-y h:i:sa");
-        $PRACompletedBy = Auth::user()['username'];//$_SESSION['username'];
-		
-	$to = "allensolutiongroup@gmail.com";
-	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;
-	$message = "		<h4>Human Resources has verified the following information regarding the review and validation of the PRA</h4><br>
-						<b>-	Seven year criminal history records check</b><br>
-							&nbsp&nbsp&nbsp&nbsp  o	Based on the current residence regardless of duration<br>
-							&nbsp&nbsp&nbsp&nbsp  o	Other locations where, during the seven years immediately prior to the date of the criminal history records check, the individual has resided for six consecutive months or more.<br>
-						<b>-	Identity check</b><br>
-							&nbsp&nbsp&nbsp&nbsp  o	Social Security Number Check for all US citizens and permanent residents,<br>
-							&nbsp&nbsp&nbsp&nbsp  o	Other methods of identity verification for foreign nationals approved by the PRA Review Board.<br>
-							<br>Approved by: $PRACompletedBy - $PRACompletedDate" ;
-	
-	$headers = "MIME-Version: 1.0" . "\r\n";
-	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-	$headers .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
-
-	sendHtmlMail($to,$subject,$message,'allensolutiongroup@gmail.com', 'CIP Suite WebApp');	
-		
-}			
-?>
