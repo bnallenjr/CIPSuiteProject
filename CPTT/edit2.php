@@ -34,7 +34,7 @@ function h($v){ return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 function asDateYmd($v){ $v = trim((string)$v); return $v === '' ? null : $v; }
 
 /* Status dropdown options (adjust to your canonical set) */
-$STATUS_OPTIONS = ['Active','Withdrawn','Change in Roles and Responsibilities','Pending','On Leave','Terminated','Retired', 'Deceased', 'Deactivated Access', 'On Hold'];
+$STATUS_OPTIONS = ['Pending','Valid','Withdrawn','Pending','Termination','Change in Roles and Responsibilities','LOA', 'Retirement', 'Deceased', 'Deactivated Access', 'On Hold'];
 
 /* Editable fields by table */
 $FIELDS = [
@@ -235,14 +235,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $okPI = sqlsrv_query($conn, $sql, array_merge($params, [$Tracking_Num]));
       if ($okPI === false) { sqlsrv_rollback($conn); die('Update PersonnelInfo failed: '.print_r(sqlsrv_errors(), true)); }
 
-      // Session stamps if columns exist
-      $sess = "
-        IF COL_LENGTH('dbo.PersonnelInfo','Session_User') IS NOT NULL
-          UPDATE dbo.PersonnelInfo SET Session_User = ? WHERE Tracking_Num = ?;
-        IF COL_LENGTH('dbo.PersonnelInfo','Session_Updated_At') IS NOT NULL
-          UPDATE dbo.PersonnelInfo SET Session_Updated_At = SYSUTCDATETIME() WHERE Tracking_Num = ?;";
-      $okSess = sqlsrv_query($conn, $sess, [$by, $Tracking_Num, $Tracking_Num]);
-      if ($okSess === false) { sqlsrv_rollback($conn); die('Session stamp failed: '.print_r(sqlsrv_errors(), true)); }
+      // Helpers: check column existence (parameterized)
+function colExists($conn, $table, $col) {
+    $sql = "SELECT 1
+            FROM sys.columns
+            WHERE [object_id] = OBJECT_ID(?) AND [name] = ?";
+    $st  = sqlsrv_query($conn, $sql, [$table, $col]);
+    if ($st === false) return false;
+    return sqlsrv_fetch($st) !== false;
+}
+
+$hasSessionUser      = colExists($conn, 'dbo.PersonnelInfo', 'Session_User');
+$hasSessionUpdatedAt = colExists($conn, 'dbo.PersonnelInfo', 'Session_Updated_At');
+
+// Run only the statements we need, with the right number of params
+if ($hasSessionUser) {
+    $ok1 = sqlsrv_query(
+        $conn,
+        "UPDATE dbo.PersonnelInfo SET Session_User = ? WHERE Tracking_Num = ?",
+        [$by, $Tracking_Num]
+    );
+    if ($ok1 === false) { sqlsrv_rollback($conn); die('Session stamp (user) failed: ' . print_r(sqlsrv_errors(), true)); }
+}
+
+if ($hasSessionUpdatedAt) {
+    $ok2 = sqlsrv_query(
+        $conn,
+        "UPDATE dbo.PersonnelInfo SET Session_Updated_At = SYSUTCDATETIME() WHERE Tracking_Num = ?",
+        [$Tracking_Num]
+    );
+    if ($ok2 === false) { sqlsrv_rollback($conn); die('Session stamp (timestamp) failed: ' . print_r(sqlsrv_errors(), true)); }
+}
 
       unset($updatesByTable['dbo.PersonnelInfo']);
     }
@@ -396,7 +419,7 @@ function renderStatus($current, $name, $options){
       <?php csrf_input(); ?>
       <input type="hidden" name="Tracking_Num" value="<?php echo (int)$Tracking_Num; ?>">
 
-      <h2>Identity & Organization (dbo.PersonnelInfo)</h2>
+      <h2>Identity & Organization</h2>
       <table class="kv">
         <tr><th>First Name</th><td><?php renderText('dbo.PersonnelInfo','FirstName',$rec); ?></td></tr>
         <tr><th>Last Name</th><td><?php renderText('dbo.PersonnelInfo','LastName',$rec); ?></td></tr>
@@ -416,7 +439,7 @@ function renderStatus($current, $name, $options){
         <tr><th>Paperwork Approved By</th><td><?php renderText('dbo.PersonnelInfo','PaperWorkApprovedBy',$rec); ?></td></tr>
       </table>
 
-      <h2>Physical Access (dbo.PhysicalAccess)</h2>
+      <h2>Physical Access</h2>
       <div class="grid">
         <table class="kv">
           <tr><th>System Control Center</th><td><?php renderYesNo('dbo.PhysicalAccess','SCC',$rec); ?></td></tr>
@@ -441,7 +464,7 @@ function renderStatus($current, $name, $options){
         </table>
       </div>
 
-      <h2>Systems & Accounts</h2>
+      <h2>Systems & Accounts Access</h2>
       <div class="grid">
         <table class="kv">
           <tr><th>ESP Remote / Intermediate</th><td><?php renderYesNo('dbo.XA21_ECS','ESP_Remote_Intermediate',$rec); ?></td></tr>
@@ -476,9 +499,9 @@ function renderStatus($current, $name, $options){
           <tr><th>ID (admin) Shared</th><td><?php renderYesNo('dbo.IndustrialDefender','IDadmin_shared',$rec); ?></td></tr>
           <tr><th>ID (winadmin)</th><td><?php renderYesNo('dbo.IndustrialDefender','IDWinAdmin',$rec); ?></td></tr>
 
-          <tr><th>SysLog App Admin</th><td><?php renderYesNo('dbo.SysLog','LogAppAdmin',$rec); ?></td></tr>
-          <tr><th>SysLog Sys Admin</th><td><?php renderYesNo('dbo.SysLog','LogSysAdmin',$rec); ?></td></tr>
-          <tr><th>SysLog User</th><td><?php renderYesNo('dbo.SysLog','LogUser',$rec); ?></td></tr>
+          <!--<tr><th>SysLog App Admin</th><td><?php // renderYesNo('dbo.SysLog','LogAppAdmin',$rec); ?></td></tr>-->
+           <!--<tr><th>SysLog Sys Admin</th><td><?php //renderYesNo('dbo.SysLog','LogSysAdmin',$rec); ?></td></tr>-->
+           <!--<tr><th>SysLog User</th><td><?php //renderYesNo('dbo.SysLog','LogUser',$rec); ?></td></tr>-->
 
           <tr><th>Access Control App Admin</th><td><?php renderYesNo('dbo.PSS','Access_Control_Application_Administrator',$rec); ?></td></tr>
           <tr><th>Access Control System User</th><td><?php renderYesNo('dbo.PSS','Access_Control_System_User',$rec); ?></td></tr>
