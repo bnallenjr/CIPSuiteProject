@@ -1,6 +1,17 @@
 <?php
-error_reporting(E_ALL); ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
+// 1) Load authentication (auth/ is next to CPTT/)
+require_once __DIR__ . '/../auth/Auth.php';
+Auth::requireLogin();   // redirect to /auth/login.php if not signed in
+
+// (Optional sanity check)
+if (!class_exists('Auth')) {
+    die('Auth class missing. Expected at: ' . realpath(__DIR__ . '/../auth/Auth.php'));
+}
+
+// 2) PHPMailer includes
 require __DIR__ . '/phpmailer/src/PHPMailer.php';
 require __DIR__ . '/phpmailer/src/SMTP.php';
 require __DIR__ . '/phpmailer/src/Exception.php';
@@ -8,15 +19,17 @@ require __DIR__ . '/phpmailer/src/Exception.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-$mail = new PHPMailer(true);
-$mail->SMTPDebug = 2;
+// (This global instance isn't used below since sendHtmlMail creates its own; safe to remove)
+#$mail = new PHPMailer(true);
+//$mail->SMTPDebug = 2;
 
+// 3) Gmail SMTP helper
 function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
     $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
     $smtpPass = getenv('SMTP_PASS') ?: 'pakbzmrfjdruyvax';
 
     if (!class_exists('\\PHPMailer\\PHPMailer\\PHPMailer')) {
-        return [false, 'PHPMailer not found. Ensure Composer vendor/ or phpmailer/src/ is deployed.'];
+        return [false, 'PHPMailer not found. Ensure vendor/autoload.php or phpmailer/src/* are deployed.'];
     }
 
     $mail = new PHPMailer(true);
@@ -25,29 +38,24 @@ function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = $smtpUser;
-        $mail->Password   = $smtpPass;
+        $mail->Password   = $smtpPass;              // Gmail App Password (no spaces)
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
-        if (isset($GLOBALS['__DEBUG']) && $GLOBALS['__DEBUG']) {
-            $mail->SMTPDebug = 2;
-            $mail->Debugoutput = function($str){ echo "<pre>SMTP: ".htmlspecialchars($str)."</pre>"; };
-        }
+        // $mail->SMTPDebug = 2; // uncomment if you need verbose SMTP output
 
+        // Gmail requires From to match the authenticated account
         $mail->setFrom('allensolutiongroup@gmail.com', 'CIP Suite WebApp');
 
-        if (is_array($to)) {
-            foreach ($to as $addr) { if ($addr) $mail->addAddress($addr); }
-        } else {
-            $mail->addAddress($to);
-        }
+        if (is_array($to)) { foreach ($to as $addr) { if ($addr) $mail->addAddress($addr); } }
+        else { $mail->addAddress($to); }
 
         if ($replyTo) { $mail->addReplyTo($replyTo, $replyToName ?: $replyTo); }
 
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body    = $html;
-        $mail->AltBody = strip_tags(preg_replace('/<br\\s*\\/?>(?i)/', "\n", $html));
+        $mail->AltBody = strip_tags(preg_replace('/<br\s*\/?>/i', "\n", $html));
 
         $mail->send();
         return [true, ''];
@@ -55,10 +63,7 @@ function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null
         return [false, $e->getMessage()];
     }
 }
-?>
-<?php
-require_once __DIR__ . '/../auth/session.php';
-session_boot();//@session_start();
+
 ?>
 <?php
  function renderForm($Tracking_Num, $FirstName, $LastName, $DatePaperWorkSign, $PaperWorkApprovedBy, $error)
