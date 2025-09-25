@@ -195,118 +195,176 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </body>
 </html>
 <?php
+// Make sure these are at the very top of the file:
+require_once __DIR__ . '/../auth/Auth.php';
+require_once __DIR__ . '/../auth/db.php';
+require_once __DIR__ . '/../auth/csrf.php';
+Auth::requireLogin();
 
-		$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
-$serverName = "tcp:asg-db.database.windows.net,1433";
-$conn = sqlsrv_connect($serverName, $connectionInfo);
+$conn = db_connect(); // from auth/db.php (uses your Azure SQL settings)
 
-if($conn) {
-			// echo 'Connection established<br />';
-		}else{
-			echo 'Connection failure<br />';
-			die(print_r(sqlsrv_errors(), TRUE));
-		}
-	 
-if (isset($_POST['submit']))
-{
-if (is_numeric($_POST['Tracking_Num']))
-{
-		$Tracking_Num=$_POST['Tracking_Num'];
-		//$FirstName=$_POST['FirstName'];
-		//$LastName=$_POST['LastName'];
-		//$Contractor=$_POST['Contractor'];
-		//$Contract_Agency=$_POST['Contract_Agency'];
-		$SSN_Validation_Date=$_POST['SSN_Validation_Date'];
-		$Criminal_Background_Date=$_POST['Criminal_Background_Date'];
-	
-		
-		
-if ($SSN_Validation_Date == '' || $Criminal_Background_Date== '')
-{
-$error = 'Error: Please fill in all required fields';
-renderForm($Tracking_Num, $SSN_Validation_Date, $Criminal_Background_Date, $error);
-}
-else
-{	
-		sqlsrv_query($conn, "BEGIN TRANSACTION
-							 UPDATE dbo.PersonnelInfo SET SSN_Validation_Date='$SSN_Validation_Date', Criminal_Background_Date='$Criminal_Background_Date'WHERE Tracking_Num= '$Tracking_Num'
-							 COMMIT")
-		or die(print_r(sqlsrv_errors(), TRUE));
-		//header("Location: home.php");
-}
-}
-else
-{
-echo 'Error1!';
-}
-}
-else
-{
-if (isset($_GET['Tracking_Num']) && is_numeric($_GET['Tracking_Num']) && $_GET['Tracking_Num'] > 0)
-{
-		$Tracking_Num = $_GET['Tracking_Num'];
-		$result = sqlsrv_query($conn, "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName, dbo.PersonnelInfo.LastName, dbo.PersonnelInfo.Status, dbo.PersonnelInfo.Department, 
-		dbo.PersonnelInfo.Title, dbo.PersonnelInfo.FOC_Company, dbo.PersonnelInfo.Contract_Agency, dbo.PersonnelInfo.Contractor, dbo.PersonnelInfo.Manager, dbo.PersonnelInfo.Department,
-		CONVERT (varchar, dbo.PersonnelInfo.SSN_Validation_Date, 110) AS SSN_VALIDATION_DATE, CONVERT (varchar, dbo.PersonnelInfo.Criminal_Background_Date, 110) AS BACKGROUND_CHECK_DATE 
-		FROM dbo.PersonnelInfo
-        WHERE dbo.PersonnelInfo.Tracking_Num=$Tracking_Num")
-		
-		or die(print_r(sqlsrv_errors(), TRUE));
-		$row = sqlsrv_fetch_array($result);
-		//$checked =explode(',', $row['iMitigationPlan']);
-if ($row)
-{
-		$Tracking_Num=$row['Tracking_Num'];
-		$FirstName=$row['FirstName'];
-		$LastName=$row['LastName'];
-		$Contractor=$row['Contractor'];
-		$Contract_Agency=$row['Contract_Agency'];
-		$SSN_Validation_Date=$row['SSN_VALIDATION_DATE'];
-		$Criminal_Background_Date=$row['BACKGROUND_CHECK_DATE'];
-		$Manager=$row['Manager'];
-		$Department=$row['Department'];
-		
-		renderForm($Tracking_Num, $FirstName, $LastName, $Manager, $Department, $Contractor, $Contract_Agency, $SSN_Validation_Date, $Criminal_Background_Date, '');
-}
-else 
-{
-echo "No results!";
-}
-}
-else
-{
-echo 'Error2!';
-}
-}
-if (isset($_POST['submit']))
-{
-	$result = sqlsrv_query($conn, "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName, dbo.PersonnelInfo.LastName, CONVERT (varchar, dbo.PersonnelInfo.DatePaperWorkSign, 110) AS PAPERWORK_APPROVED_ON, dbo.PersonnelInfo.PaperWorkApprovedBy
-		FROM dbo.PersonnelInfo
-        WHERE dbo.PersonnelInfo.Tracking_Num=$Tracking_Num")
-		
-		or die(print_r(sqlsrv_errors(), TRUE));
-		$row = sqlsrv_fetch_array($result);
-		$FirstName=$row['FirstName'];
-		$LastName=$row['LastName'];	
-	    $PRACompletedDate = date("m-d-y h:i:sa");
-        $PRACompletedBy = Auth::user()['username'];
-		
-	$to = "allensolutiongroup@gmail.com";
-	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;
-	$message = "		<h4>Human Resources has verified the following information regarding the review and validation of the PRA</h4><br>
-						<b>-	Seven year criminal history records check</b><br>
-							&nbsp&nbsp&nbsp&nbsp  o	Based on the current residence regardless of duration<br>
-							&nbsp&nbsp&nbsp&nbsp  o	Other locations where, during the seven years immediately prior to the date of the criminal history records check, the individual has resided for six consecutive months or more.<br>
-						<b>-	Identity check</b><br>
-							&nbsp&nbsp&nbsp&nbsp  o	Social Security Number Check for all US citizens and permanent residents,<br>
-							&nbsp&nbsp&nbsp&nbsp  o	Other methods of identity verification for foreign nationals approved by the PRA Review Board.<br>
-							<br>Approved by: $PRACompletedBy - $PRACompletedDate" ;
-	
-	$headers = "MIME-Version: 1.0" . "\r\n";
-	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-	$headers .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
+// ---- Helper: one consistent renderForm signature ----
+function renderForm(array $data, string $error = '') {
+    // $data must include keys: Tracking_Num, FirstName, LastName, Manager, Department,
+    // Contractor, Contract_Agency, SSN_Validation_Date, Criminal_Background_Date
+    ?>
+    <!doctype html>
+    <html><head><meta charset="utf-8"><title>PRA Verification</title></head>
+    <body>
+      <h1>PRA Verification</h1>
+      <?php if ($error): ?><div style="color:#b00020"><?php echo htmlspecialchars($error); ?></div><?php endif; ?>
 
-	sendHtmlMail($to,$subject,$message, 'allensolutiongroup@gmail.com', 'CIP Suite WebApp');	
-		
-}			
+      <form method="post" action="">
+        <?php csrf_input(); ?>
+        <input type="hidden" name="Tracking_Num" value="<?php echo (int)$data['Tracking_Num']; ?>">
+
+        <p><strong>Name:</strong>
+           <?php echo htmlspecialchars(($data['FirstName'] ?? '').' '.($data['LastName'] ?? '')); ?></p>
+        <p><strong>Manager:</strong> <?php echo htmlspecialchars($data['Manager'] ?? ''); ?></p>
+        <p><strong>Department:</strong> <?php echo htmlspecialchars($data['Department'] ?? ''); ?></p>
+        <p><strong>Contractor:</strong> <?php echo htmlspecialchars($data['Contractor'] ?? ''); ?></p>
+        <p><strong>Contract Agency:</strong> <?php echo htmlspecialchars($data['Contract_Agency'] ?? ''); ?></p>
+
+        <label>SSN Validation Date:
+          <input type="date" name="SSN_Validation_Date"
+                 value="<?php echo htmlspecialchars($data['SSN_Validation_Date'] ?? ''); ?>" required>
+        </label><br><br>
+
+        <label>Criminal Background Date:
+          <input type="date" name="Criminal_Background_Date"
+                 value="<?php echo htmlspecialchars($data['Criminal_Background_Date'] ?? ''); ?>" required>
+        </label><br><br>
+
+        <button type="submit" name="submit" value="1">Save</button>
+      </form>
+    </body></html>
+    <?php
+    exit;
+}
+
+// ---- Load for GET (initial form display) ----
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    if (!isset($_GET['Tracking_Num']) || !is_numeric($_GET['Tracking_Num']) || (int)$_GET['Tracking_Num'] <= 0) {
+        http_response_code(400);
+        die('Missing or invalid Tracking_Num');
+    }
+
+    $Tracking_Num = (int)$_GET['Tracking_Num'];
+    $sql = "SELECT p.Tracking_Num, p.FirstName, p.LastName, p.Status, p.Department, p.Title, p.FOC_Company,
+                   p.Contract_Agency, p.Contractor, p.Manager,
+                   CONVERT(varchar(10), p.SSN_Validation_Date, 23) AS SSN_Validation_Date,  -- yyyy-mm-dd
+                   CONVERT(varchar(10), p.Criminal_Background_Date, 23) AS Criminal_Background_Date
+            FROM dbo.PersonnelInfo p
+            WHERE p.Tracking_Num = ?";
+    $stmt = sqlsrv_query($conn, $sql, [$Tracking_Num]);
+    if ($stmt === false) die('DB error: '.print_r(sqlsrv_errors(), true));
+    $row  = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+    if (!$row) die('No results');
+
+    // Normalize payload to our renderForm shape
+    $data = [
+        'Tracking_Num' => $row['Tracking_Num'],
+        'FirstName' => $row['FirstName'],
+        'LastName'  => $row['LastName'],
+        'Manager'   => $row['Manager'],
+        'Department'=> $row['Department'],
+        'Contractor'=> $row['Contractor'],
+        'Contract_Agency' => $row['Contract_Agency'],
+        'SSN_Validation_Date' => $row['SSN_Validation_Date'] ?: '',
+        'Criminal_Background_Date' => $row['Criminal_Background_Date'] ?: ''
+    ];
+    renderForm($data); // renders and exits
+}
+
+// ---- POST: Save branch ----
+csrf_validate();
+
+if (!isset($_POST['submit']) || !isset($_POST['Tracking_Num']) || !is_numeric($_POST['Tracking_Num'])) {
+    http_response_code(400);
+    die('Invalid submission');
+}
+
+$Tracking_Num = (int)$_POST['Tracking_Num'];
+$SSN_Validation_Date       = trim($_POST['SSN_Validation_Date'] ?? '');
+$Criminal_Background_Date  = trim($_POST['Criminal_Background_Date'] ?? '');
+
+if ($SSN_Validation_Date === '' || $Criminal_Background_Date === '') {
+    // Reload current values to re-render with error
+    $stmt = sqlsrv_query($conn,
+        "SELECT FirstName, LastName, Manager, Department, Contractor, Contract_Agency,
+                CONVERT(varchar(10), SSN_Validation_Date, 23) AS SSN_Validation_Date,
+                CONVERT(varchar(10), Criminal_Background_Date, 23) AS Criminal_Background_Date
+         FROM dbo.PersonnelInfo WHERE Tracking_Num = ?", [$Tracking_Num]);
+    $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+
+    $data = [
+        'Tracking_Num' => $Tracking_Num,
+        'FirstName' => $row['FirstName'] ?? '',
+        'LastName'  => $row['LastName'] ?? '',
+        'Manager'   => $row['Manager'] ?? '',
+        'Department'=> $row['Department'] ?? '',
+        'Contractor'=> $row['Contractor'] ?? '',
+        'Contract_Agency' => $row['Contract_Agency'] ?? '',
+        'SSN_Validation_Date' => $SSN_Validation_Date,
+        'Criminal_Background_Date' => $Criminal_Background_Date
+    ];
+    renderForm($data, 'Error: Please fill in all required fields');
+}
+
+// Parse HTML5 date (YYYY-MM-DD). We’ll store as DATE.
+$ssn   = $SSN_Validation_Date;      // yyyy-mm-dd
+$crim  = $Criminal_Background_Date; // yyyy-mm-dd
+$user  = Auth::user();
+$by    = $user ? $user['username'] : 'unknown';
+$when  = gmdate('Y-m-d H:i:s');     // if you need it for an email/log
+
+// Start a transaction and parameterized update
+if (!sqlsrv_begin_transaction($conn)) {
+    die('Could not start transaction: '.print_r(sqlsrv_errors(), true));
+}
+
+$update = "
+UPDATE dbo.PersonnelInfo
+   SET SSN_Validation_Date       = CONVERT(date, ?, 23),  -- expect yyyy-mm-dd
+       Criminal_Background_Date  = CONVERT(date, ?, 23)
+ WHERE Tracking_Num = ?;
+";
+$params = [$ssn, $crim, $Tracking_Num];
+$stmt = sqlsrv_query($conn, $update, $params);
+
+if ($stmt === false) {
+    sqlsrv_rollback($conn);
+    die('Update failed: '.print_r(sqlsrv_errors(), true));
+}
+
+if (!sqlsrv_commit($conn)) {
+    sqlsrv_rollback($conn);
+    die('Commit failed: '.print_r(sqlsrv_errors(), true));
+}
+
+// OPTIONAL: send confirmation email (remove if not needed)
+$to       = 'allensolutiongroup@gmail.com';
+$subject  = $Tracking_Num.' - PRA Verification Saved';
+$message  = "<html><body>
+  <h3>PRA verification saved</h3>
+  <table border=\"1\" cellpadding=\"6\" cellspacing=\"0\">
+    <tr><th align=\"left\">Tracking #</th><td>{$Tracking_Num}</td></tr>
+    <tr><th align=\"left\">SSN Validation Date</th><td>{$ssn}</td></tr>
+    <tr><th align=\"left\">Criminal Background Date</th><td>{$crim}</td></tr>
+    <tr><th align=\"left\">Saved By</th><td>".htmlspecialchars($by)."</td></tr>
+    <tr><th align=\"left\">Saved At (UTC)</th><td>{$when}</td></tr>
+  </table>
+</body></html>";
+
+list($okMail, $errMail) = sendHtmlMail($to, $subject, $message, 'allensolutiongroup@gmail.com', 'CIP Suite WebApp');
+
+// Redirect or render success
+if ($okMail) {
+    header("Location: CIPApproval.php?Tracking_Num=".$Tracking_Num);
+    exit;
+} else {
+    echo "<p style='color:green'>✅ Saved to DB.</p>";
+    echo "<p style='color:#b00020'>❌ Email failed: ".htmlspecialchars($errMail)."</p>";
+    echo "<p><a href='CIPApproval.php?Tracking_Num=".$Tracking_Num."'>Back to approval</a></p>";
+}
 ?>
