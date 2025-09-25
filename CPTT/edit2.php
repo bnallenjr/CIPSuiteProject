@@ -516,50 +516,63 @@ function renderStatus($current, $name, $options){
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
         <h4 class="modal-title">Audit</h4>
       </div>
-      <div class="modal-body">
-        <?php
-          $q = "
-            SELECT pi.Tracking_Num,
-                   pi.FirstName + ' ' + pi.LastName AS Name,
-                   a.FieldName, a.OldValue, a.NewValue, a.UpdateDate
-            ".( // include UpdatedBy if present
-               (sqlsrv_query($conn, \"SELECT COL_LENGTH('dbo.Audit','UpdatedBy') L\") &&
-                ($r = sqlsrv_fetch_array(sqlsrv_query($conn, \"SELECT COL_LENGTH('dbo.Audit','UpdatedBy') L\"), SQLSRV_FETCH_ASSOC)) &&
-                $r['L'] !== null ? ', a.UpdatedBy ' : ' '
-             )."
-            FROM dbo.Audit a
-            LEFT JOIN dbo.PersonnelInfo pi ON dbo.udf_extractInteger(a.PK) = pi.Tracking_Num
-            WHERE pi.Tracking_Num = ?
-            ORDER BY a.UpdateDate ASC";
-          $stmtA = sqlsrv_query($conn, $q, [$Tracking_Num]);
-          if ($stmtA === false) {
-            echo '<div class="alert alert-danger">Error loading audit: '.h(print_r(sqlsrv_errors(), true)).'</div>';
-          } else {
-            echo '<div class="table-responsive"><table class="table table-bordered"><thead><tr>
-                   <th>Tracking #</th><th>Name</th><th>Field Changed</th><th>Old Value</th><th>New Value</th><th>Date of Change</th>';
-            // detect UpdatedBy again for header (simple check)
-            $hasUpdatedByHeader = false;
-            $chk2 = sqlsrv_query($conn, \"SELECT COL_LENGTH('dbo.Audit','UpdatedBy') L\");
-            if ($chk2 && ($rc = sqlsrv_fetch_array($chk2, SQLSRV_FETCH_ASSOC)) && $rc['L'] !== null) { $hasUpdatedByHeader = true; }
-            if ($hasUpdatedByHeader) echo '<th>Updated By</th>';
-            echo '</tr></thead><tbody>';
+<div class="modal-body">
+<?php
+    // 1) Does dbo.Audit have an UpdatedBy column?
+    $hasUpdatedBy = false;
+    $chk = sqlsrv_query($conn, "SELECT COL_LENGTH('dbo.Audit','UpdatedBy') AS L");
+    if ($chk && ($r = sqlsrv_fetch_array($chk, SQLSRV_FETCH_ASSOC)) && $r['L'] !== null) {
+        $hasUpdatedBy = true;
+    }
 
-            while ($rowA = sqlsrv_fetch_array($stmtA, SQLSRV_FETCH_ASSOC)) {
-              echo '<tr>';
-              echo '<td>'.h($rowA['Tracking_Num']).'</td>';
-              echo '<td>'.h($rowA['Name']).'</td>';
-              echo '<td>'.h($rowA['FieldName']).'</td>';
-              echo '<td>'.h($rowA['OldValue']).'</td>';
-              echo '<td>'.h($rowA['NewValue']).'</td>';
-              $dt = $rowA['UpdateDate'];
-              echo '<td>'.(is_object($dt) && method_exists($dt,'format') ? h($dt->format('m/d/Y H:i')) : h($dt)).'</td>';
-              if ($hasUpdatedByHeader) { echo '<td>'.h($rowA['UpdatedBy'] ?? '').'</td>'; }
-              echo '</tr>';
+    // 2) Build the query safely
+    $q  = "SELECT pi.Tracking_Num, ";
+    $q .= "       pi.FirstName + ' ' + pi.LastName AS Name, ";
+    $q .= "       a.FieldName, a.OldValue, a.NewValue, a.UpdateDate";
+    if ($hasUpdatedBy) {
+        $q .= ", a.UpdatedBy";
+    }
+    $q .= "  FROM dbo.Audit a ";
+    $q .= "  LEFT JOIN dbo.PersonnelInfo pi ON dbo.udf_extractInteger(a.PK) = pi.Tracking_Num ";
+    $q .= " WHERE pi.Tracking_Num = ? ";
+    $q .= " ORDER BY a.UpdateDate ASC";
+
+    $stmtA = sqlsrv_query($conn, $q, [$Tracking_Num]);
+    if ($stmtA === false) {
+        echo '<div class="alert alert-danger">Error loading audit: ' . h(print_r(sqlsrv_errors(), true)) . '</div>';
+    } else {
+        echo '<div class="table-responsive"><table class="table table-bordered"><thead><tr>
+                <th>Tracking #</th>
+                <th>Name</th>
+                <th>Field Changed</th>
+                <th>Old Value</th>
+                <th>New Value</th>
+                <th>Date of Change</th>';
+        if ($hasUpdatedBy) {
+            echo '<th>Updated By</th>';
+        }
+        echo '</tr></thead><tbody>';
+
+        while ($rowA = sqlsrv_fetch_array($stmtA, SQLSRV_FETCH_ASSOC)) {
+            echo '<tr>';
+            echo '<td>' . h($rowA['Tracking_Num']) . '</td>';
+            echo '<td>' . h($rowA['Name']) . '</td>';
+            echo '<td>' . h($rowA['FieldName']) . '</td>';
+            echo '<td>' . h($rowA['OldValue']) . '</td>';
+            echo '<td>' . h($rowA['NewValue']) . '</td>';
+            $dt = $rowA['UpdateDate'];
+            echo '<td>' . (is_object($dt) && method_exists($dt, 'format') ? h($dt->format('m/d/Y H:i')) : h($dt)) . '</td>';
+            if ($hasUpdatedBy) {
+                echo '<td>' . h($rowA['UpdatedBy'] ?? '') . '</td>';
             }
-            echo '</tbody></table></div>';
-          }
-        ?>
-      </div>
+            echo '</tr>';
+        }
+
+        echo '</tbody></table></div>';
+    }
+?>
+</div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
