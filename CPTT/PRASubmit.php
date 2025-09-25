@@ -167,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <tr><th>Email on file</th><td><?php echo htmlspecialchars($person['Email']); ?></td></tr>
       </table>
       <div class = "container">
-  <h2>By entering the dates below you attest that the following actions were performed with regards to this individual's PRA.</h2>
+  <p>By entering the dates below you attest that the following actions were performed with regards to this individual's PRA.</p>
   <ul class="list-group">
 	<li><h4 class ="list-group-item-heading">Seven year criminal history records check</h4></li>
 	<p class = "list-group-item-text">- Based on current residence regardless of duration</p>
