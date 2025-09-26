@@ -285,7 +285,7 @@ $hasUserName = false;
 $chk = sqlsrv_query($conn, "SELECT COL_LENGTH('dbo.Audit','UserName') AS L");
 if ($chk && ($r = sqlsrv_fetch_array($chk, SQLSRV_FETCH_ASSOC)) && $r['L'] !== null) {
     $hasUserName = true;
-
+}
 
 // Audit insert SQL
 $auditSql = "INSERT INTO dbo.Audit
