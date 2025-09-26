@@ -310,31 +310,34 @@ if ($hasSessionUpdatedAt) {
 
     /* 3) Audit logging: compare $orig (before) vs $rec (after) across all mapped fields */
     // Detect if dbo.Audit has UpdatedBy column
-    $hasUserName = false;
-    $chk = sqlsrv_query($conn, "SELECT COL_LENGTH('dbo.Audit','UserName') AS L");
-    if ($chk && ($r = sqlsrv_fetch_array($chk, SQLSRV_FETCH_ASSOC)) && $r['L'] !== null) {
-      $hasUserName = true;
-    }
+   // === Audit logging: compare $orig vs $rec and write to dbo.Audit ===
+// Detect dbo.Audit.UserName (so we only include it if it exists)
+$hasUserName = false;
+$chk = sqlsrv_query($conn, "SELECT COL_LENGTH('dbo.Audit','UserName') AS L");
+if ($chk && ($r = sqlsrv_fetch_array($chk, SQLSRV_FETCH_ASSOC)) && $r['L'] !== null) {
+    $hasUserName = true;
+}
 
-    $auditSql = $hasUserName
-      ? "INSERT INTO dbo.Audit (PK, FieldName, OldValue, NewValue, UpdateDate, UserName)
-         VALUES (?, ?, ?, ?, SYSUTCDATETIME(), ?)"
-      : "INSERT INTO dbo.Audit (PK, FieldName, OldValue, NewValue, UpdateDate)
-         VALUES (?, ?, ?, ?, SYSUTCDATETIME())";
+$auditSql = $hasUserName
+  ? "INSERT INTO dbo.Audit (PK, FieldName, OldValue, NewValue, UpdateDate, UserName)
+     VALUES (?, ?, ?, ?, SYSUTCDATETIME(), ?)"
+  : "INSERT INTO dbo.Audit (PK, FieldName, OldValue, NewValue, UpdateDate)
+     VALUES (?, ?, ?, ?, SYSUTCDATETIME())";
 
-    $pkString = 'PersonnelInfo:' . $Tracking_Num;
+$pkString = 'PersonnelInfo:' . $Tracking_Num;
 
-    foreach ($fieldToTable as $col => $table) {
-      $old = isset($orig[$col]) ? (string)$orig[$col] : '';
-      $new = isset($rec[$col])  ? (string)$rec[$col]  : '';
-      if ($old !== $new) {
+foreach ($fieldToTable as $col => $table) {
+    $old = isset($orig[$col]) ? (string)$orig[$col] : '';
+    $new = isset($rec[$col])  ? (string)$rec[$col]  : '';
+    if ($old !== $new) {
         $params = $hasUserName
-          ? [$pkString, $col, $old, $new, $by]
+          ? [$pkString, $col, $old, $new, $by]   // note: $by is the logged-in username from Auth::user()
           : [$pkString, $col, $old, $new];
         $okA = sqlsrv_query($conn, $auditSql, $params);
         if ($okA === false) { sqlsrv_rollback($conn); die('Audit insert failed: ' . print_r(sqlsrv_errors(), true)); }
-      }
     }
+}
+
 
     /* 4) Commit and redirect */
     if (!sqlsrv_commit($conn)) { sqlsrv_rollback($conn); $err = 'Commit failed: ' . print_r(sqlsrv_errors(), true); }
@@ -540,20 +543,18 @@ function renderStatus($current, $name, $options){
       </div>
 <div class="modal-body">
 <?php
-    // 1) Does dbo.Audit have an UpdatedBy column?
-    $hasUsername = false;
+    // Check if dbo.Audit has UserName column
+    $hasUserName = false;
     $chk = sqlsrv_query($conn, "SELECT COL_LENGTH('dbo.Audit','UserName') AS L");
     if ($chk && ($r = sqlsrv_fetch_array($chk, SQLSRV_FETCH_ASSOC)) && $r['L'] !== null) {
         $hasUserName = true;
     }
 
-    // 2) Build the query safely
+    // Build the query
     $q  = "SELECT pi.Tracking_Num, ";
     $q .= "       pi.FirstName + ' ' + pi.LastName AS Name, ";
-    $q .= "       a.FieldName, a.OldValue, a.NewValue, a.UserName";
-    if ($hasUserName) {
-        $q .= ", a.UserName";
-    }
+    $q .= "       a.FieldName, a.OldValue, a.NewValue, a.UpdateDate";
+    if ($hasUserName) { $q .= ", a.UserName"; }
     $q .= "  FROM dbo.Audit a ";
     $q .= "  LEFT JOIN dbo.PersonnelInfo pi ON dbo.udf_extractInteger(a.PK) = pi.Tracking_Num ";
     $q .= " WHERE pi.Tracking_Num = ? ";
@@ -570,9 +571,7 @@ function renderStatus($current, $name, $options){
                 <th>Old Value</th>
                 <th>New Value</th>
                 <th>Date of Change</th>';
-        if ($hasUserName) {
-            echo '<th>Updated By</th>';
-        }
+        if ($hasUserName) echo '<th>Updated By</th>';
         echo '</tr></thead><tbody>';
 
         while ($rowA = sqlsrv_fetch_array($stmtA, SQLSRV_FETCH_ASSOC)) {
@@ -584,15 +583,13 @@ function renderStatus($current, $name, $options){
             echo '<td>' . h($rowA['NewValue']) . '</td>';
             $dt = $rowA['UpdateDate'];
             echo '<td>' . (is_object($dt) && method_exists($dt, 'format') ? h($dt->format('m/d/Y H:i')) : h($dt)) . '</td>';
-            if ($hasUserName) {
-                echo '<td>' . h($rowA['UserName'] ?? '') . '</td>';
-            }
+            if ($hasUserName) echo '<td>' . h($rowA['UserName'] ?? '') . '</td>';
             echo '</tr>';
         }
-
         echo '</tbody></table></div>';
     }
 ?>
+
 </div>
 
       <div class="modal-footer">
