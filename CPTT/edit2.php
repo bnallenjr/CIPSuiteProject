@@ -310,14 +310,14 @@ if ($hasSessionUpdatedAt) {
 
     /* 3) Audit logging: compare $orig (before) vs $rec (after) across all mapped fields */
     // Detect if dbo.Audit has UpdatedBy column
-    $hasUpdatedBy = false;
-    $chk = sqlsrv_query($conn, "SELECT COL_LENGTH('dbo.Audit','UpdatedBy') AS L");
+    $hasUserName = false;
+    $chk = sqlsrv_query($conn, "SELECT COL_LENGTH('dbo.Audit','UserName') AS L");
     if ($chk && ($r = sqlsrv_fetch_array($chk, SQLSRV_FETCH_ASSOC)) && $r['L'] !== null) {
-      $hasUpdatedBy = true;
+      $hasUserName = true;
     }
 
-    $auditSql = $hasUpdatedBy
-      ? "INSERT INTO dbo.Audit (PK, FieldName, OldValue, NewValue, UpdateDate, UpdatedBy)
+    $auditSql = $hasUserName
+      ? "INSERT INTO dbo.Audit (PK, FieldName, OldValue, NewValue, UpdateDate, UserName)
          VALUES (?, ?, ?, ?, SYSUTCDATETIME(), ?)"
       : "INSERT INTO dbo.Audit (PK, FieldName, OldValue, NewValue, UpdateDate)
          VALUES (?, ?, ?, ?, SYSUTCDATETIME())";
@@ -328,7 +328,7 @@ if ($hasSessionUpdatedAt) {
       $old = isset($orig[$col]) ? (string)$orig[$col] : '';
       $new = isset($rec[$col])  ? (string)$rec[$col]  : '';
       if ($old !== $new) {
-        $params = $hasUpdatedBy
+        $params = $hasUserName
           ? [$pkString, $col, $old, $new, $by]
           : [$pkString, $col, $old, $new];
         $okA = sqlsrv_query($conn, $auditSql, $params);
@@ -541,18 +541,18 @@ function renderStatus($current, $name, $options){
 <div class="modal-body">
 <?php
     // 1) Does dbo.Audit have an UpdatedBy column?
-    $hasUpdatedBy = false;
-    $chk = sqlsrv_query($conn, "SELECT COL_LENGTH('dbo.Audit','UpdatedBy') AS L");
+    $hasUsername = false;
+    $chk = sqlsrv_query($conn, "SELECT COL_LENGTH('dbo.Audit','UserName') AS L");
     if ($chk && ($r = sqlsrv_fetch_array($chk, SQLSRV_FETCH_ASSOC)) && $r['L'] !== null) {
-        $hasUpdatedBy = true;
+        $hasUserName = true;
     }
 
     // 2) Build the query safely
     $q  = "SELECT pi.Tracking_Num, ";
     $q .= "       pi.FirstName + ' ' + pi.LastName AS Name, ";
-    $q .= "       a.FieldName, a.OldValue, a.NewValue, a.UpdateDate";
-    if ($hasUpdatedBy) {
-        $q .= ", a.UpdatedBy";
+    $q .= "       a.FieldName, a.OldValue, a.NewValue, a.UserName";
+    if ($hasUserName) {
+        $q .= ", a.UserName";
     }
     $q .= "  FROM dbo.Audit a ";
     $q .= "  LEFT JOIN dbo.PersonnelInfo pi ON dbo.udf_extractInteger(a.PK) = pi.Tracking_Num ";
@@ -570,7 +570,7 @@ function renderStatus($current, $name, $options){
                 <th>Old Value</th>
                 <th>New Value</th>
                 <th>Date of Change</th>';
-        if ($hasUpdatedBy) {
+        if ($hasUserName) {
             echo '<th>Updated By</th>';
         }
         echo '</tr></thead><tbody>';
@@ -584,8 +584,8 @@ function renderStatus($current, $name, $options){
             echo '<td>' . h($rowA['NewValue']) . '</td>';
             $dt = $rowA['UpdateDate'];
             echo '<td>' . (is_object($dt) && method_exists($dt, 'format') ? h($dt->format('m/d/Y H:i')) : h($dt)) . '</td>';
-            if ($hasUpdatedBy) {
-                echo '<td>' . h($rowA['UpdatedBy'] ?? '') . '</td>';
+            if ($hasUserName) {
+                echo '<td>' . h($rowA['UserName'] ?? '') . '</td>';
             }
             echo '</tr>';
         }
