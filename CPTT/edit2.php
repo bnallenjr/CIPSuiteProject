@@ -186,7 +186,7 @@ $err = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   csrf_validate();
   $user = Auth::user();
-  $by   = $user['username'] ?? 'unknown';
+  $by   = $user['UserName'] ?? 'unknown';
 
   // Collect posted values per table (checkboxes default to 'No' when missing)
   $updatesByTable = [];
