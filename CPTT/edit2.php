@@ -124,7 +124,7 @@ if($conn) {
 		$row = sqlsrv_fetch_array($result);
 		//$checked =explode(',', $row['iMitigationPlan']);
  ?>
- <h2>Edit CIP Authorized Personnel Form (Tracking Number: <?php echo $Tracking_Num;?>)&nbsp <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#AuditTable">Audit History</button> &nbsp <button type="button" class="btn btn-primary" onclick= "window.open('http://cipgsoc.gafoc.com/sites/ocrs/Personnel%20Management%20Evidence%20Library/<?php echo $Tracking_Num; ?>%20-%20<?php echo $FirstName?>%20<?php echo $LastName?>');" >Evidence Folder</button></h2>
+ <h2>Edit CIP Authorized Personnel Form (Tracking Number: <?php echo $Tracking_Num;?>)&nbsp <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#AuditTable">Audit History</button> &nbsp <button type="button" class="btn btn-primary" onclick= "window.open('http:///<?php echo $Tracking_Num; ?>%20-%20<?php echo $FirstName?>%20<?php echo $LastName?>');" >Evidence Folder</button></h2>
 		<br>
 		<form id="form" action ="" method="post">
 		<input type = "hidden" name="Tracking_Num" value="<?php echo $Tracking_Num; ?>"/>
@@ -1206,7 +1206,7 @@ else
 							 UPDATE dbo.OCRS SET OCRS_ECMSAdmin='$OCRS_ECMSAdmin', OCRS_SSITAdmin='$OCRS_SSITAdmin', OCRS_User='$OCRS_User', Stratus='$Stratus', Catalogic='$Catalogic', SolarWinds='$SolarWinds', ServiceDeskPlus='$ServiceDeskPlus', CIP_ProtectedInfo='$CIP_ProtectedInfo' WHERE Tracking_Num = '$Tracking_Num'
 							 COMMIT")
 		or die(print_r(sqlsrv_errors(), TRUE));
-		header("Location: home.php");
+		header("Location: dashboard.php");
 }
 }
 else
