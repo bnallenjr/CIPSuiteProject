@@ -297,7 +297,7 @@ if($conn) {
 		</table>
 		<button type ="button" value="" style="color:green" onclick= "window.location.href='PRARequest2.php?Tracking_Num=<?php echo $Tracking_Num; ?>'"> Request PRA</button> 
 		<!--<button type ="button" value="" style="color:red"> onclick= "window.location.href='cyberSecurityTraining2.php?Tracking_Num=<?php echo $Tracking_Num; ?>'"Send Training</button>-->
-		<button type ="button" value="" style="color:black"onclick= "window.location.href='approvalConfirmation2.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Send CIP Approval</button>
+		<button type ="button" value="" style="color:black"onclick= "window.location.href='approvalConfirmation.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Send CIP Approval</button>
 			<h3>Approved Authorizations</h3>
 <div id="tabs">
   <ul>
