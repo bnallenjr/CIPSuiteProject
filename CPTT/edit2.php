@@ -235,38 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if ($okPI === false) { sqlsrv_rollback($conn); die('Update PersonnelInfo failed: '.print_r(sqlsrv_errors(), true)); }
 
       // Helpers: check column existence (parameterized)
-function colExists($conn, $table, $col) {
-    $sql = "SELECT 1
-            FROM sys.columns
-            WHERE [object_id] = OBJECT_ID(?) AND [name] = ?";
-    $st  = sqlsrv_query($conn, $sql, [$table, $col]);
-    if ($st === false) return false;
-    return sqlsrv_fetch($st) !== false;
-}
 
-$hasSessionUser      = colExists($conn, 'dbo.PersonnelInfo', 'Session_User');
-$hasSessionUpdatedAt = colExists($conn, 'dbo.PersonnelInfo', 'Session_Updated_At');
-
-// Run only the statements we need, with the right number of params
-if ($hasSessionUser) {
-    $ok1 = sqlsrv_query(
-        $conn,
-        "UPDATE dbo.PersonnelInfo SET Session_User = ? WHERE Tracking_Num = ?",
-        [$by, $Tracking_Num]
-    );
-    if ($ok1 === false) { sqlsrv_rollback($conn); die('Session stamp (user) failed: ' . print_r(sqlsrv_errors(), true)); }
-}
-
-if ($hasSessionUpdatedAt) {
-    $ok2 = sqlsrv_query(
-        $conn,
-        "UPDATE dbo.PersonnelInfo SET Session_Updated_At = SYSUTCDATETIME() WHERE Tracking_Num = ?",
-        [$Tracking_Num]
-    );
-    if ($ok2 === false) { sqlsrv_rollback($conn); die('Session stamp (timestamp) failed: ' . print_r(sqlsrv_errors(), true)); }
-}
-
-      unset($updatesByTable['dbo.PersonnelInfo']);
     }
 
     // 2) Update / Upsert child tables
@@ -316,27 +285,28 @@ $hasUserName = false;
 $chk = sqlsrv_query($conn, "SELECT COL_LENGTH('dbo.Audit','UserName') AS L");
 if ($chk && ($r = sqlsrv_fetch_array($chk, SQLSRV_FETCH_ASSOC)) && $r['L'] !== null) {
     $hasUserName = true;
-}
 
-$auditSql = $hasUserName
-  ? "INSERT INTO dbo.Audit (PK, FieldName, OldValue, NewValue, UpdateDate, UserName)
-     VALUES (?, ?, ?, ?, SYSUTCDATETIME(), ?)"
-  : "INSERT INTO dbo.Audit (PK, FieldName, OldValue, NewValue, UpdateDate)
-     VALUES (?, ?, ?, ?, SYSUTCDATETIME())";
 
+// Audit insert SQL
+$auditSql = "INSERT INTO dbo.Audit
+                (PK, FieldName, OldValue, NewValue, UpdateDate, UserName)
+             VALUES (?, ?, ?, ?, SYSUTCDATETIME(), ?)";
+
+// Loop through each field we mapped and compare old vs new
 $pkString = 'PersonnelInfo:' . $Tracking_Num;
-
 foreach ($fieldToTable as $col => $table) {
     $old = isset($orig[$col]) ? (string)$orig[$col] : '';
     $new = isset($rec[$col])  ? (string)$rec[$col]  : '';
     if ($old !== $new) {
-        $params = $hasUserName
-          ? [$pkString, $col, $old, $new, $by]   // note: $by is the logged-in username from Auth::user()
-          : [$pkString, $col, $old, $new];
+        $params = [$pkString, $col, $old, $new, $by]; // $by = current Auth user
         $okA = sqlsrv_query($conn, $auditSql, $params);
-        if ($okA === false) { sqlsrv_rollback($conn); die('Audit insert failed: ' . print_r(sqlsrv_errors(), true)); }
+        if ($okA === false) {
+            sqlsrv_rollback($conn);
+            die('Audit insert failed: ' . print_r(sqlsrv_errors(), true));
+        }
     }
 }
+
 
 
     /* 4) Commit and redirect */
