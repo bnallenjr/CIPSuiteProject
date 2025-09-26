@@ -233,9 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $sql = "UPDATE dbo.PersonnelInfo SET ".implode(', ', $sets)." WHERE Tracking_Num = ?";
       $okPI = sqlsrv_query($conn, $sql, array_merge($params, [$Tracking_Num]));
       if ($okPI === false) { sqlsrv_rollback($conn); die('Update PersonnelInfo failed: '.print_r(sqlsrv_errors(), true)); }
-
-      // Helpers: check column existence (parameterized)
-
+ 	  unset($updatesByTable['dbo.PersonnelInfo']);
     }
 
     // 2) Update / Upsert child tables
@@ -254,7 +252,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       }
       $u = sqlsrv_query($conn, "UPDATE $table SET ".implode(', ', $sets)." WHERE Tracking_Num = ?", array_merge($params, [$Tracking_Num]));
       if ($u === false) { sqlsrv_rollback($conn); die("Update $table failed: " . print_r(sqlsrv_errors(), true)); }
-
+	
       $rows = sqlsrv_rows_affected($u);
       if ($rows === 0) {
         $colsList = array_keys($cols);
@@ -287,26 +285,25 @@ if ($chk && ($r = sqlsrv_fetch_array($chk, SQLSRV_FETCH_ASSOC)) && $r['L'] !== n
     $hasUserName = true;
 }
 
-// Audit insert SQL
-$auditSql = "INSERT INTO dbo.Audit
-                (PK, FieldName, OldValue, NewValue, UpdateDate, UserName)
-             VALUES (?, ?, ?, ?, SYSUTCDATETIME(), ?)";
+$auditSql = $hasUserName
+  ? "INSERT INTO dbo.Audit (PK, FieldName, OldValue, NewValue, UpdateDate, UserName)
+     VALUES (?, ?, ?, ?, SYSUTCDATETIME(), ?)"
+  : "INSERT INTO dbo.Audit (PK, FieldName, OldValue, NewValue, UpdateDate)
+     VALUES (?, ?, ?, ?, SYSUTCDATETIME())";
 
-// Loop through each field we mapped and compare old vs new
 $pkString = 'PersonnelInfo:' . $Tracking_Num;
+
 foreach ($fieldToTable as $col => $table) {
     $old = isset($orig[$col]) ? (string)$orig[$col] : '';
     $new = isset($rec[$col])  ? (string)$rec[$col]  : '';
     if ($old !== $new) {
-        $params = [$pkString, $col, $old, $new, $by]; // $by = current Auth user
+        $params = $hasUserName
+          ? [$pkString, $col, $old, $new, $by]   // note: $by is the logged-in username from Auth::user()
+          : [$pkString, $col, $old, $new];
         $okA = sqlsrv_query($conn, $auditSql, $params);
-        if ($okA === false) {
-            sqlsrv_rollback($conn);
-            die('Audit insert failed: ' . print_r(sqlsrv_errors(), true));
-        }
+        if ($okA === false) { sqlsrv_rollback($conn); die('Audit insert failed: ' . print_r(sqlsrv_errors(), true)); }
     }
 }
-
 
 
     /* 4) Commit and redirect */
