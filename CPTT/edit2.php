@@ -69,8 +69,50 @@
   }
   };
   </script>
-	</head>
+	
+<style>
+  /* Mobile-friendly tweaks */
+  *, *::before, *::after { box-sizing: border-box; }
+  #form input[type="text"],
+  #form input[type="number"],
+  #form input[type="date"],
+  #form input[type="time"],
+  #form input[type="password"],
+  #form input[type="email"],
+  #form select,
+  #form textarea {
+    width: 100%;
+    max-width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  #form label { margin: 0; font-weight: 600; }
+  #form .btn { padding: 10px 16px; }
+  /* Make table-based forms stack on small screens */
+  @media (max-width: 768px) {
+    table.responsive-table,
+    table.responsive-table thead,
+    table.responsive-table tbody,
+    table.responsive-table tr,
+    table.responsive-table td,
+    table.responsive-table th {
+      display: block;
+      width: 100%;
+    }
+    table.responsive-table tr { margin-bottom: 12px; border-bottom: 1px solid #eee; }
+    table.responsive-table td,
+    table.responsive-table th { padding: 6px 0 !important; border: none !important; }
+    table.responsive-table td:first-child,
+    table.responsive-table th:first-child { font-weight: 700; color: #555; }
+  }
+  /* Improve spacing */
+  .section-title { margin-top: 16px; margin-bottom: 8px; }
+</style>
+
+</head>
 	<body onload="requestAccess()">
+<div class="container-fluid" style="padding:12px;">
 	<h1>CIP Personnel Tracking Tool</h1>
 	<?php include "menu.php"; ?> 
 
@@ -132,7 +174,7 @@ if($conn) {
 		<div class = "inputs"> 
 		<h3>CIP Authorized Personnel's Information</h3>
 		<p></p>
-		<table style="width:100%" border= "1px solid black">
+		<table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
 		
 		<tr><td>
 			<label>*First Name:</label>
@@ -220,7 +262,7 @@ if($conn) {
 		</td></tr>
 		</table>
 			<p></p>
-		<table style="width:100%" border= "1px solid black">	
+		<table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">	
 		    <h3>Authorization Information</h3>
 		<tr><td>
 			<label>Identity Confirmation / SSN Validation:</label>
@@ -269,7 +311,7 @@ if($conn) {
 	<li><a href="#tabs-8">BCSI - Storage Repositories</a></li>
   </ul>
   <div id="tabs-1">
-  <table style="width:100%" border= "1px solid black">
+  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
 	<tr><td>
 	<label>System Control Center:</label>
 	</td><td>
@@ -445,7 +487,7 @@ if($conn) {
 <button type ="button" value="" style="color:red"onclick= "window.location.href='PhysicalAccessTermRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Terminate Access</button>		
   </div>
   <div id="tabs-2">
-  <table style="width:100%" border= "1px solid black">
+  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
 		<tr><td>
 		<label>ESP Remote Access / Intermediate System:</label>
 		</td><td>
@@ -643,7 +685,7 @@ if($conn) {
 	<button type ="button" value="" style="color:red" onclick= "window.location.href='XA_ECSTermRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Terminate Access</button>	
   </div>
   <div id="tabs-3">
-  <table style="width:100%" border= "1px solid black">
+  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
 		<tr><td>
 		<label>TE Engineering OM Group:</label>
 		</td><td>
@@ -699,7 +741,7 @@ if($conn) {
 		<button type ="button" value="" style="color:red" onclick= "window.location.href='NetworkDevicesTermRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Terminate Access</button>
   </div>
   <!--<div id="tabs-4">
-  <table style="width:100%" border= "1px solid black">
+  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
 	<tr><td>
 	<label>Log Retention/ Monitoring/ Security Application Administrator:</label>
 	</td><td>
@@ -733,7 +775,7 @@ if($conn) {
 	<button type ="button" value="" style="color:red" onclick= "window.location.href='SysLogTermRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Terminate Access</button>
   </div>-->
   <div id="tabs-5">
-  <table style="width:100%" border= "1px solid black">
+  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
 	<tr><td>
 	<label>Industrial Defender ASA:</label>
 	</td><td>
@@ -794,7 +836,7 @@ if($conn) {
 	<button type ="button" value="" style="color:red" onclick= "window.location.href='IndustDefTermRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Terminate Access</button>
   </div>  
   <div id="tabs-6">
-  <table style="width:100%" border= "1px solid black">
+  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
 	<tr><td>
 	<label>Sys Ops Domain Administrator:</label>
 	</td><td>
@@ -873,7 +915,7 @@ if($conn) {
 	<button type ="button" value="" style="color:red" onclick= "window.location.href='PSSTermRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Terminate Access</button>
   </div>
   <div id="tabs-7">
-  <table style="width:100%" border= "1px solid black">
+  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
 	<tr><td>
 	<label>Nessus Scanner Application Administrator:</label>
 	</td><td>
@@ -898,7 +940,7 @@ if($conn) {
 	<button type ="button" value="" style="color:red" onclick= "window.location.href='NessusTermRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Terminate Access</button>
   </div>
   <div id="tabs-8">
-  <table style="width:100%" border= "1px solid black">
+  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
   <tr><td>
 	<label>OCRS SharePoint Administrator - ECMS:</label>
 	</td><td>
@@ -978,7 +1020,7 @@ if($conn) {
   </div>  
 </div>
 		<div class = "button">
-		<p><input type="submit" name="submit" value="Save & Close"></p>
+		<p><input type="submit" name="submit" value="Save & Close" class="btn btn-primary btn-block"></p>
 		</div>
 		</div>
 		</form>
@@ -1014,7 +1056,7 @@ $result = sqlsrv_query($conn, $query)
 		$o = '<div class="container">
 		<div class="row">
 			<div class="col-sm-8">
-			<table class="table table-bordered">
+			<table class="table table-bordered table table-bordered responsive-table">
 			<thead>
 				<tr>
 					<th>Tracking #</th>
@@ -1054,7 +1096,8 @@ $result = sqlsrv_query($conn, $query)
     </div>
   </div>
 </div>	
-	</body>
+	</div>
+</body>
 </html>
 <?php
 }
