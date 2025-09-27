@@ -70,49 +70,26 @@
   };
   </script>
 	
-<style>
-  /* Mobile-friendly tweaks */
-  *, *::before, *::after { box-sizing: border-box; }
-  #form input[type="text"],
-  #form input[type="number"],
-  #form input[type="date"],
-  #form input[type="time"],
-  #form input[type="password"],
-  #form input[type="email"],
-  #form select,
-  #form textarea {
-    width: 100%;
-    max-width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  #form label { margin: 0; font-weight: 600; }
-  #form .btn { padding: 10px 16px; }
-  /* Make table-based forms stack on small screens */
-  @media (max-width: 768px) {
-    table.responsive-table,
-    table.responsive-table thead,
-    table.responsive-table tbody,
-    table.responsive-table tr,
-    table.responsive-table td,
-    table.responsive-table th {
-      display: block;
-      width: 100%;
+  <style>
+    /* Mobile-friendly tables & form controls */
+    .responsive-table { width: 100%; }
+    @media (max-width: 767.98px) {
+      .responsive-table, .responsive-table table { display:block; border:0 !important; width:100%; }
+      .responsive-table tr { display:block; margin-bottom:1rem; }
+      .responsive-table td, .responsive-table th {
+        display:block; width:100% !important; border:0 !important; padding-left:0 !important; padding-right:0 !important;
+      }
+      .responsive-table td > *, .responsive-table th > * { width:100%; }
+      input[type="text"], input[type="number"], input[type="email"], input[type="tel"],
+      input[type="url"], input[type="password"], textarea, select {
+        max-width:100%;
+      }
+      .btn-block-sm { width:100%; }
     }
-    table.responsive-table tr { margin-bottom: 12px; border-bottom: 1px solid #eee; }
-    table.responsive-table td,
-    table.responsive-table th { padding: 6px 0 !important; border: none !important; }
-    table.responsive-table td:first-child,
-    table.responsive-table th:first-child { font-weight: 700; color: #555; }
-  }
-  /* Improve spacing */
-  .section-title { margin-top: 16px; margin-bottom: 8px; }
-</style>
+  </style>
 
 </head>
 	<body onload="requestAccess()">
-<div class="container-fluid" style="padding:12px;">
 	<h1>CIP Personnel Tracking Tool</h1>
 	<?php include "menu.php"; ?> 
 
@@ -174,7 +151,7 @@ if($conn) {
 		<div class = "inputs"> 
 		<h3>CIP Authorized Personnel's Information</h3>
 		<p></p>
-		<table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
+		<table style="width:100%" border= "1px solid black">
 		
 		<tr><td>
 			<label>*First Name:</label>
@@ -262,7 +239,7 @@ if($conn) {
 		</td></tr>
 		</table>
 			<p></p>
-		<table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">	
+		<table style="width:100%" border= "1px solid black">	
 		    <h3>Authorization Information</h3>
 		<tr><td>
 			<label>Identity Confirmation / SSN Validation:</label>
@@ -297,7 +274,7 @@ if($conn) {
 		</table>
 		<button type ="button" value="" style="color:green" onclick= "window.location.href='PRARequest2.php?Tracking_Num=<?php echo $Tracking_Num; ?>'"> Request PRA</button> 
 		<!--<button type ="button" value="" style="color:red"> onclick= "window.location.href='cyberSecurityTraining2.php?Tracking_Num=<?php echo $Tracking_Num; ?>'"Send Training</button>-->
-		<button type ="button" value="" style="color:black"onclick= "window.location.href='approvalConfirmation.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Send CIP Approval</button>
+		<button type ="button" value="" style="color:black"onclick= "window.location.href='approvalConfirmation2.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Send CIP Approval</button>
 			<h3>Approved Authorizations</h3>
 <div id="tabs">
   <ul>
@@ -311,7 +288,7 @@ if($conn) {
 	<li><a href="#tabs-8">BCSI - Storage Repositories</a></li>
   </ul>
   <div id="tabs-1">
-  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
+  <table style="width:100%" border= "1px solid black">
 	<tr><td>
 	<label>System Control Center:</label>
 	</td><td>
@@ -487,7 +464,7 @@ if($conn) {
 <button type ="button" value="" style="color:red"onclick= "window.location.href='PhysicalAccessTermRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Terminate Access</button>		
   </div>
   <div id="tabs-2">
-  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
+  <table style="width:100%" border= "1px solid black">
 		<tr><td>
 		<label>ESP Remote Access / Intermediate System:</label>
 		</td><td>
@@ -685,7 +662,7 @@ if($conn) {
 	<button type ="button" value="" style="color:red" onclick= "window.location.href='XA_ECSTermRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Terminate Access</button>	
   </div>
   <div id="tabs-3">
-  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
+  <table style="width:100%" border= "1px solid black">
 		<tr><td>
 		<label>TE Engineering OM Group:</label>
 		</td><td>
@@ -741,7 +718,7 @@ if($conn) {
 		<button type ="button" value="" style="color:red" onclick= "window.location.href='NetworkDevicesTermRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Terminate Access</button>
   </div>
   <!--<div id="tabs-4">
-  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
+  <table style="width:100%" border= "1px solid black">
 	<tr><td>
 	<label>Log Retention/ Monitoring/ Security Application Administrator:</label>
 	</td><td>
@@ -775,7 +752,7 @@ if($conn) {
 	<button type ="button" value="" style="color:red" onclick= "window.location.href='SysLogTermRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Terminate Access</button>
   </div>-->
   <div id="tabs-5">
-  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
+  <table style="width:100%" border= "1px solid black">
 	<tr><td>
 	<label>Industrial Defender ASA:</label>
 	</td><td>
@@ -836,7 +813,7 @@ if($conn) {
 	<button type ="button" value="" style="color:red" onclick= "window.location.href='IndustDefTermRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Terminate Access</button>
   </div>  
   <div id="tabs-6">
-  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
+  <table style="width:100%" border= "1px solid black">
 	<tr><td>
 	<label>Sys Ops Domain Administrator:</label>
 	</td><td>
@@ -915,7 +892,7 @@ if($conn) {
 	<button type ="button" value="" style="color:red" onclick= "window.location.href='PSSTermRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Terminate Access</button>
   </div>
   <div id="tabs-7">
-  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
+  <table style="width:100%" border= "1px solid black">
 	<tr><td>
 	<label>Nessus Scanner Application Administrator:</label>
 	</td><td>
@@ -940,7 +917,7 @@ if($conn) {
 	<button type ="button" value="" style="color:red" onclick= "window.location.href='NessusTermRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Terminate Access</button>
   </div>
   <div id="tabs-8">
-  <table style="width:100%" border= "1px solid black" class="table table-bordered responsive-table">
+  <table style="width:100%" border= "1px solid black">
   <tr><td>
 	<label>OCRS SharePoint Administrator - ECMS:</label>
 	</td><td>
@@ -1020,12 +997,12 @@ if($conn) {
   </div>  
 </div>
 		<div class = "button">
-		<p><input type="submit" name="submit" value="Save & Close" class="btn btn-primary btn-block"></p>
+		<p><input type="submit" name="submit" value="Save & Close"></p>
 		</div>
 		</div>
 		</form>
 
-<div class="modal fade" id="AuditTable" role="dialog">
+<div class="modal fade" id="AuditTable" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -1056,7 +1033,7 @@ $result = sqlsrv_query($conn, $query)
 		$o = '<div class="container">
 		<div class="row">
 			<div class="col-sm-8">
-			<table class="table table-bordered table table-bordered responsive-table">
+			<table class="table table-bordered responsive-table">
 			<thead>
 				<tr>
 					<th>Tracking #</th>
@@ -1096,7 +1073,36 @@ $result = sqlsrv_query($conn, $query)
     </div>
   </div>
 </div>	
-	</div>
+	
+<script>
+(function() {
+  // Ensure the Audit modal is hidden by default and only shown via the button
+  function ready(fn){ if (document.readyState != 'loading'){ fn(); } else { document.addEventListener('DOMContentLoaded', fn); } }
+  ready(function() {
+    try {
+      // If jQuery + Bootstrap modal are available, explicitly init without showing
+      if (window.jQuery && typeof jQuery.fn.modal === 'function') {
+        jQuery('#AuditTable').modal({ show: false });
+      }
+      // If the audit table exists but somehow is visible, force-hide it
+      var auditModal = document.getElementById('AuditTable');
+      if (auditModal) {
+        // Make sure it has required modal structure/classes
+        if (!/modal/.test(auditModal.className)) auditModal.className += ' modal';
+        if (!/fade/.test(auditModal.className)) auditModal.className += ' fade';
+        // If incorrectly visible due to CSS overrides, hide it now.
+        auditModal.style.display = 'none';
+      }
+      // Add bootstrap table classes to any table inside the modal
+      var tbl = document.querySelector('#AuditTable table');
+      if (tbl && !/\btable\b/.test(tbl.className)) {
+        tbl.className += ' table table-striped table-bordered table-condensed';
+      }
+    } catch(e) { console && console.warn('Audit modal init error:', e); }
+  });
+})();
+</script>
+
 </body>
 </html>
 <?php
