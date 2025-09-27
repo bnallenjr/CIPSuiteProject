@@ -143,7 +143,7 @@ if($conn) {
 		$row = sqlsrv_fetch_array($result);
 		//$checked =explode(',', $row['iMitigationPlan']);
  ?>
- <h2>Edit CIP Authorized Personnel Form (Tracking Number: <?php echo $Tracking_Num;?>)&nbsp <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#AuditTable">Audit History</button> &nbsp <button type="button" class="btn btn-primary" onclick= "window.open('http:///<?php echo $Tracking_Num; ?>%20-%20<?php echo $FirstName?>%20<?php echo $LastName?>');" >Evidence Folder</button></h2>
+ <h2>Edit CIP Authorized Personnel Form (Tracking Number: <?php echo $Tracking_Num;?>)&nbsp <button id="btnAuditHistory" type="button" class="btn btn-outline-secondary btn-sm"> Audit History</button> &nbsp <button type="button" class="btn btn-primary" onclick= "window.open('http:///<?php echo $Tracking_Num; ?>%20-%20<?php echo $FirstName?>%20<?php echo $LastName?>');" >Evidence Folder</button></h2>
 		<br>
 		<form id="form" action ="" method="post">
 		<input type = "hidden" name="Tracking_Num" value="<?php echo $Tracking_Num; ?>"/>
@@ -1002,12 +1002,12 @@ if($conn) {
 		</div>
 		</form>
 
-<div class="modal fade" id="AuditTable" tabindex="-1" role="dialog">
+<div class="modal fade" id="AuditTable" tabindex="-1" role="dialog" style="display:none">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Audit</h4>
+          <h4 class="modal-title">Audit History</h4>
         </div>
         <div class="modal-body">
                   <?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
@@ -1075,33 +1075,109 @@ $result = sqlsrv_query($conn, $query)
 </div>	
 	
 <script>
-(function() {
-  // Ensure the Audit modal is hidden by default and only shown via the button
-  function ready(fn){ if (document.readyState != 'loading'){ fn(); } else { document.addEventListener('DOMContentLoaded', fn); } }
-  ready(function() {
-    try {
-      // If jQuery + Bootstrap modal are available, explicitly init without showing
-      if (window.jQuery && typeof jQuery.fn.modal === 'function') {
-        jQuery('#AuditTable').modal({ show: false });
-      }
-      // If the audit table exists but somehow is visible, force-hide it
-      var auditModal = document.getElementById('AuditTable');
-      if (auditModal) {
-        // Make sure it has required modal structure/classes
-        if (!/modal/.test(auditModal.className)) auditModal.className += ' modal';
-        if (!/fade/.test(auditModal.className)) auditModal.className += ' fade';
-        // If incorrectly visible due to CSS overrides, hide it now.
-        auditModal.style.display = 'none';
-      }
-      // Add bootstrap table classes to any table inside the modal
-      var tbl = document.querySelector('#AuditTable table');
+(function(){
+  function ready(fn){ if (document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+
+  function makeAuditModalStructure(root){
+    // if it's already a modal wrapper, skip
+    if (root.classList.contains('modal')) return;
+
+    // mark it as a modal container
+    root.classList.add('modal','fade');
+    root.setAttribute('tabindex','-1');
+    root.setAttribute('aria-hidden','true');
+
+    // move existing children into a modal-body
+    var body = document.createElement('div');
+    body.className = 'modal-body';
+    while (root.firstChild) body.appendChild(root.firstChild);
+
+    // header with close button (supports BS3/4/5)
+    var header = document.createElement('div');
+    header.className = 'modal-header py-2';
+
+    var title = document.createElement('h5');
+    title.className = 'modal-title';
+    title.textContent = 'Audit History';
+
+    var closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    if (window.bootstrap && typeof window.bootstrap.Modal === 'function') {
+      // Bootstrap 5 close button
+      closeBtn.className = 'btn-close';
+      closeBtn.setAttribute('data-bs-dismiss', 'modal');
+      closeBtn.setAttribute('aria-label', 'Close');
+    } else {
+      // Bootstrap 3/4 close button
+      closeBtn.className = 'close';
+      closeBtn.setAttribute('data-dismiss', 'modal');
+      closeBtn.innerHTML = '<span aria-hidden="true">&times;</span>';
+    }
+
+    header.appendChild(title);
+    header.appendChild(closeBtn);
+
+    // modal content hierarchy
+    var content = document.createElement('div');
+    content.className = 'modal-content';
+    content.appendChild(header);
+    content.appendChild(body);
+
+    var dialog = document.createElement('div');
+    dialog.className = 'modal-dialog modal-xl modal-dialog-scrollable';
+    dialog.appendChild(content);
+
+    root.appendChild(dialog);
+  }
+
+  function showAuditModal(){
+    var modalEl = document.getElementById('AuditTable');
+    if (!modalEl) return;
+    // ensure it has modal structure
+    makeAuditModalStructure(modalEl);
+
+    // invoke correct API per Bootstrap version
+    if (window.bootstrap && typeof window.bootstrap.Modal === 'function') {
+      window.bootstrap.Modal.getOrCreateInstance(modalEl).show();
+    } else if (window.jQuery && jQuery.fn && typeof jQuery.fn.modal === 'function') {
+      jQuery(modalEl).modal('show');
+    } else {
+      // very basic fallback
+      modalEl.style.display = 'block';
+      modalEl.classList.add('show');
+    }
+  }
+
+  ready(function(){
+    var modalRoot = document.getElementById('AuditTable');
+    if (modalRoot) {
+      // keep it hidden until triggered
+      modalRoot.style.display = 'none';
+
+      // add bootstrap table classes if missing
+      var tbl = modalRoot.querySelector('table');
       if (tbl && !/\btable\b/.test(tbl.className)) {
-        tbl.className += ' table table-striped table-bordered table-condensed';
+        tbl.classList.add('table','table-striped','table-sm');
       }
-    } catch(e) { console && console.warn('Audit modal init error:', e); }
+    }
+
+    // wire up button; also catch data-* triggers if you had them
+    var btn = document.getElementById('btnAuditHistory') ||
+              document.querySelector('[data-target="#AuditTable"],[data-bs-target="#AuditTable"]');
+
+    if (btn) {
+      // prevent the button from submitting forms
+      if (!btn.getAttribute('type')) btn.setAttribute('type', 'button');
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        showAuditModal();
+      });
+    }
   });
 })();
 </script>
+
 
 </body>
 </html>
