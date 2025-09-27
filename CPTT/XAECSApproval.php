@@ -242,7 +242,7 @@ if (isset($_POST['submit']))
 	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 	$headers .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
 
-	sendHtmlMail($to,$subject,$message,$headers);	
+	sendHtmlMail($to,$subject,$message,'allensolutiongroup@gmail.com', 'CIP Suite WebApp');	
 		
 }		
 ?>

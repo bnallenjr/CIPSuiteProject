@@ -7,11 +7,12 @@
 <?php
 		//header("Location: close.php");
 		
-		$serverName = '192.168.207.97';
-$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Finalfantasy777!');		
-		$conn = sqlsrv_connect($serverName, $connectionInfo);
-		if($conn) {
-			//echo 'Connection established<br />';
+		$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
+if($conn) {
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -124,7 +125,7 @@ $connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Fin
 
 		</table>
 <p>Business Need for CIP Authorization: '.$record['Business_Need'].'<p> 		
-<h2><a href = "http://192.168.207.94/cptt/CIPApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2> 
+<h2><a href = "https://aetest1.azurewebsites.net/cptt/CIPApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2> 
 					
 <h3 style="color:red">If you have any questions or concerns regarding the requested access right please follow up with the manager</h3>';
 				
@@ -132,7 +133,7 @@ $connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Fin
 			echo $o;	
 $name = $record['Name'];
 echo $name;
-$to = "allensolutiongroup@gmail";
+$to = "allensolutiongroup@gmail.com";
 }
 $subject = "REQUIRED: CIP Authorization Approval";
 
@@ -143,7 +144,7 @@ $message = "
 	
 			$o
 		
-NOTE: If the link is not working, please contact Brian Allen in GSOC CIP Compliance at X7506.
+NOTE: If the link is not working, please contact Brian Allen.
 </body>
 </html>
 ";
@@ -152,7 +153,7 @@ $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 $headers .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
 
-mail($to,$subject,$message,$headers);
+mail($to,$subject,$message,'allensolutiongroup@gmail.com', 'CIP Suite WebApp');
 
 /*$toNewPerson = 'brianv.allen@gafoc.com';
 $subjectNewPerson = ''.$Tracking_Num. ' - '.$name.'';
