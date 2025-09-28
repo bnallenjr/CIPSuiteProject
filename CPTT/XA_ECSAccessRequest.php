@@ -91,6 +91,6 @@ $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 $headers .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
 
-sendHtmlMail($to,$subject,$message,'allensolutiongroup@gmail.com', 'CIP Suite WebApp');
+SendHtmlMail($to,$subject,$message,'allensolutiongroup@gmail.com', 'CIP Suite WebApp');
 header("Location: edit2.php?Tracking_Num=$Tracking_Num");
 ?>
