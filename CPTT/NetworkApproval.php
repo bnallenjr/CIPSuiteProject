@@ -1,6 +1,59 @@
 <?php
 require_once __DIR__ . '/../auth/session.php';
-session_boot();//@session_start();
+Auth::requireLogin();//@session_start();
+
+error_reporting(E_ALL); ini_set('display_errors', 1);
+
+require __DIR__ . '/phpmailer/src/PHPMailer.php';
+require __DIR__ . '/phpmailer/src/SMTP.php';
+require __DIR__ . '/phpmailer/src/Exception.php';
+
+// DO NOT "use" if your file sometimes emits output before PHP open tags.
+// If you prefer "use", keep them here at the very top before any HTML:
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\Exception;
+
+/**
+ * Send HTML email via Gmail SMTP (App Service friendly).
+ * Returns [bool $ok, string $err]
+ */
+function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
+    $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
+    $smtpPass = getenv('SMTP_PASS') ?: 'pakbzmrfjdruyvax'; // app password, no spaces
+
+    if (!class_exists('\\PHPMailer\\PHPMailer\\PHPMailer')) {
+        return [false, 'PHPMailer not found. Ensure phpmailer/src/* are deployed or use Composer.'];
+    }
+
+    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $smtpUser;
+        $mail->Password   = $smtpPass;
+        $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        // Gmail requires From to match the authenticated account
+        $mail->setFrom('allensolutiongroup@gmail.com', 'CIP Suite WebApp');
+
+        if (is_array($to)) { foreach ($to as $addr) { if ($addr) $mail->addAddress($addr); } }
+        else { $mail->addAddress($to); }
+
+        if ($replyTo) { $mail->addReplyTo($replyTo, $replyToName ?: $replyTo); }
+
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $html;
+        $mail->AltBody = strip_tags(preg_replace('/<br\s*\/?>/i', "\n", $html));
+
+        $mail->send();
+        return [true, ''];
+    } catch (\Throwable $e) {
+        return [false, $e->getMessage()];
+    }
+}
 ?>
 <?php
  function renderForm($Tracking_Num, $FirstName, $LastName, $Network_Approved_On, $Network_Approved_By, $error)
@@ -71,48 +124,7 @@ if($conn) {
     </div>
   </div>
 </nav>-->
-<?php 
-	if (!Auth::check() /*@!$_SESSION['authenticated']==1*/) {
-		$Tracking_Num = $_GET['Tracking_Num'];
-	echo	"<div class='container'>
-
-
-      <!-- Modal content-->
-      <div class='modal-content'>
-        <div class='modal-header'>
-          <button type='button' class='close' data-dismiss='modal'>&times;</button>
-          <h4 style='color:red;'><span class='glyphicon glyphicon-lock'></span> Login using your corporate ID</h4>
-        </div>
-        <div class='modal-body'>
-          <form role='form' method='post' action='authentication5.php?Tracking_Num=$Tracking_Num'>
-            <div class='form-group'>
-              <label for='username'><span class='glyphicon glyphicon-user'></span> Username</label>
-              <input type='text' class='form-control' name='username' id='username' placeholder='Enter Corporate Username'>
-            </div>
-            <div class='form-group'>
-              <label for='password'><span class='glyphicon glyphicon-eye-open'></span> Password</label>
-              <input type='password' class='form-control' name='password' id='password' placeholder='Enter password'>
-            </div>
-            <button type='submit' class='btn btn-default btn-success btn-block'><span class='glyphicon glyphicon-off'></span> Login</button>
-          </form>
-        </div>
-        <div class='modal-footer'>
-          <button type='submit' class='btn btn-default btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div> 
-</div>
-<script>
-$(window).load(function()
-{
-    $('#myModal').modal('show');
-});
-</script>
-";
-	}
-	else {
-		?>	
+	
 <form role="form" class="form-horizontal"  name ="myform" id="myform" method="post" >
 <input type = "hidden" name="Tracking_Num" value="<?php echo $Tracking_Num; ?>"/>
 <div class="well well-sm" align="center" ><h3>Complete Network Approval for <?php echo ''.$FirstName.' '.$LastName.'';?></h3></div>  
