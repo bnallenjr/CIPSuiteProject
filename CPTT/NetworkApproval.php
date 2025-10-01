@@ -72,7 +72,7 @@ if($conn) {
   </div>
 </nav>-->
 <?php 
-	if (!Auth::check() /*@!$_SESSION['authenticated']==1*/) {
+	if (/*@!$_SESSION['authenticated']==1*/!Auth::check()) {
 		$Tracking_Num = $_GET['Tracking_Num'];
 	echo	"<div class='container'>
 
@@ -120,7 +120,7 @@ $(window).load(function()
 	<label class="control-label col-sm-2" for="Network_Approved_On" hidden >Date of Approval:</label>
     <div class="col-sm-4" hidden >
       <input type="text" class="form-control" name="Network_Approved_On" hidden value = "<?php echo date("m-d-Y h:i:sa");?>"  />
-	  <input type="text" class="form-control" name="Network_Approved_By" hidden value ="<?php echo Auth::user()['username'];/*$_SESSION['username']*/?>"  />
+	  <input type="text" class="form-control" name="Network_Approved_By" hidden value ="<?php echo Auth::user()['username']; //*$_SESSION['username']?>"  />
     </div>
   </div>
 <p></p>
@@ -164,7 +164,7 @@ if (is_numeric($_POST['Tracking_Num']))
 		//$SSN_Validation_Date=$_POST['SSN_Validation_Date'];
 		//$Criminal_Background_Date=$_POST['Criminal_Background_Date'];
 		$Network_Approved_On=$_POST['Network_Approved_On'];
-	    $Network_Approved_By=$_POST['Network_Approved_By'];
+	  $Network_Approved_By=$_POST['Network_Approved_By'];
 		
 		
 if ($Tracking_Num == '' || $Network_Approved_On== '')
@@ -232,7 +232,7 @@ if (isset($_POST['submit']))
 		$FirstName=$row['FirstName'];
 		$LastName=$row['LastName'];	
 	  $Network_Approved_On = date("m-d-y h:i:sa");
-    $Network_Approved_By = Auth::user()['username'];/*$_SESSION['username']*/
+    $Network_Approved_By = /*$_SESSION['username']*/Auth::user()['username'];
 		
 	$to = "allensolutiongroup@gmail.com";
 	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;
