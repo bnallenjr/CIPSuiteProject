@@ -41,17 +41,21 @@ function _require_or_fail($path, $label = null) {
     exit;
   }
 }
-?>
-<?php
+
+// Example: auth
+_require_or_fail(__DIR__ . '/../auth/session.php', 'session.php');
 require_once __DIR__ . '/../auth/session.php';
 Auth::requireLogin();
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// PHPMailer pieces
+$phpm = __DIR__ . '/phpmailer/src';
+_require_or_fail($phpm . '/PHPMailer.php', 'PHPMailer.php');
+_require_or_fail($phpm . '/SMTP.php',      'SMTP.php');
+_require_or_fail($phpm . '/Exception.php', 'Exception.php');
+require $phpm . '/PHPMailer.php';
+require $phpm . '/SMTP.php';
+require $phpm . '/Exception.php';
 
-require __DIR__ . '/phpmailer/src/PHPMailer.php';
-require __DIR__ . '/phpmailer/src/SMTP.php';
-require __DIR__ . '/phpmailer/src/Exception.php';
 
 /**
  * Send HTML email via Gmail SMTP (App Service friendly).
