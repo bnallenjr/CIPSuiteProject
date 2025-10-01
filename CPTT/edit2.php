@@ -40,35 +40,83 @@ function renderForm(
     });
   </script>
 
-  <script type="text/javascript">
-    function requestAccess() {	
-      if(
-        document.getElementById("SSN_Validation_Date").value.replace(/\s/g,"") == "01-01-1900" || document.getElementById("SSN_Validation_Date").value.replace(/\s/g,"") == "" ||
-        document.getElementById("Criminal_Background_Date").value.replace(/\s/g,"") == "01-01-1900" || document.getElementById("Criminal_Background_Date").value.replace(/\s/g,"") == "" ||
-        document.getElementById("CurrentTrainingDate").value.replace(/\s/g,"") == "01-01-1900" || document.getElementById("CurrentTrainingDate").value.replace(/\s/g,"") == "" ||
-        document.getElementById("DatePaperWorkSign").value.replace(/\s/g,"") == "01-01-1900" || document.getElementById("DatePaperWorkSign").value.replace(/\s/g,"") == "" ||
-        ((document.getElementById("AD_prod").value == "Yes" || document.getElementById("AD_supp").value == "Yes") && (document.getElementById("XAECS_Approved_On").value.replace(/\s/g,"") == "01-01-1900" || document.getElementById("XAECS_Approved_On").value.replace(/\s/g,"") == "")) ||
-        ((document.getElementById("TE_Engineering_OM_Group").value == "Yes" || document.getElementById("ACS_LocalAdmin").value == "Yes" || document.getElementById("RSA_LocalAdmin").value == "Yes") && (document.getElementById("Network_Approved_On").value.replace(/\s/g,"") == "01-01-1900" || document.getElementById("Network_Approved_On").value.replace(/\s/g,"") == "")) ||
-        (document.getElementById("TelecomSharedAccount").value == "Yes" && (document.getElementById("TSA_Approved_On").value.replace(/\s/g,"") == "01-01-1900" || document.getElementById("TSA_Approved_On").value.replace(/\s/g,"") == ""))
-      ) {
-        document.getElementById("accessButton1").disabled = true;
-        document.getElementById("accessButton2").disabled = true;
-        document.getElementById("accessButton3").disabled = true;
-        document.getElementById("accessButton5").disabled = true;
-        document.getElementById("accessButton6").disabled = true;
-        document.getElementById("accessButton7").disabled = true;
-        document.getElementById("accessButton8").disabled = true;
-      } else {
-        document.getElementById("accessButton1").disabled = false;
-        document.getElementById("accessButton2").disabled = false;
-        document.getElementById("accessButton3").disabled = false;
-        document.getElementById("accessButton5").disabled = false;
-        document.getElementById("accessButton6").disabled = false;
-        document.getElementById("accessButton7").disabled = false;
-        document.getElementById("accessButton8").disabled = false;
-      }
-    }
-  </script>
+ <script type="text/javascript">
+(function(){
+  // Treat empty or "1900-01-01" sentinels (with -, /, 00-year) as not-filled
+  function isEmptyOr1900(v){
+    var s = (v || '').toString().trim();
+    if (s === '') return true;
+    // remove spaces, normalize separators
+    var n = s.replace(/\s+/g,'').replace(/[./]/g,'-');
+    // match 01-01-1900, 01-01-00, 1900-01-01 (case insensitive)
+    if (/^01-01-(?:1900|00)$/i.test(n)) return true;
+    if (/^1900-01-01$/i.test(n)) return true;
+    return false;
+  }
+  function val(id){
+    var el = document.getElementById(id);
+    return el ? el.value : '';
+  }
+  function setEnabled(id, enabled){
+    var b = document.getElementById(id);
+    if (b) b.disabled = !enabled;
+  }
+
+  // Expose the function name you already call onload
+  window.requestAccess = function(){
+    var ssnEmpty = isEmptyOr1900(val('SSN_Validation_Date'));
+    var bgEmpty  = isEmptyOr1900(val('Criminal_Background_Date'));
+    var trEmpty  = isEmptyOr1900(val('CurrentTrainingDate'));
+    var apEmpty  = isEmptyOr1900(val('DatePaperWorkSign'));
+
+    var adYes = (val('AD_prod').trim() === 'Yes' || val('AD_supp').trim() === 'Yes');
+    var xaeEmpty = isEmptyOr1900(val('XAECS_Approved_On'));
+
+    var netFlagYes = (
+      val('TE_Engineering_OM_Group').trim() === 'Yes' ||
+      val('ACS_LocalAdmin').trim() === 'Yes' ||
+      val('RSA_LocalAdmin').trim() === 'Yes'
+    );
+    var netDateEmpty = isEmptyOr1900(val('Network_Approved_On'));
+
+    var tsaYes = (val('TelecomSharedAccount').trim() === 'Yes');
+    var tsaDateEmpty = isEmptyOr1900(val('TSA_Approved_On'));
+
+    var mustBlock = ssnEmpty || bgEmpty || trEmpty || apEmpty ||
+                    (adYes && xaeEmpty) ||
+                    (netFlagYes && netDateEmpty) ||
+                    (tsaYes && tsaDateEmpty);
+
+    ['accessButton1','accessButton2','accessButton3',
+     'accessButton5','accessButton6','accessButton7','accessButton8'
+    ].forEach(function(btn){ setEnabled(btn, !mustBlock); });
+
+    // Uncomment to debug which check is blocking:
+    // console.log({ssnEmpty,bgEmpty,trEmpty,apEmpty,adYes,xaeEmpty,netFlagYes,netDateEmpty,tsaYes,tsaDateEmpty,mustBlock});
+  };
+
+  // Re-evaluate whenever a relevant field changes
+  function bindRecalc(){
+    var ids = [
+      'SSN_Validation_Date','Criminal_Background_Date','CurrentTrainingDate','DatePaperWorkSign',
+      'XAECS_Approved_On','Network_Approved_On','TSA_Approved_On',
+      'AD_prod','AD_supp','TE_Engineering_OM_Group','ACS_LocalAdmin','RSA_LocalAdmin','TelecomSharedAccount'
+    ];
+    ids.forEach(function(id){
+      var el = document.getElementById(id);
+      if (!el) return;
+      // Use 'input' for text fields; 'change' for selects; both is fine.
+      el.addEventListener('input', window.requestAccess);
+      el.addEventListener('change', window.requestAccess);
+    });
+    window.requestAccess(); // run once at start
+  }
+
+  if (document.readyState !== 'loading') bindRecalc();
+  else document.addEventListener('DOMContentLoaded', bindRecalc);
+})();
+</script>
+
 
   <style>
     /* Page polish */
@@ -395,12 +443,12 @@ function renderForm(
                         <option value="<?php echo $VPN_Tunnel_Access;?>"><?php echo $VPN_Tunnel_Access;?></option>
                         <option value="Yes">Yes</option><option value="No">No</option>
                       </select></td></tr>
-              <tr><td><label>Active Directory (gsoc_prod):</label></td>
+              <tr><td><label>Active Directory (production):</label></td>
                   <td><select id="AD_prod" name="AD_prod">
                         <option value="<?php echo $AD_prod;?>"><?php echo $AD_prod;?></option>
                         <option value="Yes">Yes</option><option value="No">No</option>
                       </select></td></tr>
-              <tr><td><label>Active Directory (gsoc_support):</label></td>
+              <tr><td><label>Active Directory (support):</label></td>
                   <td><select id="AD_supp" name="AD_supp">
                         <option value="<?php echo $AD_supp;?>"><?php echo $AD_supp;?></option>
                         <option value="Yes">Yes</option><option value="No">No</option>

@@ -228,7 +228,7 @@ if($conn) {
 		$headersECC .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";*/
 		
 		//Approval for XA-ECS
-		$toXAECS = 'allensolutiongroup@gmail.com'; //To Ken
+		$toXAECS = 'allensolutiongroup@gmail.com'; //To EMS Admin
 		$subjectXAECS = 'CIP Authorized Personnel Request to XA-ECS for '.$FirstName. ' ' .$LastName.'';
 		$messageXAECS = '<h3>This is notification that '.$Manager.' is requesting '.$FirstName. ' ' .$LastName.' have access rights to the Energy Control System. Please see the following for more information:</h3>
 						<table border ="1">	
@@ -240,14 +240,14 @@ if($conn) {
 						<tr><th>Contract Agency</th><td>'.$Contract_Agency.'</td></tr>
 						<tr><th>Business Need</th><td>'.$Business_Need.'</td></tr></table>
 						</br>
-						<h2><a href = "https://aetest1.azurewebsites.net/cptt/XAECSApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2>
+						<h2><a href = "https://aetest1.azurewebsites.net/cptt/XAECSApproval.php?Tracking_Num='.$Tracking_Num.'"><button type="button" style="color:green">Grant Approval</button></a></h2>
 						<h3 style="color:red">If you have any questions or concerns regarding the requested access right please follow up with the manager ('.$Manager.').</h3>';
 		$headersXAECS = "MIME-Version: 1.0" . "\r\n";
 		$headersXAECS .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 		$headersXAECS .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
 		
 		//Approval for Network Devices
-		$toNetwork = 'allensolutiongroup@gmail.com'; //To Quince
+		$toNetwork = 'allensolutiongroup@gmail.com'; //To Network Admin
 		$subjectNetwork = 'CIP Authorized Personnel Request to Network Devices for '.$FirstName. ' ' .$LastName.'';
 		$messageNetwork = '<h3>'.$Manager.' is requesting '.$FirstName. ' ' .$LastName.' have access rights to networking devices. Please see the following for more information:</h3>
 						<table border ="1">	
@@ -259,14 +259,14 @@ if($conn) {
 						<tr><th>Contract Agency</th><td>'.$Contract_Agency.'</td></tr>
 						<tr><th>Business Need</th><td>'.$Business_Need.'</td></tr></table>
 						</br>
-						<h2><a href = "https://aetest1.azurewebsites.net/cptt/NetworkApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2>
+						<h2><a href = "https://aetest1.azurewebsites.net/cptt/NetworkApproval.php?Tracking_Num='.$Tracking_Num.'"><button type="button" style="color:green">Grant Approval</button></a></h2>
 						<h3 style="color:red">If you have any questions or concerns regarding the requested access right please follow up with the manager ('.$Manager.').</h3>';
 		$headersNetwork = "MIME-Version: 1.0" . "\r\n";
 		$headersNetwork .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 		$headersNetwork .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
 		
 		//Approval for Telecom Shared Accounts
-		$toTSA = 'allensolutiongroup@gmail.com'; //To Telecom
+		$toTSA = 'allensolutiongroup@gmail.com'; //To Network Admin
 		$subjectTSA = 'CIP Authorized Personnel Request to the Telecom Shared Account for '.$FirstName. ' ' .$LastName.'';
 		$messageTSA = '<h3>'.$Manager.' is requesting '.$FirstName. ' ' .$LastName.' have access rights to the Telecom Shared Account. Please see the following for more information:</h3>
 						<table border ="1">	
@@ -278,7 +278,7 @@ if($conn) {
 						<tr><th>Contract Agency</th><td>'.$Contract_Agency.'</td></tr>
 						<tr><th>Business Need</th><td>'.$Business_Need.'</td></tr></table>
 						</br>
-						<h2><a href = "https://aetest1.azurewebsites.net/cptt/TSAApproval.php?Tracking_Num='.$Tracking_Num.'"><button type ="button" value="" style="color:green"/>Grant Approval</button></a></h2>
+						<h2><a href = "https://aetest1.azurewebsites.net/cptt/TSAApproval.php?Tracking_Num='.$Tracking_Num.'"><button type="button" style="color:green">Grant Approval</button></a></h2>
 						<h3 style="color:red">If you have any questions or concerns regarding the requested access right please follow up with the manager ('.$Manager.').</h3>';
 		$headersTSA = "MIME-Version: 1.0" . "\r\n";
 		$headersTSA .= "Content-type:text/html;charset=UTF-8" . "\r\n";
@@ -511,8 +511,8 @@ if($conn) {
 <?php if($_POST['ESP_Remote_Intermediate'] =="Yes") { ?><tr><th>ESP Remote Access / Intermediate System:</th><td><?php echo($_POST['ESP_Remote_Intermediate']); ?></td></tr><?php } ?>
 <?php if($_POST['VPN_Tunnel_Access'] =="Yes") { ?><tr><th>VPN Tunnel Access (GE Energy):</th><td><?php echo($_POST['VPN_Tunnel_Access']); ?></td></tr><?php } ?>
 <?php if($_POST['AD_prod'] =="Yes" OR $_POST['AD_supp']=="Yes"){ ?><?php list($__ok,$__err) = sendHtmlMail($toXAECS, $subjectXAECS, $messageXAECS, isset($Email)?$Email:null, isset($Manager)?$Manager:null); if(isset($__DEBUG)&&$__DEBUG){ echo $__ok?'<pre>sendHtmlMail OK</pre>':'<pre>sendHtmlMail FAIL: '.htmlspecialchars($__err).'</pre>'; }}?>
-<?php if($_POST['AD_prod'] =="Yes") { ?><tr><th>Active Directory (gsoc_prod):</th><td><?php echo($_POST['AD_prod']); ?></td></tr><?php } ?>
-<?php if($_POST['AD_supp'] =="Yes") { ?><tr><th>Active Directory (gsoc_support):</th><td><?php echo($_POST['AD_supp']); ?></td></tr><?php } ?>
+<?php if($_POST['AD_prod'] =="Yes") { ?><tr><th>Active Directory (production):</th><td><?php echo($_POST['AD_prod']); ?></td></tr><?php } ?>
+<?php if($_POST['AD_supp'] =="Yes") { ?><tr><th>Active Directory (support):</th><td><?php echo($_POST['AD_supp']); ?></td></tr><?php } ?>
 <?php if($_POST['UNIX_Access'] =="Yes") { ?><tr><th>UNIX Access:</th><td><?php echo($_POST['UNIX_Access']); ?></td></tr><?php } ?>
 <?php if($_POST['Internal_EnterNet'] =="Yes") { ?><tr><th>Internal EnterNet Suite:</th><td><?php echo($_POST['Internal_EnterNet']); ?></td></tr><?php } ?>
 <?php if($_POST['External_EnterNet'] =="Yes") { ?><tr><th>External EnterNet Suite (Non-CIP):</th><td><?php echo($_POST['External_EnterNet']); ?></td></tr><?php } ?>
