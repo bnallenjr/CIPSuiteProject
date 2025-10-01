@@ -1,4 +1,48 @@
 <?php
+// ===== DEBUG HARNESS (put this BEFORE any other code) =====
+$DEBUG = (isset($_GET['debug']) && $_GET['debug'] === '1') || getenv('APP_DEBUG') === '1';
+
+// Always log; only display when DEBUG is on
+ini_set('log_errors', '1');
+ini_set('error_log', __DIR__ . '/error.log');
+
+if ($DEBUG) {
+  ini_set('display_errors', '1');
+  ini_set('display_startup_errors', '1');
+  error_reporting(E_ALL);
+
+  // Convert warnings/notices into exceptions we can see
+  set_error_handler(function($severity, $message, $file, $line) {
+    if (!(error_reporting() & $severity)) return;
+    throw new ErrorException($message, 0, $severity, $file, $line);
+  });
+
+  // Catch *fatal* errors (E_ERROR/E_PARSE/etc.) that kill the script
+  register_shutdown_function(function() {
+    $e = error_get_last();
+    if ($e && in_array($e['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR], true)) {
+      http_response_code(500);
+      if (!headers_sent()) header('Content-Type: text/plain; charset=utf-8');
+      echo "FATAL ERROR\n";
+      echo "Message : {$e['message']}\n";
+      echo "File    : {$e['file']}\n";
+      echo "Line    : {$e['line']}\n";
+    }
+  });
+}
+
+// Fail fast with clear messages if required files are missing
+function _require_or_fail($path, $label = null) {
+  if (!is_file($path)) {
+    http_response_code(500);
+    if (!headers_sent()) header('Content-Type: text/plain; charset=utf-8');
+    $label = $label ?: basename($path);
+    echo "Missing required file: {$label}\nExpected path: {$path}\n";
+    exit;
+  }
+}
+?>
+<?php
 require_once __DIR__ . '/../auth/session.php';
 Auth::requireLogin();
 
