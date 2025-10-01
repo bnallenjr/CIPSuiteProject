@@ -120,7 +120,7 @@ $(window).load(function()
 	<label class="control-label col-sm-2" for="Network_Approved_On" hidden >Date of Approval:</label>
     <div class="col-sm-4" hidden >
       <input type="text" class="form-control" name="Network_Approved_On" hidden value = "<?php echo date("m-d-Y h:i:sa");?>"  />
-	  <input type="text" class="form-control" name="Network_Approved_By" hidden value ="<?php echo "allenbv1010"/*$_SESSION['username']*/;?>"  />
+	  <input type="text" class="form-control" name="Network_Approved_By" hidden value ="<?php echo Auth::user()['username'];?>"  />
     </div>
   </div>
 <p></p>
@@ -232,7 +232,7 @@ if (isset($_POST['submit']))
 		$FirstName=$row['FirstName'];
 		$LastName=$row['LastName'];	
 	    $Network_Approved_On = date("m-d-y h:i:sa");
-        $Network_Approved_By = Auth::user()['username'];/*$_SESSION['username']*/;
+        $Network_Approved_By = Auth::user()['username'];
 		
 	$to = "allensolutiongroup@gmail.com";
 	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;
