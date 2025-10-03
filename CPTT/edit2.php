@@ -154,7 +154,7 @@ function renderForm(
 </head>
 
 <body onload="requestAccess()">
-<div class="container">
+<!-- <div class="container"> -->
 
   <div class="container">
 	<h3 align ="center" >CIP Personnel Tracking Tool</h3>
@@ -824,7 +824,7 @@ function renderForm(
     </div>
   </div>
 
-</div><!-- /.container-fluid -->
+<!-- </div> /.container-fluid -->
 
 <!-- Enhance legacy markup without changing names/logic -->
 <script>
