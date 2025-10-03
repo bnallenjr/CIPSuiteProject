@@ -233,7 +233,7 @@ function renderForm(
 ?>
 
   <div class="from-group">
-    <h2 class="h3">
+    <h2 class="h3" align="center">
       Edit CIP Authorized Personnel (Tracking #: <?php echo $Tracking_Num;?>)
       &nbsp;
       <!-- Audit button now triggers the modal natively -->
@@ -251,8 +251,8 @@ function renderForm(
   <form role="form" class="form-horizontal" id="form" action="" method="post">
     <input type="hidden" name="Tracking_Num" value="<?php echo $Tracking_Num; ?>"/>
 
-    <div class="form-group">
-      <h3 class="h4">CIP Authorized Personnel's Information</h3>
+    <div class="section-card" >
+      <h3 class="h4" align="center">CIP Authorized Personnel's Information</h3>
       <div class="table-responsive responsive-table">
         <table class="table table-bordered">
           <tr><td><label>*First Name:</label></td>
@@ -302,7 +302,7 @@ function renderForm(
     </div>
 
     <div class="section-card">
-      <h3 class="h4">Authorization Information</h3>
+      <h3 class="h4" align="center">Authorization Information</h3>
       <div class="table-responsive responsive-table">
         <table class="table table-bordered">
           <tr><td><label>Identity Confirmation / SSN Validation:</label></td>
