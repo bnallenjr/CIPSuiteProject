@@ -1,4 +1,58 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+require __DIR__ . '/phpmailer/src/PHPMailer.php';
+require __DIR__ . '/phpmailer/src/SMTP.php';
+require __DIR__ . '/phpmailer/src/Exception.php';
+
+// DO NOT "use" if your file sometimes emits output before PHP open tags.
+// If you prefer "use", keep them here at the very top before any HTML:
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\Exception;
+
+/**
+ * Send HTML email via Gmail SMTP (App Service friendly).
+ * Returns [bool $ok, string $err]
+ */
+function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
+    $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
+    $smtpPass = getenv('SMTP_PASS') ?: 'pakbzmrfjdruyvax'; // app password, no spaces
+
+    if (!class_exists('\\PHPMailer\\PHPMailer\\PHPMailer')) {
+        return [false, 'PHPMailer not found. Ensure phpmailer/src/* are deployed or use Composer.'];
+    }
+
+    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $smtpUser;
+        $mail->Password   = $smtpPass;
+        $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        // Gmail requires From to match the authenticated account
+        $mail->setFrom('allensolutiongroup@gmail.com', 'CIP Suite WebApp');
+
+        if (is_array($to)) { foreach ($to as $addr) { if ($addr) $mail->addAddress($addr); } }
+        else { $mail->addAddress($to); }
+
+        if ($replyTo) { $mail->addReplyTo($replyTo, $replyToName ?: $replyTo); }
+
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $html;
+        $mail->AltBody = strip_tags(preg_replace('/<br\s*\/?>/i', "\n", $html));
+
+        $mail->send();
+        return [true, ''];
+    } catch (\Throwable $e) {
+        return [false, $e->getMessage()];
+    }
+}
+
 function renderForm($Tracking_Num, $TerminationTime, $TerminationStatus, $error)
 {
 ?>
@@ -81,22 +135,23 @@ $message = "
 
 $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-//$headers .= 'From: <bnallenjr@gmail.com>' . "\r\n";
+$headers .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
 
-mail($to,$subject,$message,$headers);
+SendHtmlMail($to,$subject,$message,'allensolutiongroup@gmail.com', 'CIP Suite WebApp');
 //header("Location: terminationrequest.php");
 
 ?>
-<a href="mailto:cybersecuritycontact@gasoc.com?subject=Termination%20Action%20for%20<?php echo $row['Name'];?>&body=As of <?php echo $termTime;?>, <?php echo $termDate; ?>, <?php echo $row['Name'];?> has been issued a termination action.
+<a href="mailto:allensolutiongroup@gmail.com?subject=Termination%20Action%20for%20<?php echo $row['Name'];?>&body=As of <?php echo $termTime;?>, <?php echo $termDate; ?>, <?php echo $row['Name'];?> has been issued a termination action.
  Please remove all authorized physical, electronic and/or BES Cyber System Information access for <?php echo $row['Name'];?> within 24 hours of the termination time."><h1>Send Termination Email</h1></a>
 
  <?php
 }
-		$serverName = '192.168.207.97';
-$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Finalfantasy777!');		
-		$conn = sqlsrv_connect($serverName, $connectionInfo);
-		if($conn) {
-			//echo 'Connection established<br />';
+		$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
+if($conn) {
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
@@ -190,6 +245,6 @@ $query = "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName+' '
 		
 		$row = sqlsrv_fetch_array($result);
 
-echo '<a href="mailto:cybersecuritycontact@gasoc.com?subject=Termination%20Action%20for%20'.$row['Name'].'&body=As of '.$termTime.', '.$termDate.', '.$row['Name'].' has been issued a termination action.
+echo '<a href="mailto:allensolutiongroup@gmail.com?subject=Termination%20Action%20for%20'.$row['Name'].'&body=As of '.$termTime.', '.$termDate.', '.$row['Name'].' has been issued a termination action.
  Please remove all authorized physical and/or electronic access for '.$row['Name'].' within 24 hours of the termination time."><h1>Send Termination Email</h1></a>'
 ?> 

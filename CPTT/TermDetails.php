@@ -17,9 +17,28 @@ if (!class_exists('Auth')) {
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head> 
+<?php
+		$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
 
-<form role="form" class="form-horizontal"  name="theform" method="post" action="#" onsubmit="CheckForm()">
-<input type = "hidden" name="" value=""/>
+if($conn) {
+			// echo 'Connection established<br />';
+		}else{
+			echo 'Connection failure<br />';
+			die(print_r(sqlsrv_errors(), TRUE));
+		}
+		
+		$keyword2=$_POST['keyword2'];
+		$sql = "select dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName + ' ' + dbo.PersonnelInfo.LastName As Name from dbo.PersonnelInfo WHERE dbo.PersonnelInfo.Tracking_Num=" ."'$keyword2'".";";
+		
+		$result = sqlsrv_query($conn,$sql) or die(print_r(sqlsrv_errors(), TRUE));;
+		
+while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
+}
+?>
+<form role="form" class="form-horizontal"  name="theform" method="post" action="cybersecuritycontactemail.php?Tracking_Num=<?php echo $keyword2; ?>" onsubmit="CheckForm()">
+<input type = "hidden" name="Tracking_Num" value="<?php echo $keyword2; ?>"/>
   <div class="form-group">
   <div class="col-sm-4">
 <h4>Please Enter Date and Time of Termination Action:</h4>
