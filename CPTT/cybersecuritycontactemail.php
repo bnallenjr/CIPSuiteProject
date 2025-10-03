@@ -141,8 +141,8 @@ SendHtmlMail($to,$subject,$message,'allensolutiongroup@gmail.com', 'CIP Suite We
 //header("Location: terminationrequest.php");
 
 ?>
-<a href="mailto:allensolutiongroup@gmail.com?subject=Termination%20Action%20for%20<?php echo $row['Name'];?>&body=As of <?php echo $termTime;?>, <?php echo $termDate; ?>, <?php echo $row['Name'];?> has been issued a termination action.
- Please remove all authorized physical, electronic and/or BES Cyber System Information access for <?php echo $row['Name'];?> within 24 hours of the termination time."><h1>Send Termination Email</h1></a>
+<!--<a href="mailto:allensolutiongroup@gmail.com?subject=Termination%20Action%20for%20<?php echo $row['Name'];?>&body=As of <?php echo $termTime;?>, <?php echo $termDate; ?>, <?php echo $row['Name'];?> has been issued a termination action.
+ Please remove all authorized physical, electronic and/or BES Cyber System Information access for <?php echo $row['Name'];?> within 24 hours of the termination time."><h1>Send Termination Email</h1></a>-->
 
  <?php
 }
@@ -183,7 +183,7 @@ else
 							 UPDATE dbo.PersonnelInfo SET TerminationTime='$TerminationTime', TerminationStatus='$TerminationStatus'WHERE Tracking_Num= '$Tracking_Num'
 							 COMMIT")
 		or die(print_r(sqlsrv_errors(), TRUE));
-		//header("Location: home.php");
+		header("Location: dashboard.php");
 }
 }
 else
