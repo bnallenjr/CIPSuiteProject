@@ -41,7 +41,22 @@
 
 </head>
 <body>
+<?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
 
+if($conn) {
+			// echo 'Connection established<br />';
+		}else{
+			echo 'Connection failure<br />';
+			die(print_r(sqlsrv_errors(), TRUE));
+		}
+			  $q = "SELECT IDENT_CURRENT('dbo.PersonnelInfo') AS 'id';";
+		      $r = sqlsrv_query($conn, $q);
+			  $LastID = sqlsrv_fetch_array($r);
+			  $LastID = $LastID['id'];
+			  $Tracking_Num = $LastID+1;
+		?>
 <form method="post" action="TermDetails.php">
 </form>
 <form role="form" class="form-horizontal" name="theform2" method="post" action="" onsubmit="CheckForm()" onchange="return loadResponse2();">
@@ -49,11 +64,21 @@
   <div class="col-sm-4">
 <h4>Please Select Your Employee:</h4>
 <select class="form-control" name="Employee" onchange="document.form2.keyword2.value=this.value">
-<option value="" disabled selected>Select Employee...</option>
-			<option value="Olivia Montgomery">Olivia Montgomery</option>
-			<option value="Tre Black">Tre Black</option>
-			<option value="Teddy Smith">Teddy Smith</option>
-			<option value="Libby Thomas">Libby Thomas</option>
+<?php
+		
+		$keyword=$_POST['keyword'];
+		$sql = "select dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName + ' ' + dbo.PersonnelInfo.LastName As Name from dbo.PersonnelInfo WHERE dbo.PersonnelInfo.Status='Valid' AND manager =" ."'$keyword'".";";
+		
+		$result = sqlsrv_query($conn,$sql) or die("Not Happening");
+		 $data['Tracking_Num']= $Tracking_Num;
+while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
+	echo "<option value=";
+	echo $data['Tracking_Num'];
+	echo ">";
+	echo $data['Name'];
+	echo "</option>";
+}
+?>
 </select>
 </div>
 <!--<div class="form-group">
