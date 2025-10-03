@@ -235,7 +235,7 @@ if (isset($_POST['submit']))
 		$FirstName=$row['FirstName'];
 		$LastName=$row['LastName'];	
 	  $Network_Approved_On = date("m-d-y h:i:sa");
-    $Network_Approved_By = Auth::user()['username'];/*$_SESSION['username']*/
+    $Network_Approved_By = Auth::user()['username'];
 		
 	$to = "allensolutiongroup@gmail.com";
 	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;
