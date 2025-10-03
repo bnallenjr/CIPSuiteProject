@@ -153,10 +153,41 @@ function renderForm(
 </head>
 
 <body onload="requestAccess()">
-<div class="container-fluid page-wrap">
+<div class="container">
 
   <h1 class="text-primary">CIP Personnel Tracking Tool</h1>
-  <?php include "menu.php"; ?> 
+  <nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+		<span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="dashboard.php">CIP Authorization Tool</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="NewAccessRequest.php">Request Access</a></li>
+        <li><a href="ModificationRequest.php">Request Access Modification</a></li>
+        <li><a href="TerminationRequest.php">Request Access Termination</a></li>
+		<li class ="dropdown">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="reports.php">Reports
+			<span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<li><a href="reports.php">Individual Access Reports</a></li>
+				<li><a href="QARS.php">Quarterly Access Reviews</a></li>
+				<li><a href="#">Reconciliation Report</a></li>
+			</ul>
+		</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="search.php"><span class="glyphicon glyphicon-search"></span> Search</a></li>
+        <li><a href="home.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+      </ul>
+    </div>
+  </div>
+</nav> 
 
 <?php 
   // DB connect
