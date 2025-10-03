@@ -232,7 +232,7 @@ function renderForm(
   $row = sqlsrv_fetch_array($result);
 ?>
 
-  <div class="section-card">
+  <div class="from-group">
     <h2 class="h3">
       Edit CIP Authorized Personnel (Tracking #: <?php echo $Tracking_Num;?>)
       &nbsp;
