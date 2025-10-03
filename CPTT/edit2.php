@@ -34,7 +34,6 @@ function renderForm(
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="customize.css">
 
   <script>
     $(function() {
@@ -157,7 +156,9 @@ function renderForm(
 <body onload="requestAccess()">
 <div class="container">
 
-  <h1 class="text-primary">CIP Personnel Tracking Tool</h1>
+  <div class="container">
+	<h3 align ="center" >CIP Personnel Tracking Tool</h3>
+</div>
   <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<div class="navbar-header">
