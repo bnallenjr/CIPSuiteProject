@@ -248,7 +248,7 @@ function renderForm(
     </h2>
   </div>
 
-  <form id="form" action="" method="post">
+  <form role="form" class="form-horizontal" id="form" action="" method="post">
     <input type="hidden" name="Tracking_Num" value="<?php echo $Tracking_Num; ?>"/>
 
     <div class="form-group">
