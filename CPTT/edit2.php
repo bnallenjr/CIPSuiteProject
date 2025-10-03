@@ -251,7 +251,7 @@ function renderForm(
   <form role="form" class="form-horizontal" id="form" action="" method="post">
     <input type="hidden" name="Tracking_Num" value="<?php echo $Tracking_Num; ?>"/>
 
-    <div class="section-card" >
+    <div class="form-group" >
       <h3 class="h4" align="center">CIP Authorized Personnel's Information</h3>
       <div class="table-responsive responsive-table">
         <table class="table table-bordered">
