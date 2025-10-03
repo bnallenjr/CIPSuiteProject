@@ -69,12 +69,10 @@ if($conn) {
 		}
 		$Tracking_Num = $_GET['Tracking_Num'];
 		$date = date("m-d-Y");
-		$query = "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName + ' ' + dbo.PersonnelInfo.LastName As Name, dbo.PhysicalAccess.SCC, dbo.PhysicalAccess.ECC, dbo.PhysicalAccess.BCC, dbo.PhysicalAccess.BCC_Bunker, 
-			dbo.PhysicalAccess.ECDA_Offices, dbo.PhysicalAccess.ECMS_Offices, dbo.PhysicalAccess.Operations_Data_Center, dbo.PhysicalAccess.Server_Lobby, dbo.PhysicalAccess.SNOC, dbo.PhysicalAccess.Restricted_Key,
-			dbo.PhysicalAccess.LAW_Perimeter, dbo.PhysicalAccess.LAW_Data_Center, dbo.PhysicalAccess.LAW_SNOC, dbo.PhysicalAccess.LAW_Generation, dbo.PhysicalAccess.LAW_Transmission, dbo.PhysicalAccess.LAW_Maintenance_Electric, 
-			dbo.PhysicalAccess.LAW_Operations_Storage, dbo.PhysicalAccess.LAW_Network_Room_104
+		$query = "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName + ' ' + dbo.PersonnelInfo.LastName As Name, dbo.OCRS.OCRS_ECMSAdmin, dbo.OCRS.OCRS_SSITAdmin, dbo.OCRS.Stratus, dbo.OCRS.Catalogic, dbo.OCRS.SolarWinds, dbo.OCRS.ServiceDeskPlus,
+		dbo.OCRS.OCRS_User, dbo.OCRS.CIP_ProtectedInfo
 			FROM dbo.PersonnelInfo
-			LEFT JOIN dbo.PhysicalAccess ON dbo.PersonnelInfo.Tracking_Num=dbo.PhysicalAccess.Tracking_Num
+			LEFT JOIN dbo.OCRS ON dbo.PersonnelInfo.Tracking_Num=dbo.OCRS.Tracking_Num
 			WHERE dbo.PersonnelInfo.Tracking_Num = $Tracking_Num;";
 		
 		
@@ -88,33 +86,25 @@ if($conn) {
 				while ($record = sqlsrv_fetch_array($result) )
 				{
 				
-				$o .= '
-					<h3>Please create (or reactivate) a PSCS account for '.$record['Name'].' to provide authorized unescorted physical access to the following PSP(s)/CIP-Restricted Area(s) answered as "Yes".</h3>
+				$o .= '	
+					<h3>Please provide '.$record['Name'].' with authorized electronic access to the following system(s)/applications(s) that are answered as "Yes". Please disregard if the system you administer is answered as "No" or is blank.</h3>
 					<table border="1">
 					<tr>
 					<th>Name:</th>
 					<td>'.$record ['Name'].'</td>
 					</tr>
-<tr align="left"><th align="left">Transmission Control Center:</th><td>'.$record['SCC'].'</td></tr>
-<tr align="left"><th align="left">Generation Control Center:</th><td>'.$record['ECC'].'</td></tr>
-<tr align="left"><th align="left">ECDA Office:</th><td>'.$record['ECDA_Offices'].'</td></tr>
-<tr align="left"><th align="left">ECMS Office:</th><td>'.$record['ECMS_Offices'].'</td></tr>
-<tr align="left"><th align="left">Operations Data Center:</th><td>'.$record['Operations_Data_Center'].'</td></tr>
-<tr align="left"><th align="left">Server Lobby / Basement Hallway:</th><td>'.$record['Server_Lobby'].'</td></tr>
-<tr align="left"><th align="left">Security and Network Operations Center:</th><td>'.$record['SNOC'].'</td></tr>
-<tr align="left"><th align="left">Restricted Key:</th><td>'.$record['Restricted_Key'].'</td></tr>
-<tr align="left"><th align="left">LAW-B1-CIP-Perimeter:</th><td>'.$record['LAW_Perimeter'].'</td></tr>
-<tr align="left"><th align="left">LAW-Data Center:</th><td>'.$record['LAW_Data_Center'].'</td></tr>
-<tr align="left"><th align="left">LAW-SNOC:</th><td>'.$record['LAW_SNOC'].'</td></tr>
-<tr align="left"><th align="left">LAW-Generation:</th><td>'.$record['LAW_Generation'].'</td></tr>
-<tr align="left"><th align="left">LAW-Transmission:</th><td>'.$record['LAW_Transmission'].'</td></tr>
-<tr align="left"><th align="left">LAW-Electrical & Mechanical Room:</th><td>'.$record['LAW_Maintenance_Electric'].'</td></tr>
-<tr align="left"><th align="left">LAW-Operations Storage:</th><td>'.$record['LAW_Operations_Storage'].'</td></tr>
-<tr align="left"><th align="left">LAW-Network Room 104:</th><td>'.$record['LAW_Network_Room_104'].'</td></tr>
+<tr align="left"><th align="left">OCRS SharePoint Administrator - ECMS:</th><td>'.$record['OCRS_ECMSAdmin'].'</td></tr>
+<tr align="left"><th align="left">OCRS SharePoint Administrator - Shared Services IT:</th><td>'.$record['OCRS_SSITAdmin'].'</td></tr>
+<tr align="left"><th align="left">OCRS SharePoint User:</th><td>'.$record['OCRS_User'].'</td></tr>
+<tr align="left"><th align="left">Stratus:</th><td>'.$record['Stratus'].'</td></tr>
+<tr align="left"><th align="left">Catalogic:</th><td>'.$record['Catalogic'].'</td></tr>
+<tr align="left"><th align="left">SolarWinds:</th><td>'.$record['SolarWinds'].'</td></tr>
+<tr align="left"><th align="left">Service Desk Plus:</th><td>'.$record['ServiceDeskPlus'].'</td></tr>
+<tr align="left"><th align="left">CIP-Protected Information:</th><td>'.$record['CIP_ProtectedInfo'].'</td></tr>
 </table>
 <p></p>
 <p></p>
-NOTE: Be sure to attach and send before and after screenshots (or system-generated reports) to this link <a href="mailto:allensolutiongroup@gmail.com?subject='.$record['Tracking_Num'].' - '.$record['Name'].'">Personnel Evidence Repository</a>. Please use "'.$record['Name'].'-PhyReq-'.$date.'" as the file name.';
+NOTE: Be sure to attach and send before and after screenshots (or system-generated reports) to this link <a href="mailto:allensolutiongroup@gmail.com?subject='.$record['Tracking_Num'].' - '.$record['Name'].'">Personnel Evidence Repository</a>. Please use "'.$record['Name'].'-OCRSReq-'.$date.'" as the file name.';
 				}
 			$o .= '</table>';
 			
@@ -122,12 +112,12 @@ NOTE: Be sure to attach and send before and after screenshots (or system-generat
 $name = $record['Name'];
 echo $name;
 $to = "allensolutiongroup@gmail.com";
-$subject = "Physical Access Request";
+$subject = "BES Cyber System Information Repositories Access Request";
 
 $message = "
 <html>
 <body>
-
+	
 	
 			$o
 
