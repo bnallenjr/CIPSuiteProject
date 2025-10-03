@@ -288,7 +288,7 @@ if (isset($_POST['submit']))
         $TSA_Approved_By = Auth::user()['username'];
 		
 	$to = "allensolutiongroup@gmail.com";
-	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName. 'Shared Account Authorization';
+	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName.' '.'Shared Account Authorization';
 	$message = "I approve the requested access and business need for $FirstName $LastName. Please proceed with giving Telecom Shared Account access. Approved by: $TSA_Approved_By - $TSA_Approved_On" ;
 	
 	$headers = "MIME-Version: 1.0" . "\r\n";

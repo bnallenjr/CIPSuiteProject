@@ -289,7 +289,7 @@ if (isset($_POST['submit']))
         $XAECS_Approved_By = Auth::user()['username'];
 		
 	$to = "allensolutiongroup@gmail.com";
-	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName. 'SCADA Authorization';
+	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName.' '.'SCADA Authorization';
 	$message = "I approve the requested access and business need for $FirstName $LastName. Please proceed with giving XAECS access. Approved by: $XAECS_Approved_By - $XAECS_Approved_On" ;
 	
 	$headers = "MIME-Version: 1.0" . "\r\n";
