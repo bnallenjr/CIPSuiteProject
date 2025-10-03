@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require __DIR__ . '/phpmailer/src/PHPMailer.php';
 require __DIR__ . '/phpmailer/src/SMTP.php';
 require __DIR__ . '/phpmailer/src/Exception.php';
@@ -125,7 +128,7 @@ NOTE: Be sure to attach and send before and after screenshots (or system-generat
 $name = $record['Name'];
 echo $name;
 $to = "allensolutiongroup@gmail.com";
-$subject = "XA21 Access Request";
+$subject = "SCADA Access Request";
 
 $message = "
 <html>

@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require __DIR__ . '/phpmailer/src/PHPMailer.php';
 require __DIR__ . '/phpmailer/src/SMTP.php';
 require __DIR__ . '/phpmailer/src/Exception.php';
@@ -126,6 +129,6 @@ $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 $headers .= 'From: <allensolutiongroup@gmail.com>' . "\r\n";
 
-mail($to,$subject,$message,'allensolutiongroup@gmail.com', 'CIP Suite WebApp');
+SendHtmlMail($to,$subject,$message,'allensolutiongroup@gmail.com', 'CIP Suite WebApp');
 header("Location: edit2.php?Tracking_Num=$Tracking_Num");
 ?>
