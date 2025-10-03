@@ -232,7 +232,7 @@ else
 							 UPDATE dbo.NetworkDevices SET Network_Approved_On='$Network_Approved_On', Network_Approved_By='$Network_Approved_By' WHERE Tracking_Num= '$Tracking_Num'
 							 COMMIT")
 		or die(print_r(sqlsrv_errors(), TRUE));
-		
+		header("Location: close.php");
 }
 }
 else
@@ -298,6 +298,6 @@ if (isset($_POST['submit']))
 
 	sendHtmlMail($to,$subject,$message,'allensolutiongroup@gmail.com', 'CIP Suite WebApp');	
 	
-  header("Location: close.php");
+  
 }		
 ?>
