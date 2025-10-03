@@ -289,7 +289,7 @@ if (isset($_POST['submit']))
     $Network_Approved_By = Auth::user()['username'];
 		
 	$to = "allensolutiongroup@gmail.com";
-	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;
+	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName. 'Network Authorization';
 	$message = "I approve the requested access and business need for $FirstName $LastName. Please proceed with giving access to network devices. Approved by: $Network_Approved_By - $Network_Approved_On" ;
 	
 	$headers = "MIME-Version: 1.0" . "\r\n";

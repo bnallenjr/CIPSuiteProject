@@ -4,6 +4,57 @@ ini_set('display_errors', 1);
 
 require_once __DIR__ . '/../auth/Auth.php';
 Auth::requireLogin();
+
+require __DIR__ . '/phpmailer/src/PHPMailer.php';
+require __DIR__ . '/phpmailer/src/SMTP.php';
+require __DIR__ . '/phpmailer/src/Exception.php';
+
+// DO NOT "use" if your file sometimes emits output before PHP open tags.
+// If you prefer "use", keep them here at the very top before any HTML:
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\Exception;
+
+/**
+ * Send HTML email via Gmail SMTP (App Service friendly).
+ * Returns [bool $ok, string $err]
+ */
+function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
+    $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
+    $smtpPass = getenv('SMTP_PASS') ?: 'pakbzmrfjdruyvax'; // app password, no spaces
+
+    if (!class_exists('\\PHPMailer\\PHPMailer\\PHPMailer')) {
+        return [false, 'PHPMailer not found. Ensure phpmailer/src/* are deployed or use Composer.'];
+    }
+
+    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $smtpUser;
+        $mail->Password   = $smtpPass;
+        $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        // Gmail requires From to match the authenticated account
+        $mail->setFrom('allensolutiongroup@gmail.com', 'CIP Suite WebApp');
+
+        if (is_array($to)) { foreach ($to as $addr) { if ($addr) $mail->addAddress($addr); } }
+        else { $mail->addAddress($to); }
+
+        if ($replyTo) { $mail->addReplyTo($replyTo, $replyToName ?: $replyTo); }
+
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $html;
+        $mail->AltBody = strip_tags(preg_replace('/<br\s*\/?>/i', "\n", $html));
+
+        $mail->send();
+        return [true, ''];
+    } catch (\Throwable $e) {
+        return [false, $e->getMessage()];
+    }
+}
 ?>
 <?php
  function renderForm($Tracking_Num, $FirstName, $LastName, $TSA_Approved_On, $TSA_Approved_By, $error)
@@ -237,7 +288,7 @@ if (isset($_POST['submit']))
         $TSA_Approved_By = Auth::user()['username'];
 		
 	$to = "allensolutiongroup@gmail.com";
-	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;
+	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName. 'Shared Account Authorization';
 	$message = "I approve the requested access and business need for $FirstName $LastName. Please proceed with giving Telecom Shared Account access. Approved by: $TSA_Approved_By - $TSA_Approved_On" ;
 	
 	$headers = "MIME-Version: 1.0" . "\r\n";
