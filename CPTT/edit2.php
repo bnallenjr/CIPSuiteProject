@@ -30,9 +30,9 @@ function renderForm(
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
-  <!-- Bootstrap 3 (kept to avoid breaking) -->
+  <!-- Bootstrap 3 (kept to avoid breaking) 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 
 
   <script>
@@ -251,7 +251,7 @@ function renderForm(
   <form id="form" action="" method="post">
     <input type="hidden" name="Tracking_Num" value="<?php echo $Tracking_Num; ?>"/>
 
-    <div class="section-card">
+    <div class="form-group">
       <h3 class="h4">CIP Authorized Personnel's Information</h3>
       <div class="table-responsive responsive-table">
         <table class="table table-bordered">
