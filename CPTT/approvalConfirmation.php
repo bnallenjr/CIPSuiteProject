@@ -195,12 +195,12 @@ $message  = "<html><body>$o</body></html>";
 // pass a reply-to email (optional), NOT headers:
 list($ok1, $err1) = sendHtmlMail($to, $subject, $message, 'allensolutiongroup@gmail.com', 'CIP Suite WebApp');
 
-// -------- send “new person” email (This email is to create a folder in SharePoint to document records for individual) --------
+/* -------- send “new person” email (This email is to create a folder in SharePoint to document records for individual) --------
 $toNewPerson      = 'allensolutiongroup@gmail.com';
 $subjectNewPerson = $Tracking_Num.' - '.$name;
 $messageNewPerson = "<html><body>$o</body></html>";
 
-list($ok2, $err2) = sendHtmlMail($toNewPerson, $subjectNewPerson, $messageNewPerson, 'allensolutiongroup@gmail.com', 'CIP Suite WebApp');
+list($ok2, $err2) = sendHtmlMail($toNewPerson, $subjectNewPerson, $messageNewPerson, 'allensolutiongroup@gmail.com', 'CIP Suite WebApp');*/
 
 // Redirect only after sends attempted (and with no prior echo)
 if ($ok1 && $ok2) {

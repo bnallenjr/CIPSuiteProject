@@ -1,6 +1,9 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once __DIR__ . '/../auth/Auth.php';
-Auth::requireLogin();//@session_start();
+Auth::requireLogin();
 ?>
 <?php
  function renderForm($Tracking_Num, $FirstName, $LastName, $TSA_Approved_On, $TSA_Approved_By, $error)
@@ -177,7 +180,7 @@ else
 							 UPDATE dbo.NetworkDevices SET TSA_Approved_On='$TSA_Approved_On', TSA_Approved_By='$TSA_Approved_By' WHERE Tracking_Num= '$Tracking_Num'
 							 COMMIT")
 		or die(print_r(sqlsrv_errors(), TRUE));
-		//header("Location: home.php");
+		header("Location: close.php");
 }
 }
 else
@@ -231,7 +234,7 @@ if (isset($_POST['submit']))
 		$FirstName=$row['FirstName'];
 		$LastName=$row['LastName'];	
 	    $TSA_Approved_On = date("m-d-y h:i:sa");
-        $TSA_Approved_By = Auth::user()['username'];//$_SESSION['username'];
+        $TSA_Approved_By = Auth::user()['username'];
 		
 	$to = "allensolutiongroup@gmail.com";
 	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;

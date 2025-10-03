@@ -1,6 +1,9 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once __DIR__ . '/../auth/Auth.php';
-Auth::requireLogin();//@session_start();
+Auth::requireLogin();
 ?>
 <?php
  function renderForm($Tracking_Num, $FirstName, $LastName, $XAECS_Approved_On, $XAECS_Approved_By, $error)
@@ -120,7 +123,7 @@ $(window).load(function()
 	<label class="control-label col-sm-2" for="XAECS_Approved_On" hidden >Date of Approval:</label>
     <div class="col-sm-4" hidden >
       <input type="text" class="form-control" name="XAECS_Approved_On" hidden value = "<?php echo date("m-d-Y h:i:sa");?>"  />
-	  <input type="text" class="form-control" name="XAECS_Approved_By" hidden value ="<?php echo Auth::user()['username']; //$_SESSION['username'];?>"  />
+	  <input type="text" class="form-control" name="XAECS_Approved_By" hidden value ="<?php echo Auth::user()['username']; //$_SESSION['username']?>"  />
     </div>
   </div>
 <p></p>
@@ -178,7 +181,7 @@ else
 							 UPDATE dbo.XA21_ECS SET XAECS_Approved_On='$XAECS_Approved_On', XAECS_Approved_By='$XAECS_Approved_By' WHERE Tracking_Num= '$Tracking_Num'
 							 COMMIT")
 		or die(print_r(sqlsrv_errors(), TRUE));
-		//header("Location: home.php");
+		header("Location: close.php");
 }
 }
 else
@@ -232,7 +235,7 @@ if (isset($_POST['submit']))
 		$FirstName=$row['FirstName'];
 		$LastName=$row['LastName'];	
 	    $XAECS_Approved_On = date("m-d-y h:i:sa");
-        $XAECS_Approved_By = /*$_SESSION['username']*/Auth::user()['username'];
+        $XAECS_Approved_By = Auth::user()['username'];
 		
 	$to = "allensolutiongroup@gmail.com";
 	$subject = $Tracking_Num.' - '.$FirstName. ' ' .$LastName;
