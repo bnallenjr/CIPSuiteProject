@@ -100,7 +100,7 @@ if($conn) {
 			or die('An error occured: ' . sqlsrv_errors());
 		
 		
-		$row = sqlsrv_fetch_array($result);
+		//$row = sqlsrv_fetch_array($result);
 		$o = '
 		
 ';
@@ -109,7 +109,7 @@ if($conn) {
 				{
 				$name = $record['Name'];
 				$o .= '	
-					<h2>As of '.$termTime.', '.$termDate.', '.$record['Name'].' has been issued a termination action. Please remove all authorized physical and/or electronic access for '.$record['Name'].' within the next 24 hours.</h2>';
+					<h2>As of '.$termTime.', '.$termDate.', '.$record['Name'].' has been issued a termination action. Please remove all authorized physical and/or electronic access for '.$record['Name'].' within 24 hours of the termination action.</h2>';
 					
 				}
 			
@@ -245,6 +245,6 @@ $query = "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName+' '
 		
 		$row = sqlsrv_fetch_array($result);
 
-echo '<a href="mailto:allensolutiongroup@gmail.com?subject=Termination%20Action%20for%20'.$row['Name'].'&body=As of '.$termTime.', '.$termDate.', '.$row['Name'].' has been issued a termination action.
- Please remove all authorized physical and/or electronic access for '.$row['Name'].' within 24 hours of the termination time."><h1>Send Termination Email</h1></a>'
+/*echo '<a href="mailto:allensolutiongroup@gmail.com?subject=Termination%20Action%20for%20'.$row['Name'].'&body=As of '.$termTime.', '.$termDate.', '.$row['Name'].' has been issued a termination action.
+ Please remove all authorized physical and/or electronic access for '.$row['Name'].' within 24 hours of the termination time."><h1>Send Termination Email</h1></a>'*/
 ?> 
