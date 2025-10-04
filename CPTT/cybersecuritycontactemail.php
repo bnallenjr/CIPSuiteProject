@@ -11,10 +11,9 @@ require __DIR__ . '/phpmailer/src/Exception.php';
 
 /**
  * Send HTML email via Gmail SMTP (App Password).
- * Returns array [bool $ok, string $err]
+ * Returns [bool $ok, string $err]
  */
 function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
-    // Use env vars if available; fall back to your configured account
     $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
     $smtpPass = getenv('SMTP_PASS') ?: 'pakbzmrfjdruyvax'; // Gmail App Password
 
@@ -53,7 +52,6 @@ function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body    = $html;
-        // Reasonable AltBody
         $mail->AltBody = strip_tags(preg_replace('/<br\s*\/?>/i', "\n", $html));
 
         $mail->send();
@@ -63,7 +61,7 @@ function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null
     }
 }
 
-// Backward-compatible alias if other files call SendHtmlMail()
+// Backward-compatible alias if other code calls this name
 if (!function_exists('SendHtmlMail')) {
     function SendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
         return sendHtmlMail($to, $subject, $html, $replyTo, $replyToName);
@@ -71,27 +69,17 @@ if (!function_exists('SendHtmlMail')) {
 }
 
 /**
- * Simple DB connector
+ * Require authentication & shared DB connector (provides db_connect()).
+ * This avoids redeclaring db_connect().
  */
-function db_connect() {
-    $connectionInfo = array(
-        "UID" => "asgdb-admin",
-        "pwd" => "!FinalFantasy777!",
-        "Database" => "asg-db",
-        "LoginTimeout" => 30,
-        "Encrypt" => 1,
-        "TrustServerCertificate" => 0
-    );
-    $serverName = "tcp:asg-db.database.windows.net,1433";
-    $conn = sqlsrv_connect($serverName, $connectionInfo);
-    if (!$conn) {
-        die('Connection failure: ' . print_r(sqlsrv_errors(), true));
-    }
-    return $conn;
-}
+require_once __DIR__ . '/../auth/Auth.php';
+require_once __DIR__ . '/../auth/db.php';
+Auth::requireLogin();
+
+$conn = db_connect();
 
 /**
- * Fetch "FirstName LastName" by Tracking_Num (parametrized)
+ * Helper: Fetch "FirstName LastName" by Tracking_Num (parameterized)
  */
 function getPersonNameByTracking($conn, $trackingNum) {
     $q = "SELECT FirstName + ' ' + LastName AS Name
@@ -145,24 +133,16 @@ function renderForm($Tracking_Num, $TerminationTime, $TerminationStatus, $error)
 }
 
 /**
- * Require authentication
- */
-require_once __DIR__ . '/../auth/Auth.php';
-Auth::requireLogin();   // redirect to /auth/login.php if not signed in
-
-$conn = db_connect();
-
-/**
  * POST: Save + Send Email + Redirect
  */
 if (isset($_POST['submit'])) {
     if (isset($_POST['Tracking_Num']) && is_numeric($_POST['Tracking_Num'])) {
         $Tracking_Num = (int) $_POST['Tracking_Num'];
 
-        // Build termination time from posted date + time (guard against missing)
+        // Build termination time from posted date + time
         $termDate = isset($_POST['termDate']) ? trim($_POST['termDate']) : '';
         $termTime = isset($_POST['termTime']) ? trim($_POST['termTime']) : '';
-        $TerminationTime = trim($termDate . ' ' . $termTime);
+        $TerminationTime   = trim($termDate . ' ' . $termTime);
         $TerminationStatus = 'In progress';
 
         if ($TerminationTime === '' || $TerminationStatus === '') {
@@ -171,7 +151,7 @@ if (isset($_POST['submit'])) {
             exit;
         }
 
-        // Write to DB in a simple transaction
+        // Transaction: update DB
         $ok = sqlsrv_query($conn, "BEGIN TRANSACTION");
         if (!$ok) { die(print_r(sqlsrv_errors(), true)); }
 
@@ -188,10 +168,10 @@ if (isset($_POST['submit'])) {
         $ok = sqlsrv_query($conn, "COMMIT");
         if (!$ok) { die(print_r(sqlsrv_errors(), true)); }
 
-        // Build & send email AFTER successful DB update
-        $name      = getPersonNameByTracking($conn, $Tracking_Num) ?: 'the individual';
-        $niceDate  = $termDate ? date('m/d/Y', strtotime($termDate)) : '';
-        $niceTime  = $termTime ? date('g:ia',   strtotime($termTime)) : '';
+        // Email AFTER successful update
+        $name     = getPersonNameByTracking($conn, $Tracking_Num) ?: 'the individual';
+        $niceDate = $termDate ? date('m/d/Y', strtotime($termDate)) : '';
+        $niceTime = $termTime ? date('g:ia',   strtotime($termTime)) : '';
 
         $to       = 'allensolutiongroup@gmail.com';
         $subject  = 'CIP Authorized Personnel Termination Notice';
@@ -200,11 +180,9 @@ if (isset($_POST['submit'])) {
 
         list($sent, $err) = sendHtmlMail($to, $subject, $htmlBody, 'allensolutiongroup@gmail.com', 'CIP Suite WebApp');
         if (!$sent) {
-            // Don’t interrupt user flow; log the failure
             error_log('sendHtmlMail failed: '.$err);
         }
 
-        // Redirect out (no prior output)
         header("Location: dashboard.php");
         exit;
     } else {
