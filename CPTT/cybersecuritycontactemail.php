@@ -183,7 +183,7 @@ else
 							 UPDATE dbo.PersonnelInfo SET TerminationTime='$TerminationTime', TerminationStatus='$TerminationStatus'WHERE Tracking_Num= '$Tracking_Num'
 							 COMMIT")
 		or die(print_r(sqlsrv_errors(), TRUE));
-		header("Location: dashboard.php");
+		//header("Location: dashboard.php");
 }
 }
 else
@@ -244,7 +244,7 @@ $query = "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName+' '
 		
 		
 		$row = sqlsrv_fetch_array($result);
-
+header("Location: dashboard.php");
 /*echo '<a href="mailto:allensolutiongroup@gmail.com?subject=Termination%20Action%20for%20'.$row['Name'].'&body=As of '.$termTime.', '.$termDate.', '.$row['Name'].' has been issued a termination action.
  Please remove all authorized physical and/or electronic access for '.$row['Name'].' within 24 hours of the termination time."><h1>Send Termination Email</h1></a>'*/
 ?> 
