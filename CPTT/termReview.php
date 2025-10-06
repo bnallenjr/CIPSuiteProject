@@ -20,6 +20,9 @@ if (!class_exists('Auth')) {
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="customize.css">
 </head>
 <body>
 <?php 
@@ -41,10 +44,10 @@ if($conn) {
  <div class="container">
 	<h2 align ="center" >Termination Review</h2>
 </div>
-<form role="form" class="form-horizontal"  name ="myform" id="myform" method="post" action="" align ="center">
+<form role="form" class="form-horizontal"  name ="myform" id="myform" method="post" action="" >
 <input type = "hidden" name="Tracking_Num" value="<?php echo $Tracking_Num; ?>"/>
-<div class="well well-sm" align="center" ><h3>Termination Review</h3></div>  
-    <div class="form-group">
+<div class="well well-sm" align="center" ><h3><!--Termination Review--></h3></div>  
+    <div class="form-group" align ="center">
 	<!--<label class="control-label col-sm-2" for="TerminationStatus">Complete Review:</label>-->
     <div class="col-sm-4">
       <input type="hidden" class="form-control" name="TerminationStatus" hidden value = "Complete"  />
