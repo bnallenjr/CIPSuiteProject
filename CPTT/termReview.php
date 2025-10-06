@@ -41,7 +41,7 @@ if($conn) {
  <div class="container">
 	<h2 align ="center" >Termination Review</h2>
 </div>
-<form role="form" class="form-horizontal"  name ="myform" id="myform" method="post" action="">
+<form role="form" class="form-horizontal"  name ="myform" id="myform" method="post" action="" align ="center">
 <input type = "hidden" name="Tracking_Num" value="<?php echo $Tracking_Num; ?>"/>
 <div class="well well-sm" align="center" ><h3>Termination Review</h3></div>  
     <div class="form-group">
@@ -52,7 +52,7 @@ if($conn) {
 	 <p>-   Termination Trigger with date and time specified if possible.</p>
 	 <p>-   Evidence of physical access removal (if necessary).</p>
 	 <p>-	Evidence of electronic access removal (if necessary).</p>
-	 <p>-	Evidence of CIP Repository (OCRS) access (if necessary).</p>
+	 <p>-	Evidence of BCSI Repository access removal (if necessary).</p>
 	 <p>Please review and validate the evidence in the <a href="allensolutiongroup@gmail.com<?php echo $Tracking_Num; ?>%20-%20<?php echo $row['FirstName'];?>%20<?php echo $row['LastName'];?>" target="_blank">Personnel Evidence Repository</a></p>
     </div>
 	</div>
