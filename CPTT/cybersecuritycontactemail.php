@@ -2,6 +2,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+require_once __DIR__ . '/../auth/Auth.php';
+Auth::requireLogin();
+
 require __DIR__ . '/phpmailer/src/PHPMailer.php';
 require __DIR__ . '/phpmailer/src/SMTP.php';
 require __DIR__ . '/phpmailer/src/Exception.php';
@@ -52,7 +55,8 @@ function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null
         return [false, $e->getMessage()];
     }
 }
-
+?>
+<?php
 function renderForm($Tracking_Num, $TerminationTime, $TerminationStatus, $error)
 {
 ?>
@@ -183,7 +187,7 @@ else
 							 UPDATE dbo.PersonnelInfo SET TerminationTime='$TerminationTime', TerminationStatus='$TerminationStatus'WHERE Tracking_Num= '$Tracking_Num'
 							 COMMIT")
 		or die(print_r(sqlsrv_errors(), TRUE));
-		//header("Location: dashboard.php");
+		header("Location: close.php");
 }
 }
 else
@@ -196,7 +200,7 @@ else
 if (isset($_GET['Tracking_Num']) && is_numeric($_GET['Tracking_Num']) && $_GET['Tracking_Num'] > 0)
 {
 		$Tracking_Num = $_GET['Tracking_Num'];
-		$result = sqlsrv_query($conn, "select dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.TerminationTime, dbo.PersonnelInfo.TerminationStatus WHERE dbo.PersonnelInfo.Tracking_Num = $Tracking_Num"
+		$result = sqlsrv_query($conn, "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.TerminationTime, dbo.PersonnelInfo.TerminationStatus WHERE dbo.PersonnelInfo.Tracking_Num = $Tracking_Num"
 )
 		
 		or die(print_r(sqlsrv_errors(), TRUE));
