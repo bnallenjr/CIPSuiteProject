@@ -191,7 +191,7 @@ if (isset($_POST['submit'])) {
         }
 
         // If you want to redirect after sending, uncomment:
-        // header("Location: dashboard.php");
+         header("Location: dashboard.php");
         // exit;
 
         // Otherwise, show a minimal confirmation using the same renderer
