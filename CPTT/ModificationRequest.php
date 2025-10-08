@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
     <?php
@@ -85,7 +84,21 @@ if (!class_exists('Auth')) {
 </head>
 <body>
 <?php 
-			  
+ $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
+if($conn) {
+			// echo 'Connection established<br />';
+		}else{
+			echo 'Connection failure<br />';
+			die(print_r(sqlsrv_errors(), TRUE));
+		}
+			  $q = "SELECT MAX(dbo.PersonnelInfo.Tracking_Num) AS 'id' FROM dbo.PersonnelInfo;";
+		      $r = sqlsrv_query($conn, $q);
+			  $LastID = sqlsrv_fetch_array($r);
+			  $LastID = $LastID['id'];
+			  $Tracking_Num = $LastID+1;
 		?>
 <div class="container">
 	<h3 align ="center">Modification Request</h3>
