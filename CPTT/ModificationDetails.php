@@ -40,7 +40,7 @@ while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
 		dbo.PersonnelInfo.Title, dbo.PersonnelInfo.FOC_Company, dbo.PersonnelInfo.Contract_Agency, dbo.PersonnelInfo.Contractor, dbo.PersonnelInfo.Manager, 
 		CONVERT (varchar, dbo.PersonnelInfo.SSN_Validation_Date, 110) AS SSN_VALIDATION_DATE, CONVERT (varchar, dbo.PersonnelInfo.Criminal_Background_Date, 110) AS BACKGROUND_CHECK_DATE, 
 		CONVERT (varchar, dbo.PersonnelInfo.CurrentTrainingDate, 110) AS CURRENT_TRAINING_DATE, CONVERT (varchar, dbo.PersonnelInfo.DatePaperWorkSign, 110) AS PAPERWORK_APPROVED_ON, dbo.PersonnelInfo.Email, 
-		dbo.PersonnelInfo.Initial_Ticket, dbo.PersonnelInfo.Modification_Ticket, dbo.PersonnelInfo.Termination_Ticket,
+		/*dbo.PersonnelInfo.Initial_Ticket, dbo.PersonnelInfo.Modification_Ticket, dbo.PersonnelInfo.Termination_Ticket,*/
 	    dbo.PhysicalAccess.SCC, dbo.PhysicalAccess.ECC, dbo.PhysicalAccess.BCC, dbo.PhysicalAccess.ECDA_Offices, dbo.PhysicalAccess.ECMS_Offices, dbo.PhysicalAccess.Operations_Data_Center, dbo.PhysicalAccess.Server_Lobby, dbo.PhysicalAccess.SNOC, dbo.PhysicalAccess.JacksonGate, dbo.PhysicalAccess.Restricted_Key,
 	    dbo.PhysicalAccess.LAW_Perimeter, dbo.PhysicalAccess.LAW_Data_Center, dbo.PhysicalAccess.LAW_SNOC, dbo.PhysicalAccess.LAW_Generation, 
 		dbo.PhysicalAccess.LAW_Transmission, dbo.PhysicalAccess.LAW_Maintenance_Electric, dbo.PhysicalAccess.LAW_Operations_Storage,
@@ -79,9 +79,9 @@ while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
 		$Criminal_Background_Date=$row['BACKGROUND_CHECK_DATE'];
 		$CurrentTrainingDate=$row['CURRENT_TRAINING_DATE'];
 		$DatePaperWorkSign=$row['PAPERWORK_APPROVED_ON'];
-		$Initial_Ticket=$row['Initial_Ticket']; 
+		/*$Initial_Ticket=$row['Initial_Ticket']; 
 		$Modification_Ticket=$row['Modification_Ticket'];
-		$Termination_Ticket=$row['Termination_Ticket'];
+		$Termination_Ticket=$row['Termination_Ticket'];*/
 		$checkSCC=explode(',', $row['SCC']);
 		$checkECC=explode(',', $row['ECC']);
 		$checkBCC=explode(',', $row['BCC']);
