@@ -51,15 +51,17 @@ if($conn) {
 	<!--<label class="control-label col-sm-2" for="TerminationStatus">Complete Review:</label>-->
     <div class="col-sm-4">
       <input type="hidden" class="form-control" name="TerminationStatus" hidden value = "Complete"  />
-	 <p>Please ensure the following elements are reviewed and validated before completing this termination</p>
-	 <p>-   Termination Trigger with date and time specified if possible.</p>
-	 <p>-   Evidence of physical access removal (if necessary).</p>
-	 <p>-	Evidence of electronic access removal (if necessary).</p>
-	 <p>-	Evidence of BCSI Repository access removal (if necessary).</p>
-	 <p>Please review and validate the evidence in the <a href="allensolutiongroup@gmail.com<?php echo $Tracking_Num; ?>%20-%20<?php echo $row['FirstName'];?>%20<?php echo $row['LastName'];?>" target="_blank">Personnel Evidence Repository</a></p>
+	<ul class="list group"> 
+	 <li class="list-group-item">Please ensure the following elements are reviewed and validated before completing this termination</li>
+	 <li class="list-group-item">Termination Trigger with date and time specified if possible.</li>
+	 <li class="list-group-item">Evidence of physical access removal (if necessary).</li>
+	 <li class="list-group-item">Evidence of electronic access removal (if necessary).</li>
+	 <li class="list-group-item">Evidence of BCSI Repository access removal (if necessary).</li>
+	 <li class="list-group-item">Please review and validate the evidence in the <a href="allensolutiongroup@gmail.com<?php echo $Tracking_Num; ?>%20-%20<?php echo $row['FirstName'];?>%20<?php echo $row['LastName'];?>" target="_blank">Personnel Evidence Repository</a></p>
     </div>
 	</div>
-  <button input type = "submit" name="submit" class="btn btn-danger">Complete Termination Review</button>
+  <button input type = "submit" name="submit" class="btn btn-danger" align="center">Complete Termination Review</button>
+	</ul>
 </form>
 </body>
 </html>

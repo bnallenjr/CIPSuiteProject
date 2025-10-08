@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <?php
-session_start();
+require_once __DIR__ . '/../auth/Auth.php';
+Auth::requireLogin();   // redirect to /auth/login.php if not signed in
+
+// (Optional sanity check)
+if (!class_exists('Auth')) {
+    die('Auth class missing. Expected at: ' . realpath(__DIR__ . '/../auth/Auth.php'));
+}
 ?>
 <head>
 <meta charset="utf-8">
@@ -18,7 +24,7 @@ session_start();
 		
 		<div class="col-sm-4">
 	  <h4>Requested By:</h4>
-	  <input type="text" class="form-control" name="RequestedBy" readonly value ="<?php echo $_SESSION['username'];?>"  />
+	  <input type="text" class="form-control" name="RequestedBy" readonly value ="<?php echo Auth::user()['username'];?>"  />
 		</div>
 		</div>
 	  <div class="form-group">
@@ -126,7 +132,7 @@ session_start();
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Energy Control System</a>
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Energy Management System</a>
         </h4>
       </div>
       <div id="collapse2" class="panel-collapse collapse">
@@ -160,7 +166,7 @@ session_start();
 		<input type="hidden" name="AutoCAD_User" value=""/>
 			<label><input type="checkbox" name="AutoCAD_User" id="AutoCAD_User" value="Yes">AutoCAD User:</label>
 		</div>
-		<h5><b>Energy Control System Shared Accounts</b></h5>
+		<h5><b>Energy Management System Shared Accounts</b></h5>
 		<div class="checkbox">
 		<input type="hidden" name="Sudo_root" value=""/>
 			<label><input type="checkbox" name="Sudo_root" id="Sudo_root" value="Yes">root account access:</label>

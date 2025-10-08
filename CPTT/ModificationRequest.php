@@ -124,15 +124,19 @@
   <div class="col-sm-4">
 <h4>Please Select Individual's Manager Name Below:</h4>
   <select class="form-control" name= "Manager" onchange="document.form1.keyword.value=this.value"><option>Select Manager Name</option>
-  <option value="" disabled selected>Select Manager...</option>
-			<option value="Jane Doe - CEO">Jane Doe - CEO</option>
-			<option value="John Doe - COO">John Doe - COO</option>
-			<option value="Jackson Smith - CFO">Jackson Smith - CFO</option>
-			<option value="Jan Smith - CCO">Jan Smith - CCO</option>
-			<option value="Janice Lee - EVP Compliance">Janice Lee - EVP Compliance</option>
-			<option value="Joeseph Lee - EVP OT">Joeseph Lee - EVP OT</option>
-			<option value="Jerry Adams - Senior Director CS Ops">Jerry Adams - Senior Director CS Ops</option>
-			<option value="Janelle Adams - Director CIP Ops">Janelle Adams - Director CIP Ops</option>
+  <?php
+
+$sql = "Select distinct manager from dbo.PersonnelInfo";
+$result = sqlsrv_query($conn,$sql) or die("Not Happening");
+
+while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
+	echo "<option value=";
+	echo "'".$data['manager']."'";
+	echo ">";
+	echo "'".$data['manager']."'"; 
+	echo "</option>";
+}
+?>
 </select>
 </div>
 </form>
