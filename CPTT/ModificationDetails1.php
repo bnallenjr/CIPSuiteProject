@@ -106,7 +106,83 @@ if($conn) {
 		<thead>
 		<h4><b>Currently Authorized Access</b></h4>
 	</thead>
-		
+<?php if($row['SCC']=="Yes" OR $row['ECC']== "Yes" OR $row['BCC']=="Yes" OR $row['ECDA_Offices']=="Yes" OR $row['ECMS_Offices']=="Yes" OR $row['Operations_Data_Center']=="Yes" OR $row['Server_Lobby'] OR $row['SNOC']=="Yes") { ?><tr><td colspan="2" bgcolor="#C0C0C0"><b>Physical Access</b></td></tr><?php } ?>
+<?php if($row['SCC'] =="Yes") { ?><tr><td>System Control Center:</td><td><?php echo($row['SCC']); ?></td></tr><?php } ?>
+<?php if($row['ECC'] =="Yes") { ?><tr><td>Energy Control Center:</td><td><?php echo($row['ECC']); ?></td></tr><?php } ?>
+<?php if($row['ECDA_Offices'] =="Yes") { ?><tr><td>ECDA Office:</td><td><?php echo($row['ECDA_Offices']); ?></td></tr><?php } ?>
+<?php if($row['ECMS_Offices'] =="Yes") { ?><tr><td>ECMS Office:</td><td><?php echo($row['ECMS_Offices']); ?></td></tr><?php } ?>
+<?php if($row['Operations_Data_Center'] =="Yes") { ?><tr><td>Operations Data Center:</td><td><?php echo($row['Operations_Data_Center']); ?></td></tr><?php } ?>
+<?php if($row['Server_Lobby'] =="Yes") { ?><tr><td>Server Lobby / Basement Hallway:</td><td><?php echo($row['Server_Lobby']); ?></td></tr><?php } ?>
+<?php if($row['SNOC'] =="Yes") { ?><tr><td>Security and Network Operations Center:</td><td><?php echo($row['SNOC']); ?></td></tr><?php } ?>
+<?php /*if($row['JacksonGate'] =="Yes") {?><tr><td colspan="2" bgcolor="#C0C0C0"><b>Jackson EMC Gate Bridge (Non-CIP)</b></td></tr><?php } */?>
+<?php /* if($row['JacksonGate'] =="Yes") { ?><tr><td>Jackson Gate:</td><td><?php echo($row['JacksonGate']); ?></td></tr><?php }*/ ?>
+<?php if($row['Restricted_Key'] !="N/A" OR $row['Restricted_Key'] !="No" OR $row['Restricted_Key'] !="NA") { ?><tr><td colspan="2" bgcolor="#C0C0C0"><b>Emergency Door Keys</b></td></tr><?php } ?>
+<?php if($row['Restricted_Key'] !="N/A" OR $row['Restricted_Key'] !="No" OR $row['Restricted_Key'] !="NA") { ?><tr><td>Restricted Key:</td><td><?php echo($row['Restricted_Key']); ?></td></tr><?php } ?>
+<?php if($row['LAW_Perimeter'] =="Yes") {?><tr><td colspan="2" bgcolor="#C0C0C0"><b>Lawrenceville Campus</b></td></tr><?php } ?>
+<?php if($row['LAW_Perimeter'] =="Yes") { ?><tr><td>LAW-Perimeter:</td><td><?php echo($row['LAW_Perimeter']); ?></td></tr><?php } ?>
+<?php if($row['LAW_Data_Center'] =="Yes") { ?><tr><td>LAW-Data Center:</td><td><?php echo($row['LAW_Data_Center']); ?></td></tr><?php } ?>
+<?php if($row['LAW_SNOC'] =="Yes") { ?><tr><td>LAW-SNOC:</td><td><?php echo($row['LAW_SNOC']); ?></td></tr><?php } ?>
+<?php if($row['LAW_Generation'] =="Yes") { ?><tr><td>LAW-Generation:</td><td><?php echo($row['LAW_Generation']); ?></td></tr><?php } ?>
+<?php if($row['LAW_Transmission'] =="Yes") { ?><tr><td>LAW-Transmission:</td><td><?php echo($row['LAW_Transmission']); ?></td></tr><?php } ?>
+<?php if($row['LAW_Maintenance_Electric'] =="Yes") { ?><tr><td>LAW-Maintenance & Electric Room:</td><td><?php echo($row['LAW_Maintenance_Electric']); ?></td></tr><?php } ?>
+<?php if($row['LAW_Operations_Storage'] =="Yes") { ?><tr><td>LAW-Operations Storage:</td><td><?php echo($row['LAW_Operations_Storage']); ?></td></tr><?php } ?>
+<?php if($row['LAW_Network_Room_104'] =="Yes") { ?><tr><td>LAW-Network Room 104:</td><td><?php echo($row['LAW_Network_Room_104']); ?></td></tr><?php } ?>
+<?php if($row['ESP_Remote_Intermediate']=="Yes" OR $row['VPN_Tunnel_Access']=="Yes" OR $row['AD_prod']=="Yes" OR $row['AD_supp']=="Yes" OR $row['UNIX_Access']=="Yes" OR $row['Internal_EnterNet']=="Yes" OR $row['External_EnterNet']=="Yes" OR $row['Database_User']=="Yes" OR $row['AutoCAD_User']=="Yes" OR $row['Sudo_root']=="Yes" OR $row['Sudo_XA21']=="Yes" OR $row['Sudo_xacm']=="Yes" OR $row['Sudo_oracle']=="Yes" OR $row['Sudo_ccadmin']=="Yes" OR $row['AdminSharedGeneric_iccpadmin']=="Yes" OR $row['Domain_Admin']=="Yes") { ?><tr><td colspan="2" bgcolor="#C0C0C0"><b>XA/21</b></td></tr><?php } ?>
+<?php if($row['ESP_Remote_Intermediate'] =="Yes") { ?><tr><td>ESP Remote Access / Intermediate System:</td><td><?php echo($row['ESP_Remote_Intermediate']); ?></td></tr><?php } ?>
+<?php if($row['VPN_Tunnel_Access'] =="Yes") { ?><tr><td>VPN Tunnel Access (GE Energy):</td><td><?php echo($row['VPN_Tunnel_Access']); ?></td></tr><?php } ?>
+<?php if($row['Logins_Gen_Tran'] =="Yes") { ?><tr><td>Logins - BOTH Generation and Transmission:</td><td><?php echo($row['Logins_Gen_Tran']); ?></td></tr><?php } ?>
+<?php if($row['Trans_Login'] =="Yes") { ?><tr><td>Login - Transmission:</td><td><?php echo($row['Trans_Login']); ?></td></tr><?php } ?>
+<?php if($row['Gen_Login'] =="Yes") { ?><tr><td>Login - Generation:</td><td><?php echo($row['Gen_Login']); ?></td></tr><?php } ?>
+<?php if($row['AppSupport_Login'] =="Yes") { ?><tr><td>Login - Application Support:</td><td><?php echo($row['AppSupport_Login']); ?></td></tr><?php } ?>
+<?php if($row['AD_prod'] =="Yes") { ?><tr><td>Active Directory (gsoc_prod):</td><td><?php echo($row['AD_prod']); ?></td></tr><?php } ?>
+<?php if($row['AD_supp'] =="Yes") { ?><tr><td>Active Directory (gsoc_support):</td><td><?php echo($row['AD_supp']); ?></td></tr><?php } ?>
+<?php if($row['UNIX_Access'] =="Yes") { ?><tr><td>UNIX Access:</td><td><?php echo($row['UNIX_Access']); ?></td></tr><?php } ?>
+<?php if($row['Internal_EnterNet'] =="Yes") { ?><tr><td>Internal EnterNet Suite:</td><td><?php echo($row['Internal_EnterNet']); ?></td></tr><?php } ?>
+<?php if($row['External_EnterNet'] =="Yes") { ?><tr><td>External EnterNet Suite (Non-CIP):</td><td><?php echo($row['External_EnterNet']); ?></td></tr><?php } ?>
+<?php if($row['Database_User'] =="Yes") { ?><tr><td>Database User:</td><td><?php echo($row['Database_User']); ?></td></tr><?php } ?>
+<?php if($row['AutoCAD_User'] =="Yes") { ?><tr><td>AutoCAD User:</td><td><?php echo($row['AutoCAD_User']); ?></td></tr><?php } ?>
+<?php if($row['Sudo_root'] =="Yes") { ?><tr><td>Sudo Account (root):</td><td><?php echo($row['Sudo_root']); ?></td></tr><?php } ?>
+<?php if($row['Sudo_XA21'] =="Yes") { ?><tr><td>Sudo Account (xa21):</td><td><?php echo($row['Sudo_XA21']); ?></td></tr><?php } ?>
+<?php if($row['Sudo_xacm'] =="Yes") { ?><tr><td>Sudo Account (xacm):</td><td><?php echo($row['Sudo_xacm']); ?></td></tr><?php } ?>
+<?php if($row['Sudo_oracle'] =="Yes") { ?><tr><td>Sudo Account (oracle):</td><td><?php echo($row['Sudo_oracle']); ?></td></tr><?php } ?>
+<?php if($row['Sudo_ccadmin'] =="Yes") { ?><tr><td>Sudo Account (ccadmin):</td><td><?php echo($row['Sudo_ccadmin']); ?></td></tr><?php } ?>
+<?php if($row['AdminSharedGeneric_iccpadmin'] =="Yes") { ?><tr><td>Administrator / Shared / Generic (iccpadmin):</td><td><?php echo($row['AdminSharedGeneric_iccpadmin']); ?></td></tr><?php } ?>
+<?php if($row['Domain_Admin'] =="Yes") { ?><tr><td>Domain Administrator Privileges:</td><td><?php echo($row['Domain_Admin']); ?></td></tr><?php } ?>
+<?php if($row['emrg'] =="Yes") { ?><tr><td>Shared (emrg) Account:</td><td><?php echo($row['emrg']); ?></td></tr><?php } ?>
+<?php if($row['TE_Engineering_OM_Group']=="Yes" OR $row['TelecomSharedAccount']=="Yes" OR $row['ACS_LocalAdmin']=="Yes" OR $row['RSA_LocalAdmin']=="Yes") { ?><tr><td colspan="2" bgcolor="#C0C0C0"><b>EACMS / Network Devices</b></td></tr><?php } ?>
+<?php if($row['TE_Engineering_OM_Group'] =="Yes") { ?><tr><td>TE_Engineering_OM Group:</td><td><?php echo($row['TE_Engineering_OM_Group']); ?></td></tr><?php } ?>
+<?php if($row['TelecomSharedAccount'] =="Yes") { ?><tr><td>Telecom Shared Accounts:</td><td><?php echo($row['TelecomSharedAccount']); ?></td></tr><?php } ?>
+<?php if($row['ACS_LocalAdmin'] =="Yes") { ?><tr><td>ACS Local Administrator Account:</td><td><?php echo($row['ACS_LocalAdmin']); ?></td></tr><?php } ?>
+<?php if($row['RSA_LocalAdmin'] =="Yes") { ?><tr><td>RSA Local Administrator Account:</td><td><?php echo($row['RSA_LocalAdmin']); ?></td></tr><?php } ?>
+<?php if($row['IntermediateSystemAdmin'] =="Yes") { ?><tr><td>Intermediate System Administrator:</td><td><?php echo($row['IntermediateSystemAdmin']); ?></td></tr><?php } ?>
+<?php if($row['IDAppAdmin'] =="Yes" OR $row['IDSysAdmin']=="Yes" OR $row['IDUser']=="Yes") { ?><tr><td colspan="2" bgcolor="#C0C0C0"><b>Industrial Defender</b></td></tr><?php } ?>
+<?php if($row['IDAppAdmin'] =="Yes") { ?><tr><td>Industrial Defender ASA:</td><td><?php echo($row['IDAppAdmin']); ?></td></tr><?php } ?>
+<?php if($row['IDSysAdmin'] =="Yes") { ?><tr><td>Industrial Defender ASM:</td><td><?php echo($row['IDSysAdmin']); ?></td></tr><?php } ?>
+<?php if($row['IDUser'] =="Yes") { ?><tr><td>Industrial Defender NIDS:</td><td><?php echo($row['IDUser']); ?></td></tr><?php } ?>
+<?php if($row['IDroot'] =="Yes") { ?><tr><td>Industrial Defender (root) Shared Account:</td><td><?php echo($row['IDroot']); ?></td></tr><?php } ?>
+<?php if($row['IDadmin_shared'] =="Yes") { ?><tr><td>Industrial Defender (admin) Shared Account:</td><td><?php echo($row['IDadmin_shared']); ?></td></tr><?php } ?>
+<?php if($row['IDWinAdmin'] =="Yes") { ?><tr><td>Industrial Defender (winadmin) Account:</td><td><?php echo($row['IDWinAdmin']); ?></td></tr><?php } ?>
+<?php if($row['Sys_Ops_Domain_Administrator'] =="Yes" OR $row['Sys_Ops_Domain_Contractor']=="Yes" OR $row['Sys_Ops_Domain_User']=="Yes" OR $row['Access_Control_Application_Administrator'] =="Yes" OR $row['Access_Control_System_User']=="Yes" OR $row['CCTV_Video_Application_Administrator']=="Yes" OR $row['CCTV_Video_User']=="Yes") { ?><tr><td colspan="2" bgcolor="#C0C0C0"><b>PACS / Physical Security Systems</b></td></tr><?php } ?>
+<?php if($row['Sys_Ops_Domain_Administrator'] =="Yes") { ?><tr><td>Sys Ops Domain Administrator:</td><td><?php echo($row['Sys_Ops_Domain_Administrator']); ?></td></tr><?php } ?>
+<?php if($row['Sys_Ops_Domain_Contractor'] =="Yes") { ?><tr><td>Sys Ops Domain Contractor:</td><td><?php echo($row['Sys_Ops_Domain_Contractor']); ?></td></tr><?php } ?>
+<?php if($row['Sys_Ops_Domain_User'] =="Yes") { ?><tr><td>Sys Ops Domain User:</td><td><?php echo($row['Sys_Ops_Domain_User']); ?></td></tr><?php } ?>
+<?php if($row['Access_Control_Application_Administrator'] =="Yes") { ?><tr><td>Access Control Application Administrator:</td><td><?php echo($row['Access_Control_Application_Administrator']); ?></td></tr><?php } ?>
+<?php if($row['Access_Control_System_User'] =="Yes") { ?><tr><td>Access Control System User:</td><td><?php echo($row['Access_Control_System_User']); ?></td></tr><?php } ?>
+<?php if($row['CCTV_Video_Application_Administrator'] =="Yes") { ?><tr><td>CCTV Video Application Administrator:</td><td><?php echo($row['CCTV_Video_Application_Administrator']); ?></td></tr><?php } ?>
+<?php if($row['CCTV_Video_User'] =="Yes") { ?><tr><td>CCTV Video User:</td><td><?php echo($row['CCTV_Video_User']); ?></td></tr><?php } ?>
+<?php if($row['PSS_WinAdmin'] =="Yes") { ?><tr><td>PSS WinAdmin Account:</td><td><?php echo($row['PSS_WinAdmin']); ?></td></tr><?php } ?>
+<?php if($row['NessusAppAdmin']=="Yes" OR $row['NessusSysAdmin']=="Yes") {?> <tr><td colspan="2" bgcolor="#C0C0C0"><b>Nessus Scanner</b></td><?php }?>
+<?php if($row['NessusAppAdmin'] =="Yes") { ?><tr><td>Nessus Scanner Application Administrator:</td><td><?php echo($row['NessusAppAdmin']); ?></td></tr><?php } ?>
+<?php if($row['NessusSysAdmin'] =="Yes") { ?><tr><td>Nessus Scanner System Administrator:</td><td><?php echo($row['NessusSysAdmin']); ?></td></tr><?php } ?>
+<?php if($row['OCRS_User']=="Yes" OR $row['OCRS_SSITAdmin']=="Yes" OR $row['OCRS_ECMSAdmin']=="Yes" OR $row['CIP_ProtectedInfo']=="Yes" OR $row['Stratus']=="Yes" OR $row['Catalogic']=="Yes" OR $row['SolarWinds']=="Yes") {?><tr><td colspan="2" bgcolor="#C0C0C0"><b>BCSI - Storage Repositories</b></td></tr><?php } ?>
+<?php if($row['OCRS_ECMSAdmin'] =="Yes") { ?><tr><td>OCRS SharePoint Administrator - ECMS:</td><td><?php echo($row['OCRS_ECMSAdmin']); ?></td></tr><?php } ?>
+<?php if($row['OCRS_SSITAdmin'] =="Yes") { ?><tr><td>OCRS SharePoint Administrator - Shared Services IT:</td><td><?php echo($row['OCRS_SSITAdmin']); ?></td></tr><?php } ?>
+<?php if($row['OCRS_User'] =="Yes") { ?><tr><td>OCRS SharePoint User:</td><td><?php echo($row['OCRS_User']); ?></td></tr><?php } ?>
+<?php if($row['Stratus'] =="Yes") { ?><tr><td>Stratus:</td><td><?php echo($row['Stratus']); ?></td></tr><?php } ?>
+<?php if($row['Catalogic'] =="Yes") { ?><tr><td>Catalogic:</td><td><?php echo($row['Catalogic']); ?></td></tr><?php } ?>
+<?php if($row['SolarWinds'] =="Yes") { ?><tr><td>SolarWinds:</td><td><?php echo($row['SolarWinds']); ?></td></tr><?php } ?>
+<?php if($row['ServiceDeskPlus'] =="Yes") { ?><tr><td>Service Desk Plus:</td><td><?php echo($row['ServiceDeskPlus']); ?></td></tr><?php } ?>
+<?php if($row['CIP_ProtectedInfo'] =="Yes") { ?><tr><td>CIP-Protected Information:</td><td><?php echo($row['CIP_ProtectedInfo']); ?></td></tr><?php } ?>		
 
 
 </table>
