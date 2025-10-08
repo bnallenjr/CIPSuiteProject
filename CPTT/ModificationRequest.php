@@ -63,7 +63,7 @@ if (!class_exists('Auth')) {
       xmlReq2.onreadystatechange = processResponse2;
 
       //call server_side.php
-      xmlReq2.open("POST", "ModificationDetails1.php", true);
+      xmlReq2.open("POST", "ModificationDetails.php", true);
 
       //read value from the form
       // encodeURI is used to escaped reserved characters

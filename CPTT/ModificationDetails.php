@@ -1,6 +1,12 @@
-<?php 
-session_start(); 
-?> 
+<?php
+require_once __DIR__ . '/../auth/Auth.php';
+Auth::requireLogin();   // redirect to /auth/login.php if not signed in
+
+// (Optional sanity check)
+if (!class_exists('Auth')) {
+    die('Auth class missing. Expected at: ' . realpath(__DIR__ . '/../auth/Auth.php'));
+}
+?>
 <head>
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,16 +15,24 @@ session_start();
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head> 
 <?php
-		$serverName = '192.168.207.97';
-$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Finalfantasy777!');
-		
-		$conn = sqlsrv_connect($serverName, $connectionInfo);
-		if($conn) {
-			//echo 'Connection established<br />';
+		$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
+if($conn) {
+			// echo 'Connection established<br />';
 		}else{
 			echo 'Connection failure<br />';
 			die(print_r(sqlsrv_errors(), TRUE));
 		}
+		
+		$keyword2=$_POST['keyword2'];
+		$sql = "select dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName + ' ' + dbo.PersonnelInfo.LastName As Name from dbo.PersonnelInfo WHERE dbo.PersonnelInfo.Tracking_Num=" ."'$keyword2'".";";
+		
+		$result = sqlsrv_query($conn,$sql) or die(print_r(sqlsrv_errors(), TRUE));;
+		
+while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
+}
 		
 		$keyword2=$_POST['keyword2'];
 		$Tracking_Num=$keyword2;
@@ -78,13 +92,13 @@ $connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Fin
 		$checkSNOC=explode(',', $row['SNOC']);
 		$checkJacksonGate=explode(',', $row['JacksonGate']);
 		$checkRestricted_Key=explode(',', $row['Restricted_Key']);
-		$checkLAW_Perimeter=explode(',', $row['LAW_Perimeter'];
-		$checkLAW_Data_Center=explode(',', $row['LAW_Data_Center'];
-		$checkLAW_SNOC=explode(',', $row['LAW_SNOC'];
-		$checkLAW_Generation=explode(',', $row['LAW_Generation'];
-		$checkLAW_Transmission=explode(',', $row['LAW_Transmission'];
-		$checkLAW_Main_Elec=explode(',', $row['LAW_Maintenance_Electric'];
-		$checkLAW_OperStor=explode(',', $row['LAW_Operations_Storage'];
+		$checkLAW_Perimeter=explode(',', $row['LAW_Perimeter']);
+		$checkLAW_Data_Center=explode(',', $row['LAW_Data_Center']);
+		$checkLAW_SNOC=explode(',', $row['LAW_SNOC']);
+		$checkLAW_Generation=explode(',', $row['LAW_Generation']);
+		$checkLAW_Transmission=explode(',', $row['LAW_Transmission']);
+		$checkLAW_Main_Elec=explode(',', $row['LAW_Maintenance_Electric']);
+		$checkLAW_OperStor=explode(',', $row['LAW_Operations_Storage']);
 		$checkESP_Remote_Intermediate=explode(',', $row['ESP_Remote_Intermediate']);
 		$checkVPN_Tunnel_Access=explode(',', $row['VPN_Tunnel_Access']);
 		$checkLogins_Gen_Tran=explode(',', $row['Logins_Gen_Tran']);
