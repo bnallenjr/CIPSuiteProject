@@ -1,6 +1,15 @@
 
 <!DOCTYPE html>
 <html lang="en">
+    <?php
+require_once __DIR__ . '/../auth/Auth.php';
+Auth::requireLogin();   // redirect to /auth/login.php if not signed in
+
+// (Optional sanity check)
+if (!class_exists('Auth')) {
+    die('Auth class missing. Expected at: ' . realpath(__DIR__ . '/../auth/Auth.php'));
+}
+?>
 <head>
   <title>Modification Request</title>
   <meta charset="utf-8">
