@@ -352,7 +352,7 @@ if($conn) {
 		</table>
 <p>Business justification for modified access: '.$Business_Justification.'<p> 		
 
-<h2><a href = "http://192.168.207.94/cptt/modificationApproval.php?Tracking_Num='.$Tracking_Num.
+<h2><a href = "https://aetest1.azurewebsites.net/cptt/modificationApproval.php?Tracking_Num='.$Tracking_Num.
 '&a1='.$SCC.
 '&a2='.$ECC.
 '&a3='.$ECDA_Offices.
@@ -460,5 +460,5 @@ sendHtmlMail($to,$subject,$message,'allensolutiongroup@gmail.com', 'CIP Suite We
 //mail($toNewPerson, $subjectNewPerson, $messageNewPerson, $headerNewPerson);
 
 //
-header("Location: modificationrequest.php");
+header("Location: close.php");
 ?>
