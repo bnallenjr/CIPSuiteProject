@@ -142,10 +142,10 @@ while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
 		//$checked =explode(',', $row['iMitigationPlan']);
  ?>
  <h2>Edit CIP Authorized Personnel Form (Tracking Number: <?php echo $Tracking_Num;?>)</h2>
-<form role="form" class="form-horizontal"  id="form" method="post" action="testsession.php">
+<form role="form" class="form-horizontal"  id="form" method="post" action="modificationConfirmation.php">
 		<div class="well" align="center" ><h3>CIP Authorized Personnel's Information (Tracking Number: <?php echo $Tracking_Num;?>)</h3></div>
   <div class="form-group">
-  <input type = "text" name="Tracking_Num" value="<?php echo $Tracking_Num; ?>"/>
+  <input type = "text" name="Tracking_Num" value="<?php //echo $Tracking_Num; ?>"/>
     <label class="control-label col-sm-2" for="FirstName">First Name:</label>
     <div class="col-sm-4">
       <input type="text" class="form-control" name="FirstName" value = "<?php echo $FirstName;?>"/>
@@ -266,11 +266,11 @@ while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
 		<h3>CIP-Restricted Areas/PSPs</h3>
 		<div class="checkbox">
 			<input type="hidden" name="SCC" value=""/>
-			<label><input type="checkbox" name="SCC" value="Yes" <?php in_array('Yes', $checkSCC) ? print "checked" : ""; ?> />System Control Center:</label>
+			<label><input type="checkbox" name="SCC" value="Yes" <?php in_array('Yes', $checkSCC) ? print "checked" : ""; ?> />Transmission Control Center:</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="ECC" value=""/>
-			<label><input type="checkbox" name="ECC" value="Yes" <?php in_array('Yes', $checkECC) ? print "checked" : ""; ?> />Energy Control Center:</label>
+			<label><input type="checkbox" name="ECC" value="Yes" <?php in_array('Yes', $checkECC) ? print "checked" : ""; ?> />Generation Control Center:</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="BCC" value=""/>
@@ -278,15 +278,15 @@ while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="JacksonGate" value=""/>
-			<label><input type="checkbox" name="JacksonGate" value="Yes" <?php in_array('Yes', $checkJacksonGate) ? print "checked" : ""; ?> />Jackson Gate:</label>
+			<label><input type="checkbox" name="JacksonGate" value="Yes" <?php in_array('Yes', $checkJacksonGate) ? print "checked" : ""; ?> />Perimeter Gate:</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="ECDA_Offices" value=""/>
-			<label><input type="checkbox" name="ECDA_Offices" value="Yes" <?php in_array('Yes', $checkECDA_Offices) ? print "checked" : ""; ?> />ECDA Office:</label>
+			<label><input type="checkbox" name="ECDA_Offices" value="Yes" <?php in_array('Yes', $checkECDA_Offices) ? print "checked" : ""; ?> />SCADA Office1:</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="ECMS_Offices" value=""/>
-			<label><input type="checkbox" name="ECMS_Offices" value="Yes" <?php in_array('Yes', $checkECMS_Offices) ? print "checked" : ""; ?> />ECMS Office:</label>
+			<label><input type="checkbox" name="ECMS_Offices" value="Yes" <?php in_array('Yes', $checkECMS_Offices) ? print "checked" : ""; ?> />SCADA Office2:</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="Operations_Data_Center" value=""/>
@@ -294,50 +294,50 @@ while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="Server_Lobby" value=""/>
-			<label><input type="checkbox" name="Server_Lobby" value="Yes" <?php in_array('Yes', $checkServer_Lobby) ? print "checked" : ""; ?> />Server Lobby / Basement Hallway:</label>
+			<label><input type="checkbox" name="Server_Lobby" value="Yes" <?php in_array('Yes', $checkServer_Lobby) ? print "checked" : ""; ?> />Server Lobby:</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="SNOC" value=""/>
-			<label><input type="checkbox" name="SNOC" value="Yes" <?php in_array('Yes', $checkSNOC) ? print "checked" : ""; ?> />SNOC:</label>
+			<label><input type="checkbox" name="SNOC" value="Yes" <?php in_array('Yes', $checkSNOC) ? print "checked" : ""; ?> />Security Operations Center:</label>
 		</div>
 		
 		<div class="checkbox">
 		<input type="hidden" name="LAW_Perimeter" value=""/>
-			<label><input type="checkbox" name="LAW_Perimeter" value="Yes" <?php in_array('Yes', $checkLAW_Perimeter) ? print "checked" : ""; ?> />LAW-Perimeter:</label>
+			<label><input type="checkbox" name="LAW_Perimeter" value="Yes" <?php in_array('Yes', $checkLAW_Perimeter) ? print "checked" : ""; ?> />Back-up Perimeter:</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="LAW_Data_Center" value=""/>
-			<label><input type="checkbox" name="LAW_Data_Center" value="Yes" <?php in_array('Yes', $checkLAW_Data_Center) ? print "checked" : ""; ?> />LAW-Data Center:</label>
+			<label><input type="checkbox" name="LAW_Data_Center" value="Yes" <?php in_array('Yes', $checkLAW_Data_Center) ? print "checked" : ""; ?> />Back-Up Data Center:</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="LAW_SNOC" value=""/>
-			<label><input type="checkbox" name="LAW_SNOC" value="Yes" <?php in_array('Yes', $checkLAW_SNOC) ? print "checked" : ""; ?> />LAW-SNOC:</label>
+			<label><input type="checkbox" name="LAW_SNOC" value="Yes" <?php in_array('Yes', $checkLAW_SNOC) ? print "checked" : ""; ?> />Back-up Security Operations Center:</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="LAW_Generation" value=""/>
-			<label><input type="checkbox" name="LAW_Generation" value="Yes" <?php in_array('Yes', $checkLAW_Generation) ? print "checked" : ""; ?> />LAW-Generation:</label>
+			<label><input type="checkbox" name="LAW_Generation" value="Yes" <?php in_array('Yes', $checkLAW_Generation) ? print "checked" : ""; ?> />Back-up Generation Control Center:</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="LAW_Transmission" value=""/>
-			<label><input type="checkbox" name="LAW_Transmission" value="Yes" <?php in_array('Yes', $checkLAW_Transmission) ? print "checked" : ""; ?> />LAW-Transmission:</label>
+			<label><input type="checkbox" name="LAW_Transmission" value="Yes" <?php in_array('Yes', $checkLAW_Transmission) ? print "checked" : ""; ?> />Back-up Transmission Control Center:</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="LAW_Main_Elec" value=""/>
-			<label><input type="checkbox" name="LAW_Main_Elec" value="Yes" <?php in_array('Yes', $checkLAW_Main_Elec) ? print "checked" : ""; ?> />LAW-Maintenance & Electrical Room:</label>
+			<label><input type="checkbox" name="LAW_Main_Elec" value="Yes" <?php in_array('Yes', $checkLAW_Main_Elec) ? print "checked" : ""; ?> />Maintenance & Electrical Room:</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="LAW_OperStor" value=""/>
-			<label><input type="checkbox" name="LAW_OperStor" value="Yes" <?php in_array('Yes', $checkLAW_OperStor) ? print "checked" : ""; ?> />LAW-Operations Storage:</label>
+			<label><input type="checkbox" name="LAW_OperStor" value="Yes" <?php in_array('Yes', $checkLAW_OperStor) ? print "checked" : ""; ?> />Back-up Operations Storage:</label>
 		</div>
 		
-		<button type ="button" id="accessButton1" value="" style="color:green" onclick= "window.location.href='testsession.php?Tracking_Num=<?php echo $Tracking_Num; ?>'"> Request Access</button>
+		<button type ="button" id="accessButton1" value="" style="color:green" onclick= "window.location.href='PhysicalAccessRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'"> Request Access</button>
 		</div>
       </div>
     </div>
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">XA Energy Control System</a>
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">SCADA System</a>
         </h4>
       </div>
       <div id="collapse2" class="panel-collapse collapse">
@@ -357,15 +357,15 @@ while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="AD_prod" value=""/>
-			<label><input type="checkbox" name="AD_prod" value="Yes" <?php in_array('Yes', $checkAD_prod) ? print "checked" : ""; ?> />Active Directory (gsoc_prod):</label>
+			<label><input type="checkbox" name="AD_prod" value="Yes" <?php in_array('Yes', $checkAD_prod) ? print "checked" : ""; ?> />Active Directory (Production):</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="AD_supp" value=""/>
-			<label><input type="checkbox" name="AD_supp" value="Yes" <?php in_array('Yes', $checkAD_supp) ? print "checked" : ""; ?> />Active Directory (gsoc_support):</label>
+			<label><input type="checkbox" name="AD_supp" value="Yes" <?php in_array('Yes', $checkAD_supp) ? print "checked" : ""; ?> />Active Directory (Support):</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="UNIX_Access" value=""/>
-			<label><input type="checkbox" name="UNIX_Access" value="Yes" <?php in_array('Yes', $checkUNIX_Access) ? print "checked" : ""; ?> />UNIX Access:</label>
+			<label><input type="checkbox" name="UNIX_Access" value="Yes" <?php in_array('Yes', $checkUNIX_Access) ? print "checked" : ""; ?> />Linux Server Access:</label>
 		</div>
 		<div class="checkbox">
 		<input type="hidden" name="Internal_EnterNet" value=""/>
@@ -482,15 +482,15 @@ while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
 		<h3>Industrial Defender</h3>
       <div class="checkbox">
 	  <input type="hidden" name="IDAppAdmin" value=""/>
-			<label><input type="checkbox" name="IDAppAdmin" value="Yes" <?php in_array('Yes', $checkIDAppAdmin) ? print "checked" : ""; ?> />Industrial Defender Application Administrator:</label>
+			<label><input type="checkbox" name="IDAppAdmin" value="Yes" <?php in_array('Yes', $checkIDAppAdmin) ? print "checked" : ""; ?> />SEIM Application Administrator:</label>
 	  </div>
 	  <div class="checkbox">
 	  <input type="hidden" name="IDSysAdmin" value=""/>
-			<label><input type="checkbox" name="IDSysAdmin" value="Yes" <?php in_array('Yes', $checkIDSysAdmin) ? print "checked" : ""; ?> />Industrial Defender System Administrator:</label>
+			<label><input type="checkbox" name="IDSysAdmin" value="Yes" <?php in_array('Yes', $checkIDSysAdmin) ? print "checked" : ""; ?> />SEIM System Administrator:</label>
 	  </div>
 	  <div class="checkbox">
 	  <input type="hidden" name="IDUser" value=""/>
-			<label><input type="checkbox" name="IDUser" value="Yes" <?php in_array('Yes', $checkIDUser) ? print "checked" : ""; ?> />Industrial Defender User:</label>
+			<label><input type="checkbox" name="IDUser" value="Yes" <?php in_array('Yes', $checkIDUser) ? print "checked" : ""; ?> />SEIM User:</label>
 	  </div>
 	  <button type ="button" id="accessButton5" value="" style="color:green" onclick= "window.location.href='IndustDefRequest.php?Tracking_Num=<?php echo $Tracking_Num; ?>'">Request Access</button> 
 		</div>
@@ -569,19 +569,19 @@ while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
 		<h3>CIP-Protected Information</h3>
       <div class="checkbox">
 	  <input type="hidden" name="OCRS_ECMSAdmin" value=""/>
-			<label><input type="checkbox" name="OCRS_ECMSAdmin" value="Yes" <?php in_array('Yes', $checkOCRS_ECMSAdmin) ? print "checked" : ""; ?> />OCRS SharePoint Administrator - ECMS:</label>
+			<label><input type="checkbox" name="OCRS_ECMSAdmin" value="Yes" <?php in_array('Yes', $checkOCRS_ECMSAdmin) ? print "checked" : ""; ?> />SharePoint Administrator - BCSI Access:</label>
 	  </div>
 	  <div class="checkbox">
 	  <input type="hidden" name="OCRS_SSITAdmin" value=""/>
-			<label><input type="checkbox" name="OCRS_SSITAdmin" value="Yes" <?php in_array('Yes', $checkOCRS_SSITAdmin) ? print "checked" : ""; ?> />OCRS SharePoint Administrator - Shared Services IT:</label>
+			<label><input type="checkbox" name="OCRS_SSITAdmin" value="Yes" <?php in_array('Yes', $checkOCRS_SSITAdmin) ? print "checked" : ""; ?> />SharePoint Administrator -  Hardware Access:</label>
 	  </div>
 	  <div class="checkbox">
 	  <input type="hidden" name="OCRS_User" value=""/>
-			<label><input type="checkbox" name="OCRS_User" value="Yes" <?php in_array('Yes', $checkOCRS_User) ? print "checked" : ""; ?> />OCRS SharePoint User:</label>
+			<label><input type="checkbox" name="OCRS_User" value="Yes" <?php in_array('Yes', $checkOCRS_User) ? print "checked" : ""; ?> />SharePoint User:</label>
 	  </div>
 	  <div class="checkbox">
 	  <input type="hidden" name="CIP_ProtectedInfo" value=""/>
-			<label><input type="checkbox" name="CIP_ProtectedInfo" value="Yes" <?php in_array('Yes', $checkCIP_ProtectedInfo) ? print "checked" : ""; ?> />CIP-Protected Information:</label>
+			<label><input type="checkbox" name="CIP_ProtectedInfo" value="Yes" <?php in_array('Yes', $checkCIP_ProtectedInfo) ? print "checked" : ""; ?> />CIP-Protected Information (Paper):</label>
 	  </div>
 	  <input type="hidden" name="Initial_Ticket" value="NA"/>
 	  <input type="hidden" name="Restricted_Key" value="NA"/>
