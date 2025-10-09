@@ -72,9 +72,6 @@ if($conn) {
 			die(print_r(sqlsrv_errors(), TRUE));
 		}
 
-		$keyword2 = $_GET['Tracking_Num'];
-		
-
 // ---- Safe input helpers (put near the top of modificationConfirmation.php) ----
 function in_v($key, $default = '') {
   // Prefer POST, then GET
@@ -125,6 +122,11 @@ if (is_array($Business_Justification)) {
 if ($Tracking_Num === null || !ctype_digit((string)$Tracking_Num)) {
   die('Tracking number is required and must be numeric.');
 }
+		
+		$keyword2 = $_GET['Tracking_Num'];
+		
+
+
 
 
 		$query = "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName+' '+dbo.PersonnelInfo.LastName As Name, dbo.PersonnelInfo.Manager
