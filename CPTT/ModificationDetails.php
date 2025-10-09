@@ -144,8 +144,9 @@ while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
  <h2 align ="center" >Edit CIP Authorized Personnel Form (Tracking Number: <?php echo $Tracking_Num;?>)</h2>
 <form role="form" class="form-horizontal"  id="form" method="post" action="modificationConfirmation.php">
 		<div class="well" align="center" ><h3>CIP Authorized Personnel's Information (Tracking Number: <?php echo $Tracking_Num;?>)</h3></div>
-  <div class="form-group">
-  <input type = "hidden" name="Tracking_Num" value="<?php echo $Tracking_Num; ?>"/>
+  <input type="hidden" name="Tracking_Num" value="<?php echo $Tracking_Num; ?>"/>
+		<div class="form-group">
+  
     <label class="control-label col-sm-2" for="FirstName">First Name:</label>
     <div class="col-sm-4">
       <input type="text" class="form-control" name="FirstName" value = "<?php echo $FirstName;?>"/>

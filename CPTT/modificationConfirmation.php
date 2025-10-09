@@ -73,6 +73,59 @@ if($conn) {
 		}
 
 		$keyword2 = $_GET['Tracking_Num'];
+		
+		<?php
+// ---- Safe input helpers (put near the top of modificationConfirmation.php) ----
+function in_v($key, $default = '') {
+  // Prefer POST, then GET
+  if (isset($_POST[$key])) return is_array($_POST[$key]) ? $_POST[$key] : trim((string)$_POST[$key]);
+  if (isset($_GET[$key]))  return is_array($_GET[$key])  ? $_GET[$key]  : trim((string)$_GET[$key]);
+  return $default;
+}
+function in_bool_yn($key) {
+  // For checkboxes or yes/no selects (unchecked checkbox => No)
+  $v = in_v($key, null);
+  if ($v === null) return 'No';
+  // Normalize common truthy values
+  $truthy = ['1','on','yes','true','Yes','TRUE','Y'];
+  return in_array((string)$v, $truthy, true) ? 'Yes' : (string)$v;
+}
+function in_list_csv($key) {
+  // For multi-selects / checkbox groups
+  $v = in_v($key, []);
+  if (is_array($v)) return implode(', ', array_map('trim', $v));
+  return trim((string)$v);
+}
+
+// ---- Now read the fields you mentioned (with safe defaults) ----
+$Tracking_Num           = in_v('Tracking_Num', null);          // null -> you can validate later
+$RequestedBy            = in_v('RequestedBy', '');             // empty string if missing
+$LAW_Network_Room_104   = in_bool_yn('LAW_Network_Room_104');  // 'Yes'/'No'
+$emrg                   = in_bool_yn('emrg');                   // 'Yes'/'No'
+$IntermediateSystemAdmin= in_bool_yn('IntermediateSystemAdmin');// 'Yes'/'No'
+
+$IDroot                 = in_bool_yn('IDroot');                 // 'Yes'/'No'
+$IDadmin_shared         = in_bool_yn('IDadmin_shared');         // 'Yes'/'No'
+$IDWinAdmin             = in_bool_yn('IDWinAdmin');             // 'Yes'/'No'
+$PSS_WinAdmin           = in_bool_yn('PSS_WinAdmin');           // 'Yes'/'No'
+
+$Stratus                = in_bool_yn('Stratus');
+$Catalogic              = in_bool_yn('Catalogic');
+$SolarWinds             = in_bool_yn('SolarWinds');
+$ServiceDeskPlus        = in_bool_yn('ServiceDeskPlus');
+
+// If Business_Justification can be a textarea (string) or a multi-select (array), handle both:
+$Business_Justification = in_v('Business_Justification', '');
+if (is_array($Business_Justification)) {
+  // Convert array to a readable string -> avoids "Array to string conversion"
+  $Business_Justification = implode("\n", array_map('trim', $Business_Justification));
+}
+
+// ---- Minimal validations (example) ----
+if ($Tracking_Num === null || !ctype_digit((string)$Tracking_Num)) {
+  die('Tracking number is required and must be numeric.');
+}
+
 
 		$query = "SELECT dbo.PersonnelInfo.Tracking_Num, dbo.PersonnelInfo.FirstName+' '+dbo.PersonnelInfo.LastName As Name, dbo.PersonnelInfo.Manager
 			FROM dbo.PersonnelInfo
