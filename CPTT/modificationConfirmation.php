@@ -74,7 +74,7 @@ if($conn) {
 
 		$keyword2 = $_GET['Tracking_Num'];
 		
-		<?php
+
 // ---- Safe input helpers (put near the top of modificationConfirmation.php) ----
 function in_v($key, $default = '') {
   // Prefer POST, then GET
