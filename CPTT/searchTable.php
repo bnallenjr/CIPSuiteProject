@@ -25,7 +25,7 @@ $conn = sqlsrv_connect($serverName, $connectionInfo);
 		$result = sqlsrv_query($conn, $query)
 			or die(print_r (sqlsrv_errors(), TRUE));
 			
-			$o = '<table id = "confirmation">
+			$o = '<table id = "confirmation" class=table table-bordered">
 				<caption>Personnel Information Results for search on  '. $keyword .'</caption>
 				<tr>
 				<th>Tracking #</th>

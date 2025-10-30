@@ -17,7 +17,7 @@ if (!class_exists('Auth')) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     var xmlReq;
@@ -93,9 +93,9 @@ if (!class_exists('Auth')) {
 	else {
 		?>
 
-
+<div class="containter text-center">
 <h2>Search Here</h2>
-    <form method="post" action="searchTable.php">
+    <form method="post" action="searchTable.php" class="form-inline">
 
 
 
