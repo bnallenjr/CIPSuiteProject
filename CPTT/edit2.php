@@ -199,7 +199,7 @@ function renderForm(
               </td></tr>
           <tr><td><label>*Department</label></td><td><input type="text" name="Department" value="<?php echo h($Department); ?>"/></td></tr>
           <tr><td><label>*Title</label></td><td><input type="text" name="Title" value="<?php echo h($Title); ?>"/></td></tr>
-          <tr><td><label>*FOC Company</label></td><td><input type="text" name="FOC_Company" value="<?php echo h($FOC_Company); ?>"/></td></tr>
+          <!--<tr><td><label>*FOC Company</label></td><td><input type="text" name="FOC_Company" value="<?php echo h($FOC_Company); ?>"/></td></tr>-->
           <tr><td><label>*Contractor</label></td>
               <td>
                 <select name="Contractor" class="form-control">
@@ -230,38 +230,38 @@ function renderForm(
       <h3 class="h4">Approved Authorizations</h3>
       <div id="tabs">
         <ul>
-          <li><a href="#tabs-1">CIP-Restricted/PSP</a></li>
-          <li><a href="#tabs-2">XA-ECS</a></li>
+          <li><a href="#tabs-1">Physical Access</a></li>
+          <li><a href="#tabs-2">Energy Control System</a></li>
           <li><a href="#tabs-3">Network Devices</a></li>
-          <li><a href="#tabs-5">Industrial Defender</a></li>
+          <li><a href="#tabs-5">SEIM System</a></li>
           <li><a href="#tabs-6">Physical Security System</a></li>
-          <li><a href="#tabs-7">Nessus Scanner</a></li>
-          <li><a href="#tabs-8">BCSI - Storage Repositories</a></li>
+          <li><a href="#tabs-7">Transient Cyber Assets</a></li>
+          <li><a href="#tabs-8">BES Cyber System Information Repositories</a></li>
         </ul>
 
         <!-- Tab 1: Physical Access -->
         <div id="tabs-1">
           <div class="table-responsive responsive-table">
             <table class="table table-bordered">
-              <tr><td><label>SCC</label></td><td><?php echo yesNoSelect('SCC',$SCC); ?></td></tr>
-              <tr><td><label>ECC</label></td><td><?php echo yesNoSelect('ECC',$ECC); ?></td></tr>
-              <tr><td><label>BCC</label></td><td><?php echo yesNoSelect('BCC',$BCC); ?></td></tr>
-              <tr><td><label>BCC Bunker</label></td><td><?php echo yesNoSelect('BCC_Bunker',$BCC_Bunker); ?></td></tr>
-              <tr><td><label>ECDA Offices</label></td><td><?php echo yesNoSelect('ECDA_Offices',$ECDA_Offices); ?></td></tr>
-              <tr><td><label>ECMS Offices</label></td><td><?php echo yesNoSelect('ECMS_Offices',$ECMS_Offices); ?></td></tr>
-              <tr><td><label>Operations Data Center</label></td><td><?php echo yesNoSelect('Operations_Data_Center',$Operations_Data_Center); ?></td></tr>
-              <tr><td><label>Server Lobby</label></td><td><?php echo yesNoSelect('Server_Lobby',$Server_Lobby); ?></td></tr>
-              <tr><td><label>SNOC</label></td><td><?php echo yesNoSelect('SNOC',$SNOC); ?></td></tr>
-              <tr><td><label>Jackson Gate</label></td><td><?php echo yesNoSelect('JacksonGate',$JacksonGate); ?></td></tr>
-              <tr><td><label>Restricted Key</label></td><td><input type="text" name="Restricted_Key" value="<?php echo h($Restricted_Key); ?>"/></td></tr>
-              <tr><td><label>LAW Perimeter</label></td><td><?php echo yesNoSelect('LAW_Perimeter',$LAW_Perimeter); ?></td></tr>
-              <tr><td><label>LAW Data Center</label></td><td><?php echo yesNoSelect('LAW_Data_Center',$LAW_Data_Center); ?></td></tr>
-              <tr><td><label>LAW SNOC</label></td><td><?php echo yesNoSelect('LAW_SNOC',$LAW_SNOC); ?></td></tr>
-              <tr><td><label>LAW Generation</label></td><td><?php echo yesNoSelect('LAW_Generation',$LAW_Generation); ?></td></tr>
-              <tr><td><label>LAW Transmission</label></td><td><?php echo yesNoSelect('LAW_Transmission',$LAW_Transmission); ?></td></tr>
-              <tr><td><label>LAW Electrical & Mechanical</label></td><td><?php echo yesNoSelect('LAW_Main_Elec',$LAW_Main_Elec); ?></td></tr>
-              <tr><td><label>LAW Operations Storage</label></td><td><?php echo yesNoSelect('LAW_OperStor',$LAW_OperStor); ?></td></tr>
-              <tr><td><label>LAW Network Room 104</label></td><td><?php echo yesNoSelect('LAW_Network_Room_104',$LAW_Network_Room_104); ?></td></tr>
+              <tr><td><label>Operations Control Center</label></td><td><?php echo yesNoSelect('SCC',$SCC); ?></td></tr>
+              <tr><td><label>Generation Control Center</label></td><td><?php echo yesNoSelect('ECC',$ECC); ?></td></tr>
+              <!--<tr><td><label>BCC</label></td><td><?php echo yesNoSelect('BCC',$BCC); ?></td></tr> -->
+              <!--<tr><td><label>BCC Bunker</label></td><td><?php echo yesNoSelect('BCC_Bunker',$BCC_Bunker); ?></td></tr>-->
+              <tr><td><label>SCADA Offices</label></td><td><?php echo yesNoSelect('ECDA_Offices',$ECDA_Offices); ?></td></tr>
+              <tr><td><label>SCADA Support Offices</label></td><td><?php echo yesNoSelect('ECMS_Offices',$ECMS_Offices); ?></td></tr>
+              <tr><td><label>Data Center</label></td><td><?php echo yesNoSelect('Operations_Data_Center',$Operations_Data_Center); ?></td></tr>
+              <!--<tr><td><label>Server Lobby</label></td><td><?php echo yesNoSelect('Server_Lobby',$Server_Lobby); ?></td></tr>-->
+              <tr><td><label>Network Operations Center</label></td><td><?php echo yesNoSelect('SNOC',$SNOC); ?></td></tr>
+              <!--<tr><td><label>Jackson Gate</label></td><td><?php echo yesNoSelect('JacksonGate',$JacksonGate); ?></td></tr>-->
+              <!--<tr><td><label>Restricted Key</label></td><td><input type="text" name="Restricted_Key" value="<?php echo h($Restricted_Key); ?>"/></td></tr>-->
+              <tr><td><label>BC-CIP-Perimeter</label></td><td><?php echo yesNoSelect('LAW_Perimeter',$LAW_Perimeter); ?></td></tr>
+              <tr><td><label>BC-Data Center</label></td><td><?php echo yesNoSelect('LAW_Data_Center',$LAW_Data_Center); ?></td></tr>
+              <tr><td><label>BC-Network Operations Center</label></td><td><?php echo yesNoSelect('LAW_SNOC',$LAW_SNOC); ?></td></tr>
+              <tr><td><label>BC-Generation Operations Center</label></td><td><?php echo yesNoSelect('LAW_Generation',$LAW_Generation); ?></td></tr>
+              <tr><td><label>BC-Transmission Operations Center</label></td><td><?php echo yesNoSelect('LAW_Transmission',$LAW_Transmission); ?></td></tr>
+              <tr><td><label>BC-Electrical & Mechanical Room</label></td><td><?php echo yesNoSelect('LAW_Main_Elec',$LAW_Main_Elec); ?></td></tr>
+              <tr><td><label>BC-Operations Storage Room</label></td><td><?php echo yesNoSelect('LAW_OperStor',$LAW_OperStor); ?></td></tr>
+              <tr><td><label>BC-Network Room</label></td><td><?php echo yesNoSelect('LAW_Network_Room_104',$LAW_Network_Room_104); ?></td></tr>
             </table>
           </div>
           <div class="btn-group">
@@ -274,22 +274,22 @@ function renderForm(
         <div id="tabs-2">
           <div class="table-responsive responsive-table">
             <table class="table table-bordered">
-              <tr><td><label>ESP Remote / Intermediate</label></td><td><?php echo yesNoSelect('ESP_Remote_Intermediate',$ESP_Remote_Intermediate); ?></td></tr>
-              <tr><td><label>VPN Tunnel (GE Energy)</label></td><td><?php echo yesNoSelect('VPN_Tunnel_Access',$VPN_Tunnel_Access); ?></td></tr>
-              <tr><td><label>AD (production)</label></td><td><?php echo yesNoSelect('AD_prod',$AD_prod); ?></td></tr>
-              <tr><td><label>AD (support)</label></td><td><?php echo yesNoSelect('AD_supp',$AD_supp); ?></td></tr>
-              <tr><td><label>UNIX Access</label></td><td><?php echo yesNoSelect('UNIX_Access',$UNIX_Access); ?></td></tr>
-              <tr><td><label>Internal EnterNet</label></td><td><?php echo yesNoSelect('Internal_EnterNet',$Internal_EnterNet); ?></td></tr>
-              <tr><td><label>External EnterNet</label></td><td><?php echo yesNoSelect('External_EnterNet',$External_EnterNet); ?></td></tr>
-              <tr><td><label>Database User</label></td><td><?php echo yesNoSelect('Database_User',$Database_User); ?></td></tr>
+              <tr><td><label>Electronic Security Perimeter Access</label></td><td><?php echo yesNoSelect('ESP_Remote_Intermediate',$ESP_Remote_Intermediate); ?></td></tr>
+              <tr><td><label>VPN Tunnel Access</label></td><td><?php echo yesNoSelect('VPN_Tunnel_Access',$VPN_Tunnel_Access); ?></td></tr>
+              <tr><td><label>Production Account</label></td><td><?php echo yesNoSelect('AD_prod',$AD_prod); ?></td></tr>
+              <tr><td><label>Support Account</label></td><td><?php echo yesNoSelect('AD_supp',$AD_supp); ?></td></tr>
+              <tr><td><label>Admin Account</label></td><td><?php echo yesNoSelect('UNIX_Access',$UNIX_Access); ?></td></tr>
+              <!--<tr><td><label>Internal EnterNet</label></td><td><?php echo yesNoSelect('Internal_EnterNet',$Internal_EnterNet); ?></td></tr>
+              <tr><td><label>External EnterNet</label></td><td><?php echo yesNoSelect('External_EnterNet',$External_EnterNet); ?></td></tr> -->
+              <tr><td><label>Database User Account</label></td><td><?php echo yesNoSelect('Database_User',$Database_User); ?></td></tr>
               <tr><td><label>AutoCAD User</label></td><td><?php echo yesNoSelect('AutoCAD_User',$AutoCAD_User); ?></td></tr>
-              <tr><td><label>Sudo root</label></td><td><?php echo yesNoSelect('Sudo_root',$Sudo_root); ?></td></tr>
-              <tr><td><label>Sudo XA21</label></td><td><?php echo yesNoSelect('Sudo_XA21',$Sudo_XA21); ?></td></tr>
+              <tr><td><label>root account access</label></td><td><?php echo yesNoSelect('Sudo_root',$Sudo_root); ?></td></tr>
+              <!--<tr><td><label>Sudo XA21</label></td><td><?php echo yesNoSelect('Sudo_XA21',$Sudo_XA21); ?></td></tr>
               <tr><td><label>Sudo xacm</label></td><td><?php echo yesNoSelect('Sudo_xacm',$Sudo_xacm); ?></td></tr>
               <tr><td><label>Sudo oracle</label></td><td><?php echo yesNoSelect('Sudo_oracle',$Sudo_oracle); ?></td></tr>
               <tr><td><label>Sudo ccadmin</label></td><td><?php echo yesNoSelect('Sudo_ccadmin',$Sudo_ccadmin); ?></td></tr>
-              <tr><td><label>Admin/Shared/Generic (iccpadmin)</label></td><td><?php echo yesNoSelect('AdminSharedGeneric_iccpadmin',$AdminSharedGeneric_iccpadmin); ?></td></tr>
-              <tr><td><label>Domain Admin</label></td><td><?php echo yesNoSelect('Domain_Admin',$Domain_Admin); ?></td></tr>
+              <tr><td><label>Admin/Shared/Generic (iccpadmin)</label></td><td><?php echo yesNoSelect('AdminSharedGeneric_iccpadmin',$AdminSharedGeneric_iccpadmin); ?></td></tr>-->
+              <tr><td><label>sysadmin account access</label></td><td><?php echo yesNoSelect('Domain_Admin',$Domain_Admin); ?></td></tr>
               <tr><td><label>Shared (emrg) Account</label></td><td><?php echo yesNoSelect('emrg',$emrg); ?></td></tr>
             </table>
           </div>
@@ -305,11 +305,11 @@ function renderForm(
         <div id="tabs-3">
           <div class="table-responsive responsive-table">
             <table class="table table-bordered">
-              <tr><td><label>TE Engineering OM Group</label></td><td><?php echo yesNoSelect('TE_Engineering_OM_Group',$TE_Engineering_OM_Group); ?></td></tr>
-              <tr><td><label>Telecom Shared Accounts</label></td><td><?php echo yesNoSelect('TelecomSharedAccount',$TelecomSharedAccount); ?></td></tr>
-              <tr><td><label>ACS Local Admin</label></td><td><?php echo yesNoSelect('ACS_LocalAdmin',$ACS_LocalAdmin); ?></td></tr>
-              <tr><td><label>RSA Local Admin</label></td><td><?php echo yesNoSelect('RSA_LocalAdmin',$RSA_LocalAdmin); ?></td></tr>
-              <tr><td><label>Intermediate System Admin</label></td><td><?php echo yesNoSelect('IntermediateSystemAdmin',$IntermediateSystemAdmin); ?></td></tr>
+              <tr><td><label>Telecom Operations Account</label></td><td><?php echo yesNoSelect('TE_Engineering_OM_Group',$TE_Engineering_OM_Group); ?></td></tr>
+              <tr><td><label>Telecom Shared Account Access</label></td><td><?php echo yesNoSelect('TelecomSharedAccount',$TelecomSharedAccount); ?></td></tr>
+              <tr><td><label>ACS Local Administrator Account</label></td><td><?php echo yesNoSelect('ACS_LocalAdmin',$ACS_LocalAdmin); ?></td></tr>
+              <tr><td><label>RSA Local Administrator Account</label></td><td><?php echo yesNoSelect('RSA_LocalAdmin',$RSA_LocalAdmin); ?></td></tr>
+              <tr><td><label>Intermediate System Administrator</label></td><td><?php echo yesNoSelect('IntermediateSystemAdmin',$IntermediateSystemAdmin); ?></td></tr>
             </table>
           </div>
           <p><label>Network Approved By</label> <input id="Network_Approved_By" type="text" name="Network_Approved_By" value="<?php echo h($Network_Approved_By); ?>"/></p>
@@ -326,12 +326,12 @@ function renderForm(
         <div id="tabs-5">
           <div class="table-responsive responsive-table">
             <table class="table table-bordered">
-              <tr><td><label>ID ASA</label></td><td><?php echo yesNoSelect('IDAppAdmin',$IDAppAdmin); ?></td></tr>
-              <tr><td><label>ID ASM</label></td><td><?php echo yesNoSelect('IDSysAdmin',$IDSysAdmin); ?></td></tr>
-              <tr><td><label>ID NIDS</label></td><td><?php echo yesNoSelect('IDUser',$IDUser); ?></td></tr>
-              <tr><td><label>ID (root) Shared</label></td><td><?php echo yesNoSelect('IDroot',$IDroot); ?></td></tr>
-              <tr><td><label>ID (admin) Shared</label></td><td><?php echo yesNoSelect('IDadmin_shared',$IDadmin_shared); ?></td></tr>
-              <tr><td><label>ID (winadmin)</label></td><td><?php echo yesNoSelect('IDWinAdmin',$IDWinAdmin); ?></td></tr>
+              <tr><td><label>Operations Account</label></td><td><?php echo yesNoSelect('IDAppAdmin',$IDAppAdmin); ?></td></tr>
+              <tr><td><label>Log Collector Account</label></td><td><?php echo yesNoSelect('IDSysAdmin',$IDSysAdmin); ?></td></tr>
+              <tr><td><label>Intrusion Detection System Account</label></td><td><?php echo yesNoSelect('IDUser',$IDUser); ?></td></tr>
+              <tr><td><label>(root) Shared Account</label></td><td><?php echo yesNoSelect('IDroot',$IDroot); ?></td></tr>
+              <tr><td><label>(admin) Shared Account</label></td><td><?php echo yesNoSelect('IDadmin_shared',$IDadmin_shared); ?></td></tr>
+              <tr><td><label>(sysadmin) Account</label></td><td><?php echo yesNoSelect('IDWinAdmin',$IDWinAdmin); ?></td></tr>
             </table>
           </div>
           <div class="btn-group">
@@ -344,14 +344,14 @@ function renderForm(
         <div id="tabs-6">
           <div class="table-responsive responsive-table">
             <table class="table table-bordered">
-              <tr><td><label>Sys Ops Domain Administrator</label></td><td><?php echo yesNoSelect('Sys_Ops_Domain_Administrator',$Sys_Ops_Domain_Administrator); ?></td></tr>
-              <tr><td><label>Sys Ops Domain Contractor</label></td><td><?php echo yesNoSelect('Sys_Ops_Domain_Contractor',$Sys_Ops_Domain_Contractor); ?></td></tr>
-              <tr><td><label>Sys Ops Domain User</label></td><td><?php echo yesNoSelect('Sys_Ops_Domain_User',$Sys_Ops_Domain_User); ?></td></tr>
-              <tr><td><label>Access Control App Admin</label></td><td><?php echo yesNoSelect('Access_Control_Application_Administrator',$Access_Control_Application_Administrator); ?></td></tr>
+              <tr><td><label>Domain Administrator Account</label></td><td><?php echo yesNoSelect('Sys_Ops_Domain_Administrator',$Sys_Ops_Domain_Administrator); ?></td></tr>
+              <tr><td><label>Domain Contractor Account</label></td><td><?php echo yesNoSelect('Sys_Ops_Domain_Contractor',$Sys_Ops_Domain_Contractor); ?></td></tr>
+              <tr><td><label>Domain User Account</label></td><td><?php echo yesNoSelect('Sys_Ops_Domain_User',$Sys_Ops_Domain_User); ?></td></tr>
+              <tr><td><label>Access Control App Administrator</label></td><td><?php echo yesNoSelect('Access_Control_Application_Administrator',$Access_Control_Application_Administrator); ?></td></tr>
               <tr><td><label>Access Control System User</label></td><td><?php echo yesNoSelect('Access_Control_System_User',$Access_Control_System_User); ?></td></tr>
-              <tr><td><label>CCTV Video App Admin</label></td><td><?php echo yesNoSelect('CCTV_Video_Application_Administrator',$CCTV_Video_Application_Administrator); ?></td></tr>
+              <tr><td><label>CCTV Video Application Administrator</label></td><td><?php echo yesNoSelect('CCTV_Video_Application_Administrator',$CCTV_Video_Application_Administrator); ?></td></tr>
               <tr><td><label>CCTV Video User</label></td><td><?php echo yesNoSelect('CCTV_Video_User',$CCTV_Video_User); ?></td></tr>
-              <tr><td><label>PSS WinAdmin</label></td><td><?php echo yesNoSelect('PSS_WinAdmin',$PSS_WinAdmin); ?></td></tr>
+              <tr><td><label>SysAdmin (Shared) Account</label></td><td><?php echo yesNoSelect('PSS_WinAdmin',$PSS_WinAdmin); ?></td></tr>
             </table>
           </div>
           <div class="btn-group">
@@ -364,8 +364,8 @@ function renderForm(
         <div id="tabs-7">
           <div class="table-responsive responsive-table">
             <table class="table table-bordered">
-              <tr><td><label>Nessus App Admin</label></td><td><?php echo yesNoSelect('NessusAppAdmin',$NessusAppAdmin); ?></td></tr>
-              <tr><td><label>Nessus Sys Admin</label></td><td><?php echo yesNoSelect('NessusSysAdmin',$NessusSysAdmin); ?></td></tr>
+              <tr><td><label>Application User</label></td><td><?php echo yesNoSelect('NessusAppAdmin',$NessusAppAdmin); ?></td></tr>
+              <tr><td><label>System Adminstrator</label></td><td><?php echo yesNoSelect('NessusSysAdmin',$NessusSysAdmin); ?></td></tr>
             </table>
           </div>
           <div class="btn-group">
@@ -378,14 +378,14 @@ function renderForm(
         <div id="tabs-8">
           <div class="table-responsive responsive-table">
             <table class="table table-bordered">
-              <tr><td><label>OCRS ECMS Admin</label></td><td><?php echo yesNoSelect('OCRS_ECMSAdmin',$OCRS_ECMSAdmin); ?></td></tr>
-              <tr><td><label>OCRS SSIT Admin</label></td><td><?php echo yesNoSelect('OCRS_SSITAdmin',$OCRS_SSITAdmin); ?></td></tr>
-              <tr><td><label>OCRS User</label></td><td><?php echo yesNoSelect('OCRS_User',$OCRS_User); ?></td></tr>
-              <tr><td><label>Stratus</label></td><td><?php echo yesNoSelect('Stratus',$Stratus); ?></td></tr>
-              <tr><td><label>Catalogic</label></td><td><?php echo yesNoSelect('Catalogic',$Catalogic); ?></td></tr>
-              <tr><td><label>SolarWinds</label></td><td><?php echo yesNoSelect('SolarWinds',$SolarWinds); ?></td></tr>
-              <tr><td><label>ServiceDeskPlus</label></td><td><?php echo yesNoSelect('ServiceDeskPlus',$ServiceDeskPlus); ?></td></tr>
-              <tr><td><label>CIP Protected Info</label></td><td><?php echo yesNoSelect('CIP_ProtectedInfo',$CIP_ProtectedInfo); ?></td></tr>
+              <tr><td><label>SharePoint Administrator</label></td><td><?php echo yesNoSelect('OCRS_ECMSAdmin',$OCRS_ECMSAdmin); ?></td></tr>
+              <tr><td><label>SharePoint Administrator - Corporate IT Account</label></td><td><?php echo yesNoSelect('OCRS_SSITAdmin',$OCRS_SSITAdmin); ?></td></tr>
+              <tr><td><label>SharePoint User</label></td><td><?php echo yesNoSelect('OCRS_User',$OCRS_User); ?></td></tr>
+              <tr><td><label>Network Backup Solution Account</label></td><td><?php echo yesNoSelect('Stratus',$Stratus); ?></td></tr>
+              <tr><td><label>Operations Backup Solution Account</label></td><td><?php echo yesNoSelect('Catalogic',$Catalogic); ?></td></tr>
+              <tr><td><label>Network Health Monitoring Solution Account</label></td><td><?php echo yesNoSelect('SolarWinds',$SolarWinds); ?></td></tr>
+              <tr><td><label>Service Ticketing Solution Account</label></td><td><?php echo yesNoSelect('ServiceDeskPlus',$ServiceDeskPlus); ?></td></tr>
+              <tr><td><label>CIP-Protected Information (Paper)</label></td><td><?php echo yesNoSelect('CIP_ProtectedInfo',$CIP_ProtectedInfo); ?></td></tr>
             </table>
           </div>
           <div class="btn-group">

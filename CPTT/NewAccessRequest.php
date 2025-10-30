@@ -372,7 +372,7 @@ $connectionOptions = [
 		</div>
 		<div class="checkbox">
 			<input type="hidden" name="LAW_Transmission" value=""/>
-			<label><input type="checkbox" name="LAW_Transmission" id="LAW_Transmission" value="Yes">BC-Operations Control Center:</label>
+			<label><input type="checkbox" name="LAW_Transmission" id="LAW_Transmission" value="Yes">BC-Transmission Control Center:</label>
 		</div>
 		<div class="checkbox">
 			<input type="hidden" name="LAW_Main_Elec" value=""/>
@@ -583,10 +583,10 @@ $connectionOptions = [
       </div>
       <div id="collapse7" class="panel-collapse collapse">
         <div class="panel-body">
-		<div class="checkbox">
+		<!--<div class="checkbox">
 	  <input type="hidden" name="NessusAppAdmin" value=""/>
 			<label><input type="checkbox" name="NessusAppAdmin" id="NessusAppAdmin" value="Yes">Application User:</label>
-	  </div>
+	  </div>-->
 	  <div class="checkbox">
 	  <input type="hidden" name="NessusAppAdmin" value=""/>
 			<label><input type="checkbox" name="NessusAppAdmin" id="NessusAppAdmin" value="Yes">Application Administrator:</label>

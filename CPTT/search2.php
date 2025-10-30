@@ -6,8 +6,9 @@
 <link rel="stylesheet" type="text/css" href="customize.css" />
 <title>Search Individual</title>
 <?php
-$serverName = '192.168.207.97';
-$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Finalfantasy777!');
+$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
 		
 		$conn = sqlsrv_connect($serverName, $connectionInfo);
 		if($conn) {
