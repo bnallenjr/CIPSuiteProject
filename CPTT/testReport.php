@@ -36,7 +36,7 @@ if (stripos($SERVICE_URL, '/Reports') !== false) {
     fail("SERVICE_URL must be the Web Service endpoint (e.g., http://localhost/ReportServer), not /Reports.");
 }
 if ($REPORT_PATH[0] !== '/') {
-    fail("REPORT_PATH must start with a leading slash. Example: /CIPSuite/ECC-QAR");
+    fail("REPORT_PATH must start with a leading slash. Example: /CIPSuite/HelloWorld");
 }
 
 // Build client + render
