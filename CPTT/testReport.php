@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 // In a browser on this machine, confirm http://localhost/ReportServer loads.
 
 // Load client library
-require_once __DIR__ . 'https://1drv.ms/u/c/96543d021ba796ae/Ea6WpxsCPVQggJZEJgAAAAABK577BNt7IELYFgKfLbLK9g?e=3dl5aw';
+require_once __DIR__ . "C:\Users\Brian's PC\OneDrive\CIPSuiteProject\CIPSuiteProject\CPTT\SSRSReport\bin\SSRSReport.php";
 
 // --- REQUIRED: SOAP extension for PHP ---
 if (!class_exists('SoapClient')) {
