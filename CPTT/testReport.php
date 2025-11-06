@@ -32,7 +32,7 @@ function fail($msg, $http=500) {
 }
 
 // Validate config basics
-if (stripos($SERVICE_URL, '/Reports') !== false) {
+if (stripos($SERVICE_URL, '/ReportServer') !== false) {
     fail("SERVICE_URL must be the Web Service endpoint (e.g., http://localhost/ReportServer), not /Reports.");
 }
 if ($REPORT_PATH[0] !== '/') {
