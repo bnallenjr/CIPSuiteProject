@@ -19,7 +19,7 @@ require_once __DIR__ . '/SSRSReport.php';
 
 $SERVICE_URL = getenv('SSRS_URL')    ?: 'http://localhost/ReportServer';
 $REPORT_PATH = getenv('SSRS_REPORT') ?: '/testReport';   // adjust to your folder/name
-$UID         = getenv('SSRS_UID')    ?: '\\asgdb-admin';    // e.g., ".\brian" or "MYDOMAIN\brian"
+$UID         = getenv('SSRS_UID')    ?: '.\asgdb-admin';    // e.g., ".\brian" or "MYDOMAIN\brian"
 $PASWD       = getenv('SSRS_PASWD')  ?: '!FinalFantasy777!';
 
 // Build client
