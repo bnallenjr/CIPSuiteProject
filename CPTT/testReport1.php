@@ -1,11 +1,11 @@
 <?php
 require_once 'SSRSReport.php';
-define("UID", "OPERATIONS\\ballen");
+define("UID", "asgdb-admin");
 
-define("PASWD", "Summer18!");
+define("PASWD", "!FinalFantasy777!");
 
-define("SERVICE_URL", "http://192.168.207.97/ReportServer/");
-define("REPORT", "/Report Parts/ECC-QAR");
+define("SERVICE_URL", "http://localhost/ReportServer/");
+define("REPORT", "/Report Parts/testReport1");
 $ssrs_report = new SSRSReport(new Credentials(UID, PASWD), SERVICE_URL); 
 
 $ssrs_report->LoadReport2(REPORT, NULL);
