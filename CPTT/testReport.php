@@ -2,7 +2,7 @@
 // --- DEV-ONLY: show errors so 500s become readable on-screen ---
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 
 // Quick sanity: SSRS web service reachable?
 // In a browser on this machine, confirm http://localhost/ReportServer loads.
@@ -18,7 +18,7 @@ if (!class_exists('SoapClient')) {
 
 // --- Config (adjust these) ---
 $SERVICE_URL = getenv('SSRS_URL')    ?: 'http://localhost/ReportServer';  // Web Service URL (NOT /Reports)
-$REPORT_PATH = getenv('SSRS_REPORT') ?: '/testReport';                     // Must match SSRS path exactly
+$REPORT_PATH = getenv('SSRS_REPORT') ?: '/CIPSuite/HelloWorld';                     // Must match SSRS path exactly
 // Use either ".\\username" for local account or "MACHINENAME\\username" or "DOMAIN\\username"
 $localMachine = gethostname();
 $UID  = getenv('SSRS_UID')   ?: $localMachine . '\\asgdb-admin';           // e.g., "MYPC\asgdb-admin" or ".\asgdb-admin"
