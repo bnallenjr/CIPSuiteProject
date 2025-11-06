@@ -41,7 +41,7 @@ if ($REPORT_PATH[0] !== '/') {
 
 // Build client + render
 try {
-    // Build client inside try so constructor errors are caught
+    // Build client inside try so constructor errors are caught here
     $credentials = new Credentials($UID, $PASW);
     $ssrs        = new SSRSReport($credentials, rtrim($SERVICE_URL, '/').'/');
 
