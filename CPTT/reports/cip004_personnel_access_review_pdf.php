@@ -22,6 +22,8 @@ if ($trackingNum === '') {
     exit('Missing required parameter: Tracking_Num');
 }
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Database connection
@@ -31,9 +33,9 @@ if ($trackingNum === '') {
 | instead of duplicating connection logic here.
 */
 $serverName = getenv('DB_SERVER') ?: 'tcp:asg-db.database.windows.net,1433';
-$database   = getenv('DB_NAME') ?: 'YOUR_DATABASE_NAME';
-$username   = getenv('DB_USER') ?: 'YOUR_USERNAME';
-$password   = getenv('DB_PASS') ?: 'YOUR_PASSWORD';
+$database   = getenv('DB_NAME') ?: 'asg-db';
+$username   = getenv('DB_USER') ?: 'asgdb-admin';
+$password   = getenv('DB_PASS') ?: '!FinalFantasy777!';
 
 $connectionOptions = [
     "Database" => $database,
