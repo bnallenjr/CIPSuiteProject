@@ -1,27 +1,4 @@
 <?php
-declare(strict_types=1);
-
-ini_set('display_errors', '1');
-error_reporting(E_ALL);
-
-$autoload = __DIR__ . '/../vendor/autoload.php'; 
-if (!file_exists($autoload)) {
-    http_response_code(500);
-    header('Content-Type: text/plain');
-    exit("Autoload not found at: $autoload");
-}
-require_once $autoload;
-
-require_once __DIR__ . '/../vendor/autoload.php'; // adjust if your vendor folder is elsewhere
-
-$mpdf = new \Mpdf\Mpdf([
-    'format' => 'Letter',
-    'margin_top' => 20,
-    'margin_bottom' => 15,
-    'margin_left' => 10,
-    'margin_right' => 10,
-]);
-
 
  function renderForm($Tracking_Num, $FirstName, $LastName, $Status, $Department, $Title, $FOC_Company, $Contractor, $Contract_Agency, $Manager, $SSN_Validation_Date, $Criminal_Background_Date, $CurrentTrainingDate, $Last_Individual_Review_ApprovedBy,
                      $DatePaperWorkSign, $Email, $Last_Individual_Review, $SCC, $ECC, $ECDA_Offices, $ECMS_Offices, $Operations_Data_Center, $Server_Lobby, $SNOC, $JacksonGate, $Restricted_Key, $LAW_Perimeter, $LAW_Data_Center,
@@ -44,20 +21,18 @@ $mpdf = new \Mpdf\Mpdf([
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<!--<link rel="stylesheet" type="text/css" href="customize.css">
 	<script type="text/javascript" src="pdf2/jquery.js" ></script>
-	Must have for conversions-->
+	<!--Must have for conversions-->
 	<script type="text/javascript" src="pdf2/tableExport.js" ></script>
 	<script type="text/javascript" src="pdf2/jquery.base64.js" ></script>
 
 	<!--Export as PNG
 	<script type="text/javascript" src="pdf2/html2canvas.js" ></script>
 
-	Export as PDF
+	<!--Export as PDF-->
 	<script type="text/javascript" src="pdf2/jspdf/jspdf.js" ></script>
 	<script type="text/javascript" src="pdf2/jspdf/libs/sprintf.js" ></script>
-	<script type="text/javascript" src="pdf2/jspdf/libs/base64.js" ></script>-->
+	<script type="text/javascript" src="pdf2/jspdf/libs/base64.js" ></script>
 
-
-	
 	<script type="text/javascript" >
 	$(document).ready(function(e) {
 		$("#pdf").click(function(e) {
@@ -80,8 +55,8 @@ $mpdf = new \Mpdf\Mpdf([
 </div>
 
 	<?php
-		$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
-$serverName = "tcp:asg-db.database.windows.net,1433";
+		$serverName = '192.168.207.97';
+$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Finalfantasy777!');
 		$conn = sqlsrv_connect($serverName, $connectionInfo);
 		if($conn) {
 			//echo 'Connection established<br />';
@@ -368,8 +343,8 @@ responsibilities within the department.
           <h4 class="modal-title">Audit</h4>
         </div>
         <div class="modal-body">
-                  <?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
-$serverName = "tcp:asg-db.database.windows.net,1433";
+                  <?php $serverName = '192.168.207.97';
+$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Finalfantasy777!');
 		$conn = sqlsrv_connect($serverName, $connectionInfo);
 		if($conn) {
 			//echo 'Connection established<br />';
@@ -434,8 +409,8 @@ $result = sqlsrv_query($conn, $query)
 </html>
 <?php
 }
-			$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
-$serverName = "tcp:asg-db.database.windows.net,1433";
+			$serverName = '192.168.207.97';
+$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Finalfantasy777!');
 		$conn = sqlsrv_connect($serverName, $connectionInfo);
 		if($conn) {
 			//echo 'Connection established<br />';
