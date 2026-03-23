@@ -21,18 +21,43 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<!--<link rel="stylesheet" type="text/css" href="customize.css">
 	<script type="text/javascript" src="pdf2/jquery.js" ></script>
-	<!--Must have for conversions-->
+	Must have for conversions-->
 	<script type="text/javascript" src="pdf2/tableExport.js" ></script>
 	<script type="text/javascript" src="pdf2/jquery.base64.js" ></script>
 
 	<!--Export as PNG
 	<script type="text/javascript" src="pdf2/html2canvas.js" ></script>
 
-	<!--Export as PDF-->
+	Export as PDF
 	<script type="text/javascript" src="pdf2/jspdf/jspdf.js" ></script>
 	<script type="text/javascript" src="pdf2/jspdf/libs/sprintf.js" ></script>
-	<script type="text/javascript" src="pdf2/jspdf/libs/base64.js" ></script>
+	<script type="text/javascript" src="pdf2/jspdf/libs/base64.js" ></script>-->
+<?php
+declare(strict_types=1);
 
+ini_set('display_errors', '1');
+error_reporting(E_ALL);
+
+$autoload = __DIR__ . '/../vendor/autoload.php'; 
+if (!file_exists($autoload)) {
+    http_response_code(500);
+    header('Content-Type: text/plain');
+    exit("Autoload not found at: $autoload");
+}
+require_once $autoload;
+
+require_once __DIR__ . '/../vendor/autoload.php'; // adjust if your vendor folder is elsewhere
+
+$mpdf = new \Mpdf\Mpdf([
+    'format' => 'Letter',
+    'margin_top' => 20,
+    'margin_bottom' => 15,
+    'margin_left' => 10,
+    'margin_right' => 10,
+]);
+?>
+
+	
 	<script type="text/javascript" >
 	$(document).ready(function(e) {
 		$("#pdf").click(function(e) {
@@ -55,8 +80,8 @@
 </div>
 
 	<?php
-		$serverName = '192.168.207.97';
-$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Finalfantasy777!');
+		$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
 		$conn = sqlsrv_connect($serverName, $connectionInfo);
 		if($conn) {
 			//echo 'Connection established<br />';
@@ -343,8 +368,8 @@ responsibilities within the department.
           <h4 class="modal-title">Audit</h4>
         </div>
         <div class="modal-body">
-                  <?php $serverName = '192.168.207.97';
-$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Finalfantasy777!');
+                  <?php $connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
 		$conn = sqlsrv_connect($serverName, $connectionInfo);
 		if($conn) {
 			//echo 'Connection established<br />';
@@ -409,8 +434,8 @@ $result = sqlsrv_query($conn, $query)
 </html>
 <?php
 }
-			$serverName = '192.168.207.97';
-$connectionInfo=array('Database'=>'CIP_Patch_Dev', 'UID'=>'ballen', 'PWD'=>'!Finalfantasy777!');
+			$connectionInfo = array("UID" => "asgdb-admin", "pwd" => "!FinalFantasy777!", "Database" => "asg-db", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:asg-db.database.windows.net,1433";
 		$conn = sqlsrv_connect($serverName, $connectionInfo);
 		if($conn) {
 			//echo 'Connection established<br />';
