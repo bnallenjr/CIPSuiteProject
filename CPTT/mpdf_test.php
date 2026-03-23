@@ -4,7 +4,7 @@ declare(strict_types=1);
 ini_set('display_errors', '1');
 error_reporting(E_ALL);
 
-$autoload = __DIR__ . '/../vendor/autoload.php';
+$autoload = __DIR__ . '/../vendor/autoload.php'; 
 if (!file_exists($autoload)) {
     http_response_code(500);
     header('Content-Type: text/plain');
