@@ -1,8 +1,4 @@
-<?php
-function h($v) {
-    return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
-}
-?>
+
 <h1>CIP-004 Personnel Access Review</h1>
 
 <div class="small">
