@@ -1,4 +1,27 @@
 <?php
+declare(strict_types=1);
+
+ini_set('display_errors', '1');
+error_reporting(E_ALL);
+
+$autoload = __DIR__ . '/../vendor/autoload.php'; 
+if (!file_exists($autoload)) {
+    http_response_code(500);
+    header('Content-Type: text/plain');
+    exit("Autoload not found at: $autoload");
+}
+require_once $autoload;
+
+require_once __DIR__ . '/../vendor/autoload.php'; // adjust if your vendor folder is elsewhere
+
+$mpdf = new \Mpdf\Mpdf([
+    'format' => 'Letter',
+    'margin_top' => 20,
+    'margin_bottom' => 15,
+    'margin_left' => 10,
+    'margin_right' => 10,
+]);
+
 
  function renderForm($Tracking_Num, $FirstName, $LastName, $Status, $Department, $Title, $FOC_Company, $Contractor, $Contract_Agency, $Manager, $SSN_Validation_Date, $Criminal_Background_Date, $CurrentTrainingDate, $Last_Individual_Review_ApprovedBy,
                      $DatePaperWorkSign, $Email, $Last_Individual_Review, $SCC, $ECC, $ECDA_Offices, $ECMS_Offices, $Operations_Data_Center, $Server_Lobby, $SNOC, $JacksonGate, $Restricted_Key, $LAW_Perimeter, $LAW_Data_Center,
@@ -32,30 +55,7 @@
 	<script type="text/javascript" src="pdf2/jspdf/jspdf.js" ></script>
 	<script type="text/javascript" src="pdf2/jspdf/libs/sprintf.js" ></script>
 	<script type="text/javascript" src="pdf2/jspdf/libs/base64.js" ></script>-->
-<?php
-declare(strict_types=1);
 
-ini_set('display_errors', '1');
-error_reporting(E_ALL);
-
-$autoload = __DIR__ . '/../vendor/autoload.php'; 
-if (!file_exists($autoload)) {
-    http_response_code(500);
-    header('Content-Type: text/plain');
-    exit("Autoload not found at: $autoload");
-}
-require_once $autoload;
-
-require_once __DIR__ . '/../vendor/autoload.php'; // adjust if your vendor folder is elsewhere
-
-$mpdf = new \Mpdf\Mpdf([
-    'format' => 'Letter',
-    'margin_top' => 20,
-    'margin_bottom' => 15,
-    'margin_left' => 10,
-    'margin_right' => 10,
-]);
-?>
 
 	
 	<script type="text/javascript" >
