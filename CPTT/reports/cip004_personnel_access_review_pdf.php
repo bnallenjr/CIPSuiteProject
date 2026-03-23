@@ -204,16 +204,174 @@ if (empty($rows)) {
 
 $row = $rows[0];
 
+function isMeaningful($value): bool
+{
+    if ($value === null) {
+        return false;
+    }
+
+    $value = trim((string)$value);
+
+    if ($value === '' || $value === 'No' || $value === '0') {
+        return false;
+    }
+
+    return true;
+}
+
+function buildSection(array $row, array $map): array
+{
+    $out = [];
+
+    foreach ($map as $field => $label) {
+        if (array_key_exists($field, $row) && isMeaningful($row[$field])) {
+            $out[$label] = (string)$row[$field];
+        }
+    }
+
+    return $out;
+}
+
+$physicalMap = [
+    'SCC' => 'SCC',
+    'ECC' => 'ECC',
+    'BCC' => 'BCC',
+    'BCC_Bunker' => 'BCC Bunker',
+    'ECDA_Offices' => 'ECDA Offices',
+    'ECMS_Offices' => 'ECMS Offices',
+    'Operations_Data_Center' => 'Operations Data Center',
+    'Server_Lobby' => 'Server Lobby',
+    'SNOC' => 'SNOC',
+    'JacksonGate' => 'Jackson Gate',
+    'Restricted_Key' => 'Restricted Key',
+    'LAW_Perimeter' => 'LAW Perimeter',
+    'LAW_Data_Center' => 'LAW Data Center',
+    'LAW_SNOC' => 'LAW SNOC',
+    'LAW_Generation' => 'LAW Generation',
+    'LAW_Transmission' => 'LAW Transmission',
+    'LAW_Maintenance_Electric' => 'LAW Maintenance Electric',
+    'LAW_Operations_Storage' => 'LAW Operations Storage',
+    'LAW_Network_Room_104' => 'LAW Network Room 104',
+    'SCC_Approved_By' => 'SCC Approved By',
+    'SCC_Approved_On' => 'SCC Approved On',
+    'ECC_Approved_By' => 'ECC Approved By',
+    'ECC_Approved_On' => 'ECC Approved On'
+];
+
+$networkMap = [
+    'TE_Engineering_OM_Group' => 'TE Engineering OM Group',
+    'TelecomSharedAccount' => 'Telecom Shared Account',
+    'ACS_LocalAdmin' => 'ACS Local Admin',
+    'RSA_LocalAdmin' => 'RSA Local Admin',
+    'IntermediateSystemAdmin' => 'Intermediate System Admin',
+    'TSA_Approved_By' => 'TSA Approved By',
+    'TSA_Approved_On' => 'TSA Approved On',
+    'Network_Approved_By' => 'Network Approved By',
+    'Network_Approved_On' => 'Network Approved On',
+    'VPN_Tunnel_Access' => 'VPN Tunnel Access',
+    'ESP_Remote_Intermediate' => 'ESP Remote Intermediate',
+    'External_EnterNet' => 'External EnterNet',
+    'Internal_EnterNet' => 'Internal EnterNet'
+];
+
+$applicationMap = [
+    'IDAppAdmin' => 'Industrial Defender App Admin',
+    'IDSysAdmin' => 'Industrial Defender Sys Admin',
+    'IDUser' => 'Industrial Defender User',
+    'IDroot' => 'Industrial Defender Root',
+    'IDadmin_shared' => 'Industrial Defender Admin Shared',
+    'IDWinAdmin' => 'Industrial Defender Windows Admin',
+    'NessusAppAdmin' => 'Nessus App Admin',
+    'NessusSysAdmin' => 'Nessus Sys Admin',
+    'OCRS_ECMSAdmin' => 'OCRS ECMS Admin',
+    'OCRS_SSITAdmin' => 'OCRS SSIT Admin',
+    'OCRS_User' => 'OCRS User',
+    'CIP_ProtectedInfo' => 'CIP Protected Info',
+    'Stratus' => 'Stratus',
+    'Catalogic' => 'Catalogic',
+    'SolarWinds' => 'SolarWinds',
+    'ServiceDeskPlus' => 'Service Desk Plus',
+    'Access_Control_Application_Administrator' => 'Access Control Application Administrator',
+    'Access_Control_System_User' => 'Access Control System User',
+    'CCTV_Video_Application_Administrator' => 'CCTV Video Application Administrator',
+    'CCTV_Video_User' => 'CCTV Video User',
+    'Sys_Ops_Domain_Administrator' => 'Sys Ops Domain Administrator',
+    'Sys_Ops_Domain_Contractor' => 'Sys Ops Domain Contractor',
+    'Sys_Ops_Domain_User' => 'Sys Ops Domain User',
+    'PSS_WinAdmin' => 'PSS Windows Admin',
+    'LogAppAdmin' => 'SysLog App Admin',
+    'LogSysAdmin' => 'SysLog Sys Admin',
+    'LogUser' => 'SysLog User'
+];
+
+$privilegedMap = [
+    'Trans_Login' => 'Transmission Login',
+    'Gen_Login' => 'Generation Login',
+    'AppSupport_Login' => 'Application Support Login',
+    'AD_prod' => 'AD Prod',
+    'AD_supp' => 'AD Supp',
+    'AdminSharedGeneric_iccpadmin' => 'Admin Shared Generic ICCP Admin',
+    'AutoCAD_User' => 'AutoCAD User',
+    'Database_User' => 'Database User',
+    'Domain_Admin' => 'Domain Admin',
+    'Logins_Gen_Tran' => 'Logins Gen/Tran',
+    'Sudo_ccadmin' => 'Sudo ccadmin',
+    'Sudo_oracle' => 'Sudo oracle',
+    'Sudo_root' => 'Sudo root',
+    'Sudo_XA21' => 'Sudo XA21',
+    'Sudo_xacm' => 'Sudo xacm',
+    'UNIX_Access' => 'UNIX Access',
+    'emrg' => 'EMRG',
+    'XAECS_Approved_By' => 'XA/ECS Approved By',
+    'XAECS_Approved_On' => 'XA/ECS Approved On'
+];
+
+$sections = [
+    'physical' => buildSection($row, $physicalMap),
+    'network' => buildSection($row, $networkMap),
+    'application' => buildSection($row, $applicationMap),
+    'privileged' => buildSection($row, $privilegedMap),
+];
+
+$person = $row;
 /*
 |--------------------------------------------------------------------------
 | Summary
 |--------------------------------------------------------------------------
 */
+$exceptions = 0;
+
+if (empty($row['Last_Individual_Review'])) {
+    $exceptions++;
+}
+if (empty($row['Last_Individual_Review_ApprovedBy'])) {
+    $exceptions++;
+}
+if (
+    !empty($row['AD_prod']) || !empty($row['AD_supp'])
+) {
+    if (empty($row['XAECS_Approved_On'])) {
+        $exceptions++;
+    }
+}
+if (
+    !empty($row['TE_Engineering_OM_Group']) ||
+    !empty($row['ACS_LocalAdmin']) ||
+    !empty($row['RSA_LocalAdmin'])
+) {
+    if (empty($row['Network_Approved_On'])) {
+        $exceptions++;
+    }
+}
+if (!empty($row['TelecomSharedAccount']) && empty($row['TSA_Approved_On'])) {
+    $exceptions++;
+}
+
 $summary = [
     'total_personnel' => 1,
     'active_access' => (strcasecmp((string)($row['Status'] ?? ''), 'Active') === 0) ? 1 : 0,
     'terminated_in_period' => !empty($row['TerminationDate']) ? 1 : 0,
-    'exceptions' => 0
+    'exceptions' => $exceptions
 ];
 
 /*

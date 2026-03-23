@@ -1,4 +1,3 @@
-
 <h1>CIP-004 Personnel Access Review</h1>
 
 <div class="small">
@@ -30,7 +29,7 @@
         <td><?= (int)($summary['active_access'] ?? 0) ?></td>
     </tr>
     <tr>
-        <td class="label"><b>Terminated (in period)</b></td>
+        <td class="label"><b>Terminated</b></td>
         <td><?= (int)($summary['terminated_in_period'] ?? 0) ?></td>
         <td class="label"><b>Exceptions / Follow-ups</b></td>
         <td><?= (int)($summary['exceptions'] ?? 0) ?></td>
@@ -48,48 +47,136 @@
 
 <hr class="soft" />
 
-<h2>Scope and Criteria</h2>
-<div>
-    This report summarizes personnel access records and review evidence for CIP-004 compliance activities,
-    including access status, review and approval artifacts, and key dates relevant to authorization and deauthorization.
-</div>
-
-<h2>Evidence Detail</h2>
+<h2>Personnel Information</h2>
 <table class="grid">
-    <thead>
+    <tbody>
         <tr>
             <th>Tracking #</th>
+            <td><?= h($person['Tracking_Num'] ?? '') ?></td>
             <th>Name</th>
-            <th>Status</th>
-            <th>Dept / Title</th>
-            <th>Manager</th>
-            <th>Last Review</th>
-            <th>Approved By</th>
-            <th>Termination</th>
+            <td><?= h(($person['FirstName'] ?? '') . ' ' . ($person['LastName'] ?? '')) ?></td>
         </tr>
-    </thead>
-    <tbody>
-        <?php if (empty($rows)): ?>
-            <tr>
-                <td colspan="8">No records returned.</td>
-            </tr>
-        <?php else: ?>
-            <?php foreach ($rows as $r): ?>
-                <tr>
-                    <td class="mono"><?= h($r['Tracking_Num'] ?? '') ?></td>
-                    <td><?= h(($r['FirstName'] ?? '') . ' ' . ($r['LastName'] ?? '')) ?></td>
-                    <td><?= h($r['Status'] ?? '') ?></td>
-                    <td><?= h(($r['Department'] ?? '') . ' / ' . ($r['Title'] ?? '')) ?></td>
-                    <td><?= h($r['Manager'] ?? '') ?></td>
-                    <td><?= h($r['Last_Individual_Review'] ?? '') ?></td>
-                    <td><?= h($r['Last_Individual_Review_ApprovedBy'] ?? '') ?></td>
-                    <td><?= h($r['TerminationDate'] ?? '') ?></td>
-                </tr>
-            <?php endforeach; ?>
-        <?php endif; ?>
+        <tr>
+            <th>Status</th>
+            <td><?= h($person['Status'] ?? '') ?></td>
+            <th>Email</th>
+            <td><?= h($person['Email'] ?? '') ?></td>
+        </tr>
+        <tr>
+            <th>Department</th>
+            <td><?= h($person['Department'] ?? '') ?></td>
+            <th>Title</th>
+            <td><?= h($person['Title'] ?? '') ?></td>
+        </tr>
+        <tr>
+            <th>Manager</th>
+            <td><?= h($person['Manager'] ?? '') ?></td>
+            <th>Business Need</th>
+            <td><?= h($person['Business_Need'] ?? '') ?></td>
+        </tr>
+        <tr>
+            <th>Training Date</th>
+            <td><?= h($person['CURRENT_TRAINING_DATE'] ?? '') ?></td>
+            <th>Last Review</th>
+            <td><?= h($person['Last_Individual_Review'] ?? '') ?></td>
+        </tr>
+        <tr>
+            <th>Approved By</th>
+            <td><?= h($person['Last_Individual_Review_ApprovedBy'] ?? '') ?></td>
+            <th>Paperwork Approved</th>
+            <td><?= h($person['PAPERWORK_APPROVED_ON'] ?? '') ?></td>
+        </tr>
     </tbody>
 </table>
 
+<h2>Physical Access</h2>
+<?php if (empty($sections['physical'])): ?>
+    <div>No physical access entries identified.</div>
+<?php else: ?>
+    <table class="grid">
+        <thead>
+            <tr>
+                <th>Access</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($sections['physical'] as $label => $value): ?>
+                <tr>
+                    <td><?= h($label) ?></td>
+                    <td><?= h($value) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>
+
+<h2>Network / Telecom Access</h2>
+<?php if (empty($sections['network'])): ?>
+    <div>No network or telecom access entries identified.</div>
+<?php else: ?>
+    <table class="grid">
+        <thead>
+            <tr>
+                <th>Access</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($sections['network'] as $label => $value): ?>
+                <tr>
+                    <td><?= h($label) ?></td>
+                    <td><?= h($value) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>
+
+<h2>Application / Tool Access</h2>
+<?php if (empty($sections['application'])): ?>
+    <div>No application or tool access entries identified.</div>
+<?php else: ?>
+    <table class="grid">
+        <thead>
+            <tr>
+                <th>Access</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($sections['application'] as $label => $value): ?>
+                <tr>
+                    <td><?= h($label) ?></td>
+                    <td><?= h($value) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>
+
+<h2>Privileged / XA21 / ECS Access</h2>
+<?php if (empty($sections['privileged'])): ?>
+    <div>No privileged or XA21/ECS access entries identified.</div>
+<?php else: ?>
+    <table class="grid">
+        <thead>
+            <tr>
+                <th>Access</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($sections['privileged'] as $label => $value): ?>
+                <tr>
+                    <td><?= h($label) ?></td>
+                    <td><?= h($value) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>
+
 <div class="small" style="margin-top:10px;">
-    Notes: Dates shown reflect values stored in CIP Suite at time of generation. Exported PDF should be retained as an evidence artifact.
+    Notes: This report reflects CIP Suite data at the time of generation and is intended to support personnel access review evidence.
 </div>
