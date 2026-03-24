@@ -20,7 +20,7 @@
     </tr>
 </table>
 
-<h2>Executive Summary</h2>
+<!--<h2>Executive Summary</h2>
 <table class="kv">
     <tr>
         <td class="label"><b>Total Personnel</b></td>
@@ -43,7 +43,7 @@
     <?php else: ?>
         <span class="badge ok">No exceptions identified</span>
     <?php endif; ?>
-</div>
+</div>-->
 
 <hr class="soft" />
 

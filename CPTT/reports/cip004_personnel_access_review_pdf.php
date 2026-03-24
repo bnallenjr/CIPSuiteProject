@@ -16,7 +16,7 @@ if (!class_exists('Auth')) {
     die('Auth class missing. Expected at: ' . realpath(__DIR__ . '/../../auth/Auth.php'));
 }
 
-session_start();
+//session_start();
 
 function h($v): string
 {
@@ -389,9 +389,9 @@ $summary = [
 */
 $meta = [
     'generated_at' => date('Y-m-d H:i:s'),
-    'generated_by' => $_SESSION['username'] ?? 'system',
+    'generated_by' => Auth::user()['username'] ?? 'system',
     'org_name' => 'ASG / CIP Suite',
-    'system_name' => 'Personnel Access Review',
+    'system_name' => 'Individual Access Summary Report',
     'period' => 'As of ' . date('Y-m-d'),
     'report_id' => 'CIP004-' . $trackingNum . '-' . date('Ymd-His')
 ];
