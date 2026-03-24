@@ -8,6 +8,14 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Mpdf\Mpdf;
 
+require_once __DIR__ . '/../auth/Auth.php';
+Auth::requireLogin();   // redirect to /auth/login.php if not signed in
+
+// (Optional sanity check)
+if (!class_exists('Auth')) {
+    die('Auth class missing. Expected at: ' . realpath(__DIR__ . '/../auth/Auth.php'));
+}
+
 session_start();
 
 function h($v): string
@@ -382,7 +390,7 @@ $summary = [
 $meta = [
     'generated_at' => date('Y-m-d H:i:s'),
     'generated_by' => $_SESSION['username'] ?? 'system',
-    'org_name' => 'Allen Solutions Group / CIP Suite',
+    'org_name' => 'ASG / CIP Suite',
     'system_name' => 'Personnel Access Review',
     'period' => 'As of ' . date('Y-m-d'),
     'report_id' => 'CIP004-' . $trackingNum . '-' . date('Ymd-His')
