@@ -8,12 +8,12 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Mpdf\Mpdf;
 
-require_once __DIR__ . '/../auth/Auth.php';
+require_once __DIR__ . '/../../auth/Auth.php';
 Auth::requireLogin();   // redirect to /auth/login.php if not signed in
 
 // (Optional sanity check)
 if (!class_exists('Auth')) {
-    die('Auth class missing. Expected at: ' . realpath(__DIR__ . '/../auth/Auth.php'));
+    die('Auth class missing. Expected at: ' . realpath(__DIR__ . '/../../auth/Auth.php'));
 }
 
 session_start();
