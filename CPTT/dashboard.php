@@ -578,8 +578,8 @@ $result = sqlsrv_query($conn, $query)
 					<td>'.$record['Manager'].'</td>
 					<td>'.$record['Status'].'</td>
 					<td>'.$record['UpdateDate']->format('m/d/Y').'</td>
-					<td><a href="SummaryReport.php?Tracking_Num='.$record['Tracking_Num'].'">Report</a></td>
-					<td><a href="http://cipgsoc.gafoc.com/sites/ocrs/Personnel%20Management%20Evidence%20Library/'.$record['Tracking_Num'].' - '.$record['Name'].'">Evidence</a></td>
+					<td><a href="cip004_personnel_access_review_pdf.php?Tracking_Num='.$record['Tracking_Num'].'">Report</a></td>
+					<td><a href="http://sharepoint/sites/ocrs/Personnel%20Management%20Evidence%20Library/'.$record['Tracking_Num'].' - '.$record['Name'].'">Evidence</a></td>
 					</tr>';
 			}
 			$o .= '</tbody>		
@@ -649,7 +649,7 @@ $result = sqlsrv_query($conn, $query)
 					<td>'.$record['Manager'].'</td>
 					<td>'.$record['Status'].'</td>
 					<td>'.$record['UpdateDate']->format('m/d/Y').'</td>
-					<td><a href="http://cipgsoc.gafoc.com/sites/ocrs/Personnel%20Management%20Evidence%20Library/'.$record['Tracking_Num'].' - '.$record['Name'].'">Evidence</a></td>
+					<td><a href="http://sharepoint/sites/ocrs/Personnel%20Management%20Evidence%20Library/'.$record['Tracking_Num'].' - '.$record['Name'].'">Evidence</a></td>
 					</tr>';
 			}
 			$o .= '</tbody>		
@@ -719,7 +719,7 @@ $result = sqlsrv_query($conn, $query)
 					<td>'.$record['Manager'].'</td>
 					<td>'.$record['Status'].'</td>
 					<td>'.$record['UpdateDate']->format('m/d/Y').'</td>
-					<td><a href="http://cipgsoc.gafoc.com/sites/ocrs/Personnel%20Management%20Evidence%20Library/'.$record['Tracking_Num'].' - '.$record['Name'].'">Evidence</a></td>
+					<td><a href="http://sharepoint/sites/ocrs/Personnel%20Management%20Evidence%20Library/'.$record['Tracking_Num'].' - '.$record['Name'].'">Evidence</a></td>
 					</tr>';
 			}
 			$o .= '</tbody>		
@@ -789,7 +789,7 @@ $result = sqlsrv_query($conn, $query)
 					<td>'.$record['Manager'].'</td>
 					<td>'.$record['Status'].'</td>
 					<td>'.$record['UpdateDate']->format('m/d/Y').'</td>
-					<td><a href="http://cipgsoc.gafoc.com/sites/ocrs/Personnel%20Management%20Evidence%20Library/'.$record['Tracking_Num'].' - '.$record['Name'].'">Evidence</a></td>
+					<td><a href="http://sharepoint/sites/ocrs/Personnel%20Management%20Evidence%20Library/'.$record['Tracking_Num'].' - '.$record['Name'].'">Evidence</a></td>
 					</tr>';
 			}
 			$o .= '</tbody>		
@@ -859,7 +859,7 @@ $result = sqlsrv_query($conn, $query)
 					<td>'.$record['Manager'].'</td>
 					<td>'.$record['Status'].'</td>
 					<td>'.$record['UpdateDate']->format('m/d/Y').'</td>
-					<td><a href="http://cipgsoc.gafoc.com/sites/ocrs/Personnel%20Management%20Evidence%20Library/'.$record['Tracking_Num'].' - '.$record['Name'].'">Evidence</a></td>
+					<td><a href="http://sharepoint/sites/ocrs/Personnel%20Management%20Evidence%20Library/'.$record['Tracking_Num'].' - '.$record['Name'].'">Evidence</a></td>
 					</tr>';
 			}
 			$o .= '</tbody>		
@@ -1072,7 +1072,7 @@ $result = sqlsrv_query($conn, $query)
 					<td>'.$record['Manager'].'</td>
 					<td>'.$record['FOC_Company'].'</td>
 					<td>'.$record['TelecomSharedAccount'].'</td>
-					<td><a href="SummaryReport.php?Tracking_Num='.$record['Tracking_Num'].'">Report</a></td>
+					<td><a href="cip004_personnel_access_review_pdf.php?Tracking_Num='.$record['Tracking_Num'].'">Report</a></td>
 					</tr>';
 			}
 			$o .= '</tbody>		
@@ -1289,7 +1289,7 @@ $result = sqlsrv_query($conn, $query)
 					<td>'.$record['FOC_Company'].'</td>
 					<td>'.$record['LAST_REVIEW_DATE'].'</td>
 					<td>'.$record['Last_Individual_Review_ApprovedBy'].'</td>
-					<td><a href="SummaryReport.php?Tracking_Num='.$record['Tracking_Num'].'">Report</a></td>
+					<td><a href="cip004_personnel_access_review_pdf.php?Tracking_Num='.$record['Tracking_Num'].'">Report</a></td>
 					</tr>';
 			}
 			$o .= '</tbody>		
@@ -1362,7 +1362,7 @@ $result = sqlsrv_query($conn, $query)
 					<td>'.$record['LAST_REVIEW_DATE'].'</td>
 					<td>'.$record['Last_Individual_Review_ApprovedBy'].'</td>
 					<td>'.$record['PAPERWORK_APPROVED_ON'].'</td>
-					<td><a href="SummaryReport.php?Tracking_Num='.$record['Tracking_Num'].'">Report</a></td>
+					<td><a href="cip004_personnel_access_review_pdf.php?Tracking_Num='.$record['Tracking_Num'].'">Report</a></td>
 					</tr>';
 			}
 			$o .= '</tbody>		
@@ -1436,7 +1436,7 @@ if($conn) {
 					<td>' .$record ['BACKGROUND_CHECK_DATE'].'</td>
 					<td>' .$record ['Months_Til_BC_Expire'].'</td>
 					<td><a href="edit2.php?Tracking_Num=' .$record['Tracking_Num'] . '">Edit</a></td>
-					<td><a href="SummaryReport.php?Tracking_Num=' .$record['Tracking_Num'] . '">Report</a></td>
+					<td><a href="cip004_personnel_access_review_pdf.php?Tracking_Num=' .$record['Tracking_Num'] . '">Report</a></td>
 					</tr>';
 				}
 			$o .= '</tbody>	
