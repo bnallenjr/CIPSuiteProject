@@ -1,8 +1,14 @@
-<?php
-@session_start();
-?>
 <!DOCTYPE html>
 <html lang="en">
+  <?php
+require_once __DIR__ . '/../auth/Auth.php';
+Auth::requireLogin();   // redirect to /auth/login.php if not signed in
+
+// (Optional sanity check)
+if (!class_exists('Auth')) {
+    die('Auth class missing. Expected at: ' . realpath(__DIR__ . '/../auth/Auth.php'));
+}
+?>
 <head>
   <title>Reporting</title>
   <meta charset="utf-8">
@@ -128,45 +134,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
   </div>
 </nav>
 <?php 
-	if (@!$_SESSION['authenticated']==1) {
-	echo	"<div class='container'>
 
-
-      <!-- Modal content-->
-      <div class='modal-content'>
-        <div class='modal-header'>
-          <button type='button' class='close' data-dismiss='modal'>&times;</button>
-          <h4 style='color:red;'><span class='glyphicon glyphicon-lock'></span> Login using your corporate ID</h4>
-        </div>
-        <div class='modal-body'>
-          <form role='form' method='post' action='authentication2.php?Tracking_Num=$Tracking_Num'>
-            <div class='form-group'>
-              <label for='username'><span class='glyphicon glyphicon-user'></span> Username</label>
-              <input type='text' class='form-control' name='username' id='username' placeholder='Enter Corporate Username'>
-            </div>
-            <div class='form-group'>
-              <label for='password'><span class='glyphicon glyphicon-eye-open'></span> Password</label>
-              <input type='password' class='form-control' name='password' id='password' placeholder='Enter password'>
-            </div>
-            <button type='submit' class='btn btn-default btn-success btn-block'><span class='glyphicon glyphicon-off'></span> Login</button>
-          </form>
-        </div>
-        <div class='modal-footer'>
-          <button type='submit' class='btn btn-default btn-default pull-left' data-dismiss='modal'><span class='glyphicon glyphicon-remove'></span> Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div> 
-</div>
-<script>
-$(window).load(function()
-{
-    $('#myModal').modal('show');
-});
-</script>
-";
-	}
-	else {
 		?>
 <form method="post" action="employeedd2.php">
 </form>
@@ -202,6 +170,6 @@ while ($data=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
 <div id="placeholder"></div>
 <div id="placeholder2"></div>
 <?php
-	}
+	
 ?>	
 </html>
