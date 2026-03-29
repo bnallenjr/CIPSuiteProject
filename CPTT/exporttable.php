@@ -27,7 +27,7 @@
 	<!--Export as PNG
 	<script type="text/javascript" src="pdf2/html2canvas.js" ></script>
 
-	<!--Export as PDF-->
+	Export as PDF-->
 	<script type="text/javascript" src="pdf2/jspdf/jspdf.js" ></script>
 	<script type="text/javascript" src="pdf2/jspdf/libs/sprintf.js" ></script>
 	<script type="text/javascript" src="pdf2/jspdf/libs/base64.js" ></script>
