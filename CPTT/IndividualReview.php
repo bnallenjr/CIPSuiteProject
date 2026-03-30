@@ -1,16 +1,22 @@
 <?php
 declare(strict_types=1);
 
-session_start();
+ini_set('display_errors', '1');
+error_reporting(E_ALL);
+
+require_once __DIR__ . '/auth.php';
+Auth::requireLogin();
 
 /*
  * CIP Authorization Approval
- * - Replaces mailto hyperlink with a real Send Approval Email button
- * - Uses PHPMailer SMTP configuration pattern used elsewhere
- * - Uses parameterized SQL queries
+ * - Uses existing auth/session handling
+ * - Sends approval email from server-side button
+ * - Uses parameterized SQL
  */
 
-require_once __DIR__ . '/vendor/autoload.php'; // Composer autoload if available
+// Composer autoload path may need adjustment based on where this file lives.
+// Try this first if vendor is next to CPTT, not inside it:
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
