@@ -4,9 +4,13 @@ declare(strict_types=1);
 ini_set('display_errors', '1');
 error_reporting(E_ALL);
 
-require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/../auth/Auth.php';
 Auth::requireLogin();
 
+// (Optional sanity check)
+if (!class_exists('Auth')) {
+    die('Auth class missing. Expected at: ' . realpath(__DIR__ . '/../auth/Auth.php'));
+}
 /*
  * CIP Authorization Approval
  * - Uses existing auth/session handling
