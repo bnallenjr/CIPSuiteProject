@@ -32,7 +32,7 @@ use PHPMailer\PHPMailer\Exception;
 // 3) Gmail SMTP helper
 function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
     $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
-    $smtpPass = getenv('SMTP_PASS') ?: 'eynfthpzqeekfika';
+    $smtpPass = getenv('SMTP_PASS') ?: 'lpjhvaeaxojqofbn';
 
     if (!class_exists('\\PHPMailer\\PHPMailer\\PHPMailer')) {
         return [false, 'PHPMailer not found. Ensure vendor/autoload.php or phpmailer/src/* are deployed.'];
@@ -321,7 +321,7 @@ function sendApprovalEmail(array $row, string $approvedBy, string $approvedOn): 
 {
     $to = getenv('APPROVAL_EMAIL_TO') ?: 'allensolutiongroup@gmail.com';
     $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
-    $smtpPass = getenv('SMTP_PASS') ?: '';
+    $smtpPass = getenv('SMTP_PASS') ?: 'lpjhvaeaxojqofbn';
     $smtpHost = getenv('SMTP_HOST') ?: 'smtp.gmail.com';
     $smtpPort = (int)(getenv('SMTP_PORT') ?: 587);
     $fromEmail = getenv('MAIL_FROM_ADDRESS') ?: $smtpUser;
