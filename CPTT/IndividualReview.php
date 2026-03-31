@@ -32,7 +32,7 @@ use PHPMailer\PHPMailer\Exception;
 // 3) Gmail SMTP helper
 function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
     $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
-    $smtpPass = getenv('SMTP_PASS') ?: 'pakbzmrfjdruyvax';
+    $smtpPass = getenv('SMTP_PASS') ?: 'eynfthpzqeekfika';
 
     if (!class_exists('\\PHPMailer\\PHPMailer\\PHPMailer')) {
         return [false, 'PHPMailer not found. Ensure vendor/autoload.php or phpmailer/src/* are deployed.'];
