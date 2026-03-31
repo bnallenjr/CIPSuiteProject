@@ -22,6 +22,10 @@ if (!class_exists('Auth')) {
 // Try this first if vendor is next to CPTT, not inside it:
 require_once __DIR__ . '/../vendor/autoload.php';
 
+require __DIR__ . '/phpmailer/src/PHPMailer.php';
+require __DIR__ . '/phpmailer/src/SMTP.php';
+require __DIR__ . '/phpmailer/src/Exception.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
