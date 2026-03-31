@@ -29,6 +29,47 @@ require __DIR__ . '/phpmailer/src/Exception.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+// 3) Gmail SMTP helper
+function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
+    $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
+    $smtpPass = getenv('SMTP_PASS') ?: 'pakbzmrfjdruyvax';
+
+    if (!class_exists('\\PHPMailer\\PHPMailer\\PHPMailer')) {
+        return [false, 'PHPMailer not found. Ensure vendor/autoload.php or phpmailer/src/* are deployed.'];
+    }
+
+    $mail = new PHPMailer(true);
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $smtpUser;
+        $mail->Password   = $smtpPass;              // Gmail App Password (no spaces)
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        // $mail->SMTPDebug = 2; // uncomment if you need verbose SMTP output
+
+        // Gmail requires From to match the authenticated account
+        $mail->setFrom('allensolutiongroup@gmail.com', 'CIP Suite WebApp');
+
+        if (is_array($to)) { foreach ($to as $addr) { if ($addr) $mail->addAddress($addr); } }
+        else { $mail->addAddress($to); }
+
+        if ($replyTo) { $mail->addReplyTo($replyTo, $replyToName ?: $replyTo); }
+
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $html;
+        $mail->AltBody = strip_tags(preg_replace('/<br\s*\/?>/i', "\n", $html));
+
+        $mail->send();
+        return [true, ''];
+    } catch (\Throwable $e) {
+        return [false, $e->getMessage()];
+    }
+}
+
 function dbConnect()
 {
     $connectionInfo = [
