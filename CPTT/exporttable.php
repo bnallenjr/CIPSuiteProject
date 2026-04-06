@@ -275,7 +275,7 @@ $serverName = "tcp:asg-db.database.windows.net,1433";
 <p></p>
 <p></p>
 
-<a href="SummaryReport.php?Tracking_Num=<?php echo $Tracking_Num ?>"<button id="pdf" class="btn btn-primary hidden-print" > Export as PDF </button></a> <a class="hidden-print" href="IndividualReview.php?Tracking_Num=<?php echo $Tracking_Num ?>"><button class="btn btn-success hidden-print"> Complete Individual Review </button></a>
+<a href="reports/cip004_personnel_access_review_pdf.php?Tracking_Num=<?php echo $Tracking_Num ?>"<button id="pdf" class="btn btn-primary hidden-print" > Export as PDF </button></a> <a class="hidden-print" href="IndividualReview.php?Tracking_Num=<?php echo $Tracking_Num ?>"><button class="btn btn-success hidden-print"> Complete Individual Review </button></a>
 <!--<a href="mailto:PersonnelManagement@spsecuremail.gafoc.com?subject=<?php echo $FirstName." ".$LastName;?>&body=This message validates that I have reviewed  <?php echo $FirstName." ".$LastName;?>'s authorized access privileges.
  I confirm that <?php echo $FirstName." ".$LastName;?> is still within my department and has a continuing business need to access the system(s) and/or applications(s) listed as appropriate for his/her role(s) and
 responsibilities within the department.
