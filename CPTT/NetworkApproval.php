@@ -20,7 +20,7 @@ require __DIR__ . '/phpmailer/src/Exception.php';
  */
 function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
     $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
-    $smtpPass = getenv('SMTP_PASS') ?: 'pakbzmrfjdruyvax'; // app password, no spaces
+    $smtpPass = getenv('SMTP_PASS') ?: 'lpjhvaeaxojqofbn'; // app password, no spaces
 
     if (!class_exists('\\PHPMailer\\PHPMailer\\PHPMailer')) {
         return [false, 'PHPMailer not found. Ensure phpmailer/src/* are deployed or use Composer.'];

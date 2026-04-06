@@ -13,7 +13,7 @@ $mail->SMTPDebug = 2;
 
 function sendHtmlMail($to, $subject, $html, $replyTo = null, $replyToName = null) {
     $smtpUser = getenv('SMTP_USER') ?: 'allensolutiongroup@gmail.com';
-    $smtpPass = getenv('SMTP_PASS') ?: 'pakbzmrfjdruyvax';
+    $smtpPass = getenv('SMTP_PASS') ?: 'lpjhvaeaxojqofbn';
 
     if (!class_exists('\\PHPMailer\\PHPMailer\\PHPMailer')) {
         return [false, 'PHPMailer not found. Ensure Composer vendor/ or phpmailer/src/ is deployed.'];
