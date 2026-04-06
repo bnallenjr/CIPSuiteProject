@@ -1488,7 +1488,7 @@ if($conn) {
 					<th>Tracking #</th>
 					<th>Name</th>
 					<th>Manager</th>
-					<th>Company</th>
+					
 					<th>Cyber Security Training</th>
 					<th>SSN Validation Date</th>
 					<th>Background Check Date</th>
@@ -1505,7 +1505,7 @@ if($conn) {
 					<td>' .$record ['Tracking_Num'].'</td>
 					<td>' .$record ['Name'].'</td>
 					<td>' .$record ['Manager'].'</td>
-					<td>' .$record ['FOC_Company'].'</td>
+					
 					<td>' .$record ['CURRENT_TRAINING_DATE'].'</td>
 					<td>' .$record ['SSN_VALIDATION_DATE'].'</td>
 					<td>' .$record ['BACKGROUND_CHECK_DATE'].'</td>

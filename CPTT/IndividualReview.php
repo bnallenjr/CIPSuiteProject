@@ -354,7 +354,7 @@ function renderForm(array $row, string $error = '', string $success = ''): void
 {
     $trackingNum = (int)$row['Tracking_Num'];
     $approvedOn = date("m-d-Y h:i:sa");
-    $approvedBy = $_SESSION['username'] ?? 'unknown';
+    $approvedBy = Auth::user()['username'] ?? 'unknown';
 
     ?>
 <!DOCTYPE html>
