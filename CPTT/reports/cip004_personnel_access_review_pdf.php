@@ -349,6 +349,17 @@ $person = $row;
 */
 $exceptions = 0;
 
+function isInvalidDate($value): bool
+{
+    if (empty($value)) {
+        return true;
+    }
+
+    $value = trim((string)$value);
+
+    return $value === '01-01-1900' || $value === '1900-01-01';
+}
+
 if (empty($row['Last_Individual_Review'])) {
     $exceptions++;
 }
@@ -358,7 +369,7 @@ if (empty($row['Last_Individual_Review_ApprovedBy'])) {
 if (
     !empty($row['AD_prod']) || !empty($row['AD_supp'])
 ) {
-    if (empty($row['XAECS_Approved_On'])) {
+    if (isInvalidDate($row['XAECS_Approved_On'])) {
         $exceptions++;
     }
 }
@@ -367,11 +378,11 @@ if (
     !empty($row['ACS_LocalAdmin']) ||
     !empty($row['RSA_LocalAdmin'])
 ) {
-    if (empty($row['Network_Approved_On'])) {
+    if (isInvalidDate($row['Network_Approved_On'])) {
         $exceptions++;
     }
 }
-if (!empty($row['TelecomSharedAccount']) && empty($row['TSA_Approved_On'])) {
+if (!empty($row['TelecomSharedAccount']) && isInvalidDate($row['TSA_Approved_On'])) {
     $exceptions++;
 }
 
