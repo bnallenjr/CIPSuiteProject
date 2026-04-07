@@ -220,7 +220,13 @@ function isMeaningful($value): bool
 
     $value = trim((string)$value);
 
-    if ($value === '' || $value === 'No' || $value === '0') {
+    if (
+        $value === '' ||
+        $value === 'No' ||
+        $value === '0' ||
+        $value === '01-01-1900' ||
+        $value === '1900-01-01'
+    ) {
         return false;
     }
 
